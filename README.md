@@ -11,7 +11,7 @@ npx tailwindcss init -p
 // tailwind.config.js
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {},
   },
@@ -47,12 +47,39 @@ npm install -D prettier prettier-plugin-tailwindcss
 ## Eslint
 
 ```js
+// .eslintrc.cjs
 module.exports = {
   // ..
   extends: [
-     // ...
-     'prettier',
+    // ...
+    'prettier',
   ],
   // ...
+};
+```
 
+## PostCSS
+
+```js
+// postcss.config.js
+export default {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+};
+```
+
+## DaisyUI
+
+```bash
+npm i -D daisyui@latest
+```
+
+```js
+// tailwind.config.js
+module.exports = {
+  //...
+  plugins: [require('daisyui')],
+};
 ```
