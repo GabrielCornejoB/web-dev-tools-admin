@@ -23,7 +23,6 @@ export default function Form() {
       author: '',
       url: '',
       description: '',
-      category: Category.ICONS,
       tags: [{ tag: '' }],
     },
   });
@@ -90,9 +89,12 @@ export default function Form() {
             <span>{description.length}</span>
           </div>
         </div>
-        <select className='select select-bordered w-full'>
+        <select
+          {...register('category')}
+          className='select select-bordered w-full'
+        >
           {Object.values(Category).map((c) => (
-            <option value={c} id={c} key={c}>
+            <option value={c} key={c}>
               {c.charAt(0).toUpperCase() + c.slice(1)}
             </option>
           ))}
@@ -111,7 +113,7 @@ export default function Form() {
           )}
         </div>
         {fields.map((field, index) => (
-          <div className='flex flex-row gap-4' key={field.id}>
+          <div className='flex flex-row gap-4' key={index}>
             <input
               {...register(`tags.${index}.tag` as const)}
               type='text'
