@@ -6,6 +6,7 @@ export enum Category {
   GENERATORS = 'generators',
   FONTS = 'fonts',
   LIBRARIES = 'libraries',
+  OTHER = 'other',
 }
 
 export interface Tool {
