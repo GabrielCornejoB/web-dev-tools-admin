@@ -7,6 +7,7 @@ import { createTool } from './useFirestore';
 const schema = z.object({
   name: z.string().min(3),
   author: z.string().min(3),
+  url: z.string().min(3),
   description: z.string().min(3).max(100),
   category: z.nativeEnum(Category),
   tags: z.object({ tag: z.string().min(1) }).array(),
@@ -20,6 +21,7 @@ export default function Form() {
     defaultValues: {
       name: '',
       author: '',
+      url: '',
       description: '',
       category: Category.ICONS,
       tags: [{ tag: '' }],
@@ -34,6 +36,7 @@ export default function Form() {
     const newTool: Tool = {
       name: data.name,
       author: data.author,
+      url: data.url,
       description: data.description,
       category: data.category,
       imageURL: data.imageURL,
@@ -60,6 +63,12 @@ export default function Form() {
           {...register('author')}
           type='text'
           placeholder='Author'
+          className='input input-bordered w-full'
+        />
+        <input
+          {...register('url')}
+          type='text'
+          placeholder='URL'
           className='input input-bordered w-full'
         />
         <div className='flex flex-row'>

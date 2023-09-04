@@ -12,6 +12,7 @@ export enum Category {
 export interface Tool {
   name: string;
   author: string;
+  url: string;
   description: string;
   category: Category;
   tags: string[];
