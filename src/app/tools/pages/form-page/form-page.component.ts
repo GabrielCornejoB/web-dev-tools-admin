@@ -7,6 +7,8 @@ import {
 } from '@angular/forms';
 import { Category } from '../../models/category.model';
 import { FormService } from '../../services/form.service';
+import { Tool, ToolDTO } from '../../models/tool.model';
+import { ToolsService } from '../../services/tools.service';
 
 @Component({
   selector: 'wdt-form-page',
@@ -15,6 +17,7 @@ import { FormService } from '../../services/form.service';
 export class FormPageComponent {
   private fb = inject(FormBuilder);
   private fs = inject(FormService);
+  private toolsService = inject(ToolsService);
 
   public categories: string[] = Object.values(Category);
 
@@ -34,6 +37,11 @@ export class FormPageComponent {
     console.log(this.toolForm.value);
     this.toolForm.reset();
     (this.toolForm.controls['tags'] as FormArray) = this.fb.array(['']);
+  }
+  public showPreview(): void {
+    console.log(this.toolForm.value);
+
+    this.toolsService.updateTool(this.toolForm.value);
   }
 
   // * Tags Array manipulation

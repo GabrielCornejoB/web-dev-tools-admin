@@ -1,4 +1,5 @@
 <main class="flex h-full w-full flex-row items-center justify-center gap-12">
+  <!-- Form Section -->
   <section
     aria-label="form container"
     class="flex h-5/6 max-h-[720px] w-2/5 max-w-xl flex-col rounded-lg bg-base-200"
@@ -125,16 +126,26 @@
       </div>
 
       <button (click)="onAddTag()" type="button" class="btn btn-neutral w-full">
-        ADD ANOTHER TAG
+        ADD TAG
       </button>
     </form>
   </section>
+
+  <!-- Preview Section -->
   <section
     aria-label="preview container"
-    class="flex h-5/6 w-2/5 flex-col items-center justify-center gap-12 rounded-lg"
+    class="flex h-5/6 w-2/5 flex-col items-center justify-center rounded-lg"
   >
-    <div class="h-56 w-96 rounded-3xl bg-base-300"></div>
-    <button type="submit" form="form" class="btn btn-primary w-96">
+    <wdt-preview-card />
+    <button (click)="showPreview()" type="button" class="btn mb-6 mt-12 w-96">
+      PREVIEW
+    </button>
+    <button
+      [disabled]="toolForm.invalid"
+      type="submit"
+      form="form"
+      class="btn btn-primary w-96"
+    >
       CREATE
     </button>
   </section>
