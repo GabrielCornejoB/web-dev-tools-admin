@@ -3,6 +3,7 @@
 @tailwind components;
 @tailwind utilities;
 
-wdt-form-page {
+wdt-form-page,
+wdt-list-page {
   flex-grow: 1;
 }
