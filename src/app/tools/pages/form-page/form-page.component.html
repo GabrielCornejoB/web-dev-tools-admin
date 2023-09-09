@@ -122,7 +122,11 @@
         </wdt-form-control>
       </div>
 
-      <button (click)="onAddTag()" type="button" class="btn btn-neutral w-full">
+      <button
+        (click)="onAddTag()"
+        type="button"
+        class="btn btn-neutral mt-1 w-full"
+      >
         ADD TAG
       </button>
     </form>
@@ -137,7 +141,12 @@
     <button (click)="showPreview()" type="button" class="btn mb-6 mt-12 w-96">
       PREVIEW
     </button>
-    <button type="submit" form="form" class="btn btn-primary w-96">
+    <button
+      [disabled]="toolForm.invalid"
+      type="submit"
+      form="form"
+      class="btn btn-primary w-96"
+    >
       CREATE
     </button>
   </section>
