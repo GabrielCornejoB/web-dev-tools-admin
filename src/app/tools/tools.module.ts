@@ -6,8 +6,8 @@ import { FormPageComponent } from './pages/form-page/form-page.component';
 import { ToolDetailPageComponent } from './pages/tool-detail-page/tool-detail-page.component';
 import { ToolListPageComponent } from './pages/tool-list-page/tool-list-page.component';
 import { DashboardPageComponent } from './pages/dashboard-page/dashboard-page.component';
-import { ToolsLayoutComponent } from './tools-layout/tools-layout.component';
-
+import { ToolsLayoutComponent } from './tools-layout.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -15,11 +15,9 @@ import { ToolsLayoutComponent } from './tools-layout/tools-layout.component';
     ToolDetailPageComponent,
     ToolListPageComponent,
     DashboardPageComponent,
-    ToolsLayoutComponent
+    ToolsLayoutComponent,
+    NavbarComponent,
   ],
-  imports: [
-    CommonModule,
-    ToolsRoutingModule
-  ]
+  imports: [CommonModule, ToolsRoutingModule],
 })
-export class ToolsModule { }
+export class ToolsModule {}

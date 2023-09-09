@@ -1,0 +1,20 @@
+<div class="flex-1">
+  <a
+    routerLink="/tools/dashboard"
+    routerLinkActive="text-white"
+    class="btn btn-ghost text-xl normal-case"
+    >{{ "\<web-dev-tools />" }}</a
+  >
+</div>
+<div class="flex-none">
+  <ul class="menu menu-horizontal px-1">
+    <li *ngFor="let link of navigationLinks">
+      <a
+        [routerLink]="link.path"
+        routerLinkActive="link text-white hover:text-white"
+        class="hover:link hover:text-white active:text-white"
+        >{{ link.name }}</a
+      >
+    </li>
+  </ul>
+</div>
