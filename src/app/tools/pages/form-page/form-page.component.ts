@@ -41,7 +41,7 @@ export class FormPageComponent {
     ]);
   }
   public showPreview(): void {
-    this.toolsService.updateTool(this.toolForm.value);
+    this.toolsService.updatePreviewTool(this.toolForm.value);
   }
 
   // * Tags Array manipulation
