@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Firestore, collection, collectionData } from '@angular/fire/firestore';
+import {
+  Firestore,
+  addDoc,
+  collection,
+  collectionData,
+} from '@angular/fire/firestore';
 import { Tool, ToolDTO } from '../models/tool.model';
 
 @Injectable({
@@ -20,5 +25,8 @@ export class ToolsService {
     return collectionData(collection(this.firestore, 'tools')) as Observable<
       Tool[]
     >;
+  }
+  public create(dto: ToolDTO) {
+    return addDoc(collection(this.firestore, 'tools'), dto);
   }
 }

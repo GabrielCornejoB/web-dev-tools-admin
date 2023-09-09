@@ -33,7 +33,10 @@ export class FormPageComponent {
   public onSubmit(): void {
     if (this.toolForm.invalid) return this.toolForm.markAllAsTouched();
 
-    console.log(this.toolForm.value);
+    this.toolsService
+      .create(this.toolForm.value)
+      .then((ans) => console.log(ans));
+
     this.toolForm.reset();
     (this.toolForm.controls['tags'] as FormArray) = this.fb.array([
       'TAG',
