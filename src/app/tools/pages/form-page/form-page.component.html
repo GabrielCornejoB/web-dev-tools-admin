@@ -3,10 +3,26 @@
     aria-label="form container"
     class="bg-base-200 flex h-5/6 w-2/5 flex-col rounded-lg"
   >
-    <form></form>
+    <form class="h-full overflow-y-scroll px-12 py-6">
+      <form-control-input fieldName="Name" />
+      <form-control-input fieldName="Author" />
+      <form-control-input fieldName="URL" type="url" />
+      <form-control-input
+        fieldName="Image URL"
+        type="url"
+        [isOptional]="true"
+      />
+      <form-control-textarea fieldName="Description" />
+      <form-control-select fieldName="Category" [options]="categories" />
+      <form-control-select fieldName="Tag" [options]="tags" />
+      <button class="btn btn-neutral w-full">ADD ANOTHER TAG</button>
+    </form>
   </section>
   <section
     aria-label="preview container"
-    class="bg-base-200 h-5/6 w-2/5 rounded-lg"
-  ></section>
+    class="flex h-5/6 w-2/5 flex-col items-center justify-center gap-12 rounded-lg"
+  >
+    <div class="bg-base-300 h-56 w-96 rounded-3xl"></div>
+    <button class="btn btn-primary w-96">CREATE</button>
+  </section>
 </main>

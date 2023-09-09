@@ -1,0 +1,19 @@
+<div class="form-control w-full">
+  <label class="label">
+    <span class="label-text">{{ fieldName }}{{ !isOptional ? "*" : "" }}</span>
+  </label>
+  <select class="select select-bordered w-full">
+    <option disabled selected>-</option>
+    <option *ngFor="let option of options" [value]="option">
+      {{ option | titlecase }}
+    </option>
+  </select>
+  <label class="label-text-alt">
+    <span
+      class="label-text"
+      [ngClass]="error ? 'text-error' : 'text-transparent'"
+    >
+      {{ error ?? "uwu" }}
+    </span>
+  </label>
+</div>

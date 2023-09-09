@@ -3,6 +3,6 @@
 @tailwind components;
 @tailwind utilities;
 
-app-form-page {
+tools-form-page {
   flex-grow: 1;
 }
