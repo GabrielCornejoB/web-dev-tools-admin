@@ -1,85 +1,27 @@
-# a
+# WebDevToolsAdmin
 
-## Tailwind config
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.1.0.
 
-```bash
-npm install -D tailwindcss postcss autoprefixer
-npx tailwindcss init -p
-```
+## Development server
 
-```js
-// tailwind.config.js
-/** @type {import('tailwindcss').Config} */
-export default {
-  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
-  theme: {
-    extend: {},
-  },
-  plugins: [],
-};
-```
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
-```css
-/* index.css */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-```
+## Code scaffolding
 
-## Prettier
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-```bash
-npm install -D prettier prettier-plugin-tailwindcss
-```
+## Build
 
-```json
-/* .prettierrc.json */
-{
-  "trailingComma": "es5",
-  "semi": true,
-  "tabWidth": 2,
-  "singleQuote": true,
-  "jsxSingleQuote": true,
-  "plugins": ["prettier-plugin-tailwindcss"]
-}
-```
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
-## Eslint
+## Running unit tests
 
-```js
-// .eslintrc.cjs
-module.exports = {
-  // ..
-  extends: [
-    // ...
-    'prettier',
-  ],
-  // ...
-};
-```
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-## PostCSS
+## Running end-to-end tests
 
-```js
-// postcss.config.js
-export default {
-  plugins: {
-    tailwindcss: {},
-    autoprefixer: {},
-  },
-};
-```
+Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
 
-## DaisyUI
+## Further help
 
-```bash
-npm i -D daisyui@latest
-```
-
-```js
-// tailwind.config.js
-module.exports = {
-  //...
-  plugins: [require('daisyui')],
-};
-```
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
