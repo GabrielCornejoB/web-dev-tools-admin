@@ -1,35 +1,52 @@
 <main class="flex h-full w-full flex-row items-center justify-center gap-12">
   <section
     aria-label="form container"
-    class="flex h-5/6 w-2/5 flex-col rounded-lg bg-base-200"
+    class="flex h-5/6 max-h-[720px] w-2/5 max-w-xl flex-col rounded-lg bg-base-200"
   >
     <form
       autocomplete="off"
       [formGroup]="toolForm"
       (ngSubmit)="onSubmit()"
-      class="h-full overflow-y-scroll px-12 py-6"
+      class="overflow-y-scroll px-12 py-6"
     >
-      <wdt-form-control-input fieldName="Name" />
-      <wdt-form-control-input fieldName="Author" />
-      <wdt-form-control-input
-        fieldName="URL"
-        type="url"
-        [hasDeleteButton]="true"
-      />
-      <wdt-form-control-input
-        fieldName="Image URL"
-        type="url"
-        [isOptional]="true"
-      />
-      <wdt-form-control-textarea fieldName="Description" />
-      <wdt-form-control-select
-        fieldName="Category"
-        [options]="categories | arrayTitlecase"
-      />
-      <wdt-form-control-select
-        fieldName="Tag"
-        [options]="tags | arrayUppercase"
-      />
+      <wdt-form-control fieldName="Name">
+        <input type="text" class="input input-bordered w-full" />
+      </wdt-form-control>
+
+      <wdt-form-control fieldName="Name">
+        <input type="text" class="input input-bordered w-full" />
+      </wdt-form-control>
+
+      <wdt-form-control fieldName="Author">
+        <input type="text" class="input input-bordered w-full" />
+      </wdt-form-control>
+
+      <wdt-form-control fieldName="URL">
+        <input type="url" class="input input-bordered w-full" />
+      </wdt-form-control>
+
+      <wdt-form-control fieldName="Image URL" [isOptional]="true">
+        <input type="url" class="input input-bordered w-full" />
+      </wdt-form-control>
+
+      <wdt-form-control fieldName="Description">
+        <textarea
+          class="textarea textarea-bordered w-full resize-none"
+        ></textarea>
+      </wdt-form-control>
+
+      <wdt-form-control fieldName="Category">
+        <select class="select select-bordered w-full">
+          <option disabled selected>-</option>
+        </select>
+      </wdt-form-control>
+
+      <wdt-form-control fieldName="Tag">
+        <select class="select select-bordered w-full">
+          <option disabled selected>-</option>
+        </select>
+      </wdt-form-control>
+
       <button class="btn btn-neutral w-full">ADD ANOTHER TAG</button>
     </form>
   </section>

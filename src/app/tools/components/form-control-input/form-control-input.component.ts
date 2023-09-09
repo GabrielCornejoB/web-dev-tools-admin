@@ -12,5 +12,4 @@ export class FormControlInputComponent {
   @Input() error: string | null = null;
   @Input() type: 'text' | 'number' | 'url' = 'text';
   @Input() isOptional: boolean = false;
-  @Input() hasDeleteButton: boolean = false;
 }

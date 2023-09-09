@@ -5,11 +5,7 @@
     </span>
   </label>
 
-  <input
-    *ngIf="!hasDeleteButton; else joinedInput"
-    [type]="type"
-    class="input input-bordered w-full"
-  />
+  <input [type]="type" class="input input-bordered w-full" />
 
   <ng-template #joinedInput>
     <div class="join">

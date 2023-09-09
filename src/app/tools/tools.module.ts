@@ -14,6 +14,7 @@ import { FormControlSelectComponent } from './components/form-control-select/for
 import { ArrayTitlecasePipe } from './pipes/array-titlecase.pipe';
 import { ArrayUppercasePipe } from './pipes/array-uppercase.pipe';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FormControlComponent } from './components/form-control/form-control.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     FormControlSelectComponent,
     ArrayTitlecasePipe,
     ArrayUppercasePipe,
+    FormControlComponent,
   ],
   imports: [CommonModule, ToolsRoutingModule, ReactiveFormsModule],
 })

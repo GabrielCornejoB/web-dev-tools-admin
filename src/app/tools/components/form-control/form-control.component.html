@@ -1,0 +1,18 @@
+<div class="form-control w-full">
+  <label class="label">
+    <span class="label-text">
+      {{ fieldName }}{{ !isOptional ? "*" : "" }}
+    </span>
+  </label>
+
+  <ng-content></ng-content>
+
+  <label class="label-text-alt">
+    <span
+      class="label-text"
+      [ngClass]="error ? 'text-error' : 'text-transparent'"
+    >
+      {{ error ?? "uwu" }}
+    </span>
+  </label>
+</div>
