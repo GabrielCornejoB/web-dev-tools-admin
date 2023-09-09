@@ -5,7 +5,7 @@ export interface Tool {
   name: string;
   author: string;
   url: string;
-  imageUrl?: string;
+  imageURL?: string;
   description: string;
   category: Category;
   tags: string[];

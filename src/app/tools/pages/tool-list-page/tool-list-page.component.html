@@ -1,6 +1,6 @@
 <main class="flex h-full w-full flex-col items-center px-4">
   <div class="overflow-x-auto">
-    <table class="table">
+    <table *ngIf="!isLoading" class="table">
       <thead>
         <tr>
           <th>Name</th>
@@ -12,46 +12,35 @@
         </tr>
       </thead>
       <tbody>
-        <tr class="hover">
+        <tr *ngFor="let tool of tools" class="hover">
           <td>
             <div class="flex flex-row items-center gap-4">
               <div class="avatar">
                 <div class="mask mask-squircle my-2 h-12 w-12">
                   <img
-                    src="https://media.istockphoto.com/id/1147544807/vector/thumbnail-image-vector-graphic.jpg?s=612x612&w=0&k=20&c=rnCKVbdxqkjlcs3xH87-9gocETqpspHFXu5dIGB4wuM="
+                    [src]="
+                      tool.imageURL ||
+                      'https://media.istockphoto.com/id/1147544807/vector/thumbnail-image-vector-graphic.jpg?s=612x612&w=0&k=20&c=rnCKVbdxqkjlcs3xH87-9gocETqpspHFXu5dIGB4wuM='
+                    "
                     alt="logo"
                   />
                 </div>
               </div>
-              <p class="whitespace-nowrap">Google Icons</p>
+              <p class="whitespace-nowrap">{{ tool.name }}</p>
             </div>
           </td>
-          <td>@google</td>
-          <td>Icons</td>
+          <td>@{{ tool.author }}</td>
+          <td>{{ tool.category }}</td>
           <td class="hyphens-auto">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit nemo,
-            inventore beatae veniam recusandae voluptate sunt quia repellat id
-            eos, quod accusamus aspernatur eveniet eaque eum alias voluptates
-            delectus provident.
+            {{ tool.description }}
           </td>
           <td>
             <div class="flex flex-row flex-wrap gap-3">
               <p
+                *ngFor="let tag of tool.tags"
                 class="whitespace-nowrap rounded-md bg-base-200 px-2 py-1 text-base-content"
               >
-                WEB FONT
-              </p>
-              <p class="rounded-md bg-base-200 px-2 py-1 text-base-content">
-                TTF
-              </p>
-              <p class="rounded-md bg-base-200 px-2 py-1 text-base-content">
-                TTF
-              </p>
-              <p class="rounded-md bg-base-200 px-2 py-1 text-base-content">
-                TTF
-              </p>
-              <p class="rounded-md bg-base-200 px-2 py-1 text-base-content">
-                TTF
+                {{ tag }}
               </p>
             </div>
           </td>

@@ -16,7 +16,9 @@ export class ToolsService {
     this.tool.next(tool);
   }
 
-  // public getAll(): Observable<Tool[]> {
-  //   return collectionData(collection(this.firestore, ))
-  // }
+  public getAll(): Observable<Tool[]> {
+    return collectionData(collection(this.firestore, 'tools')) as Observable<
+      Tool[]
+    >;
+  }
 }

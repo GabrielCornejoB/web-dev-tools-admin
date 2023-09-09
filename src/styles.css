@@ -7,3 +7,6 @@ wdt-form-page,
 wdt-list-page {
   flex-grow: 1;
 }
+wdt-list-page {
+  width: 100%;
+}
