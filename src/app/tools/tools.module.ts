@@ -11,6 +11,8 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { FormControlInputComponent } from './components/form-control-input/form-control-input.component';
 import { FormControlTextareaComponent } from './components/form-control-textarea/form-control-textarea.component';
 import { FormControlSelectComponent } from './components/form-control-select/form-control-select.component';
+import { ArrayTitlecasePipe } from './pipes/array-titlecase.pipe';
+import { ArrayUppercasePipe } from './pipes/array-uppercase.pipe';
 
 @NgModule({
   declarations: [
@@ -23,6 +25,8 @@ import { FormControlSelectComponent } from './components/form-control-select/for
     FormControlInputComponent,
     FormControlTextareaComponent,
     FormControlSelectComponent,
+    ArrayTitlecasePipe,
+    ArrayUppercasePipe,
   ],
   imports: [CommonModule, ToolsRoutingModule],
 })

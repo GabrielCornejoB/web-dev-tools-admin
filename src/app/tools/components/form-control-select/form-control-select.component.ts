@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'form-control-select',
+  selector: 'wdt-form-control-select',
   templateUrl: './form-control-select.component.html',
 })
 export class FormControlSelectComponent {

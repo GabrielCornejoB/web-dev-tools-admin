@@ -6,7 +6,7 @@ interface NavLink {
 }
 
 @Component({
-  selector: 'tools-navbar',
+  selector: 'wdt-navbar',
   templateUrl: './navbar.component.html',
 })
 export class NavbarComponent {

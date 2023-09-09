@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'tools-form-page',
+  selector: 'wdt-form-page',
   templateUrl: './form-page.component.html',
 })
 export class FormPageComponent {

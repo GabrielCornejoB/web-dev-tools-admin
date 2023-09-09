@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'form-control-textarea',
+  selector: 'wdt-form-control-textarea',
   templateUrl: './form-control-textarea.component.html',
 })
 export class FormControlTextareaComponent {

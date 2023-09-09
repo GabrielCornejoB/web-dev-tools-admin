@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'tool-list-page',
+  selector: 'wdt-list-page',
   templateUrl: './tool-list-page.component.html',
 })
 export class ToolListPageComponent {}
