@@ -39,8 +39,6 @@ export class FormPageComponent {
     (this.toolForm.controls['tags'] as FormArray) = this.fb.array(['']);
   }
   public showPreview(): void {
-    console.log(this.toolForm.value);
-
     this.toolsService.updateTool(this.toolForm.value);
   }
 

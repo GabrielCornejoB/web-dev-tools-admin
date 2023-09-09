@@ -14,7 +14,6 @@ export class PreviewCardComponent implements OnInit {
   ngOnInit(): void {
     this.toolsService.tool$.subscribe((data) => {
       this.tool = data;
-      console.log(this.tool);
     });
   }
 }
