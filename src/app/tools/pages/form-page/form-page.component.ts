@@ -27,7 +27,7 @@ export class FormPageComponent {
     description: ['', [V.required, V.minLength(10), V.maxLength(100)]],
     imageUrl: ['', []],
     category: this.fb.control<Category>(Category.COLORS, [V.required]),
-    tags: this.fb.array([['', [V.required, V.minLength(2)]]]),
+    tags: this.fb.array([['TAG', [V.required, V.minLength(2)]]]),
   });
 
   public onSubmit(): void {
@@ -36,7 +36,7 @@ export class FormPageComponent {
     console.log(this.toolForm.value);
     this.toolForm.reset();
     (this.toolForm.controls['tags'] as FormArray) = this.fb.array([
-      '',
+      'TAG',
       [V.required, V.minLength(2)],
     ]);
   }
