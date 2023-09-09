@@ -7,5 +7,6 @@ import { Component, Input } from '@angular/core';
 export class FormControlComponent {
   @Input({ required: true }) fieldName!: string;
   @Input() error: string | null = null;
+  @Input() isValidField: boolean | null = null;
   @Input() isOptional: boolean = false;
 }

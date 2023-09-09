@@ -10,9 +10,9 @@
   <label class="label-text-alt">
     <span
       class="label-text"
-      [ngClass]="error ? 'text-error' : 'text-transparent'"
+      [ngClass]="isValidField ? 'text-error' : 'text-transparent'"
     >
-      {{ error ?? "uwu" }}
+      {{ error || "uwu" }}
     </span>
   </label>
 </div>

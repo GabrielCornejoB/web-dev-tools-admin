@@ -4,50 +4,125 @@
     class="flex h-5/6 max-h-[720px] w-2/5 max-w-xl flex-col rounded-lg bg-base-200"
   >
     <form
+      id="form"
       autocomplete="off"
       [formGroup]="toolForm"
       (ngSubmit)="onSubmit()"
       class="overflow-y-scroll px-12 py-6"
     >
-      <wdt-form-control fieldName="Name">
-        <input type="text" class="input input-bordered w-full" />
+      <wdt-form-control
+        fieldName="Name"
+        [error]="getErrorFromField('name')"
+        [isValidField]="isValidField('name')"
+      >
+        <input
+          formControlName="name"
+          type="text"
+          class="input input-bordered w-full"
+        />
       </wdt-form-control>
 
-      <wdt-form-control fieldName="Name">
-        <input type="text" class="input input-bordered w-full" />
+      <wdt-form-control
+        fieldName="Author"
+        [error]="getErrorFromField('author')"
+        [isValidField]="isValidField('author')"
+      >
+        <input
+          formControlName="author"
+          type="text"
+          class="input input-bordered w-full"
+        />
       </wdt-form-control>
 
-      <wdt-form-control fieldName="Author">
-        <input type="text" class="input input-bordered w-full" />
+      <wdt-form-control
+        fieldName="URL"
+        [error]="getErrorFromField('url')"
+        [isValidField]="isValidField('url')"
+      >
+        <input
+          formControlName="url"
+          type="url"
+          class="input input-bordered w-full"
+        />
       </wdt-form-control>
 
-      <wdt-form-control fieldName="URL">
-        <input type="url" class="input input-bordered w-full" />
+      <wdt-form-control
+        fieldName="Image URL"
+        [isOptional]="true"
+        [error]="getErrorFromField('imageUrl')"
+        [isValidField]="isValidField('imageUrl')"
+      >
+        <input
+          formControlName="imageUrl"
+          type="url"
+          class="input input-bordered w-full"
+        />
       </wdt-form-control>
 
-      <wdt-form-control fieldName="Image URL" [isOptional]="true">
-        <input type="url" class="input input-bordered w-full" />
-      </wdt-form-control>
-
-      <wdt-form-control fieldName="Description">
+      <wdt-form-control
+        fieldName="Description"
+        [error]="getErrorFromField('description')"
+        [isValidField]="isValidField('description')"
+      >
         <textarea
+          formControlName="description"
           class="textarea textarea-bordered w-full resize-none"
         ></textarea>
       </wdt-form-control>
 
-      <wdt-form-control fieldName="Category">
-        <select class="select select-bordered w-full">
-          <option disabled selected>-</option>
+      <wdt-form-control
+        fieldName="Category"
+        [error]="getErrorFromField('category')"
+        [isValidField]="isValidField('category')"
+      >
+        <select
+          formControlName="category"
+          class="select select-bordered w-full"
+        >
+          <option *ngFor="let category of categories" [value]="category">
+            {{ category | titlecase }}
+          </option>
         </select>
       </wdt-form-control>
 
-      <wdt-form-control fieldName="Tag">
-        <select class="select select-bordered w-full">
-          <option disabled selected>-</option>
-        </select>
-      </wdt-form-control>
+      <div formArrayName="tags">
+        <wdt-form-control
+          *ngFor="let tag of tags.controls; let i = index"
+          [fieldName]="'Tag #' + (i + 1)"
+          [error]="getErrorFromFieldInArray(tags, i)"
+          [isValidField]="isValidFieldInArray(tags, i)"
+        >
+          <div class="join">
+            <select
+              [formControlName]="i"
+              class="select join-item select-bordered w-full"
+            >
+              <option value="CSS">CSS</option>
+              <option value="SVG">SVG</option>
+            </select>
+            <button class="btn btn-error btn-outline join-item rounded-r-xl">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
+        </wdt-form-control>
+      </div>
 
-      <button class="btn btn-neutral w-full">ADD ANOTHER TAG</button>
+      <button (click)="onAddTag()" class="btn btn-neutral w-full">
+        ADD ANOTHER TAG
+      </button>
     </form>
   </section>
   <section
@@ -55,6 +130,8 @@
     class="flex h-5/6 w-2/5 flex-col items-center justify-center gap-12 rounded-lg"
   >
     <div class="h-56 w-96 rounded-3xl bg-base-300"></div>
-    <button class="btn btn-primary w-96">CREATE</button>
+    <button type="submit" form="form" class="btn btn-primary w-96">
+      CREATE
+    </button>
   </section>
 </main>
