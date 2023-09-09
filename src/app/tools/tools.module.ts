@@ -13,6 +13,7 @@ import { FormControlTextareaComponent } from './components/form-control-textarea
 import { FormControlSelectComponent } from './components/form-control-select/form-control-select.component';
 import { ArrayTitlecasePipe } from './pipes/array-titlecase.pipe';
 import { ArrayUppercasePipe } from './pipes/array-uppercase.pipe';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,6 @@ import { ArrayUppercasePipe } from './pipes/array-uppercase.pipe';
     ArrayTitlecasePipe,
     ArrayUppercasePipe,
   ],
-  imports: [CommonModule, ToolsRoutingModule],
+  imports: [CommonModule, ToolsRoutingModule, ReactiveFormsModule],
 })
 export class ToolsModule {}

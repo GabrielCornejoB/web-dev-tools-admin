@@ -3,10 +3,19 @@
     aria-label="form container"
     class="flex h-5/6 w-2/5 flex-col rounded-lg bg-base-200"
   >
-    <form class="h-full overflow-y-scroll px-12 py-6">
+    <form
+      autocomplete="off"
+      [formGroup]="toolForm"
+      (ngSubmit)="onSubmit()"
+      class="h-full overflow-y-scroll px-12 py-6"
+    >
       <wdt-form-control-input fieldName="Name" />
       <wdt-form-control-input fieldName="Author" />
-      <wdt-form-control-input fieldName="URL" type="url" />
+      <wdt-form-control-input
+        fieldName="URL"
+        type="url"
+        [hasDeleteButton]="true"
+      />
       <wdt-form-control-input
         fieldName="Image URL"
         type="url"
