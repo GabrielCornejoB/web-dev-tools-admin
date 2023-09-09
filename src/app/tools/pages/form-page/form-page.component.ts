@@ -7,7 +7,6 @@ import {
 } from '@angular/forms';
 import { Category } from '../../models/category.model';
 import { FormService } from '../../services/form.service';
-import { Tool, ToolDTO } from '../../models/tool.model';
 import { ToolsService } from '../../services/tools.service';
 
 @Component({
@@ -36,7 +35,10 @@ export class FormPageComponent {
 
     console.log(this.toolForm.value);
     this.toolForm.reset();
-    (this.toolForm.controls['tags'] as FormArray) = this.fb.array(['']);
+    (this.toolForm.controls['tags'] as FormArray) = this.fb.array([
+      '',
+      [V.required, V.minLength(2)],
+    ]);
   }
   public showPreview(): void {
     this.toolsService.updateTool(this.toolForm.value);

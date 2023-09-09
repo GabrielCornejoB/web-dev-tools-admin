@@ -94,13 +94,10 @@
           [isValidField]="isValidTag(i)"
         >
           <div class="join">
-            <select
+            <input
               [formControlName]="i"
-              class="select join-item select-bordered w-full"
-            >
-              <option value="CSS">CSS</option>
-              <option value="SVG">SVG</option>
-            </select>
+              class="input join-item input-bordered w-full"
+            />
             <button
               (click)="onDeleteTag(i)"
               type="button"
@@ -140,12 +137,7 @@
     <button (click)="showPreview()" type="button" class="btn mb-6 mt-12 w-96">
       PREVIEW
     </button>
-    <button
-      [disabled]="toolForm.invalid"
-      type="submit"
-      form="form"
-      class="btn btn-primary w-96"
-    >
+    <button type="submit" form="form" class="btn btn-primary w-96">
       CREATE
     </button>
   </section>
