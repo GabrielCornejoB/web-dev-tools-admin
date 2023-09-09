@@ -8,9 +8,6 @@ import { ToolListPageComponent } from './pages/tool-list-page/tool-list-page.com
 import { DashboardPageComponent } from './pages/dashboard-page/dashboard-page.component';
 import { ToolsLayoutComponent } from './tools-layout.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { FormControlInputComponent } from './components/form-control-input/form-control-input.component';
-import { FormControlTextareaComponent } from './components/form-control-textarea/form-control-textarea.component';
-import { FormControlSelectComponent } from './components/form-control-select/form-control-select.component';
 import { ArrayTitlecasePipe } from './pipes/array-titlecase.pipe';
 import { ArrayUppercasePipe } from './pipes/array-uppercase.pipe';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -24,9 +21,6 @@ import { FormControlComponent } from './components/form-control/form-control.com
     DashboardPageComponent,
     ToolsLayoutComponent,
     NavbarComponent,
-    FormControlInputComponent,
-    FormControlTextareaComponent,
-    FormControlSelectComponent,
     ArrayTitlecasePipe,
     ArrayUppercasePipe,
     FormControlComponent,

@@ -89,8 +89,8 @@
         <wdt-form-control
           *ngFor="let tag of tags.controls; let i = index"
           [fieldName]="'Tag #' + (i + 1)"
-          [error]="getErrorFromFieldInArray(tags, i)"
-          [isValidField]="isValidFieldInArray(tags, i)"
+          [error]="getErrorFromTag(i)"
+          [isValidField]="isValidTag(i)"
         >
           <div class="join">
             <select
@@ -100,7 +100,11 @@
               <option value="CSS">CSS</option>
               <option value="SVG">SVG</option>
             </select>
-            <button class="btn btn-error btn-outline join-item rounded-r-xl">
+            <button
+              (click)="onDeleteTag(i)"
+              type="button"
+              class="btn btn-error btn-outline join-item rounded-r-xl"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="h-6 w-6"
@@ -120,7 +124,7 @@
         </wdt-form-control>
       </div>
 
-      <button (click)="onAddTag()" class="btn btn-neutral w-full">
+      <button (click)="onAddTag()" type="button" class="btn btn-neutral w-full">
         ADD ANOTHER TAG
       </button>
     </form>

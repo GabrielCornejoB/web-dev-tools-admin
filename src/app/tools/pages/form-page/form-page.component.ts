@@ -6,6 +6,7 @@ import {
   Validators as V,
 } from '@angular/forms';
 import { Category } from '../../models/category.model';
+import { FormService } from '../../services/form.service';
 
 @Component({
   selector: 'wdt-form-page',
@@ -13,11 +14,9 @@ import { Category } from '../../models/category.model';
 })
 export class FormPageComponent {
   private fb = inject(FormBuilder);
+  private fs = inject(FormService);
 
-  // TODO: Fetch this data from db
   public categories: string[] = Object.values(Category);
-  // TODO: Fetch this data based on the selected category
-  // tags: string[] = ['CSS', 'SVG'];
 
   public toolForm: FormGroup = this.fb.group({
     name: ['', [V.required, V.minLength(3), V.maxLength(30)]],
@@ -29,17 +28,6 @@ export class FormPageComponent {
     tags: this.fb.array([['', [V.required, V.minLength(2)]]]),
   });
 
-  // *TAGS
-  public get tags(): FormArray {
-    return this.toolForm.get('tags') as FormArray;
-  }
-  public onDeleteTag(i: number): void {
-    this.tags.removeAt(i);
-  }
-  public onAddTag(): void {
-    this.tags.push(this.fb.control('', [V.required, V.minLength(2)]));
-  }
-
   public onSubmit(): void {
     if (this.toolForm.invalid) return this.toolForm.markAllAsTouched();
 
@@ -48,49 +36,30 @@ export class FormPageComponent {
     (this.toolForm.controls['tags'] as FormArray) = this.fb.array(['']);
   }
 
+  // * Tags Array manipulation
+  public get tags(): FormArray {
+    return this.toolForm.get('tags') as FormArray;
+  }
+  public onDeleteTag(i: number): void {
+    this.fs.deleteFieldInArray(this.tags, i);
+  }
+  public onAddTag(): void {
+    this.fs.addFieldToArray(this.tags);
+  }
+
+  // * Validate Form Controls
   public getErrorFromField(field: string): string | null {
-    if (!this.toolForm.controls[field]) return null;
-
-    const errors = this.toolForm.controls[field].errors || {};
-
-    for (const key of Object.keys(errors)) {
-      switch (key) {
-        case 'required':
-          return 'This field is required';
-        case 'minlength':
-          return `This field required at least ${errors['minlength'].requiredLength} characters`;
-        case 'maxlength':
-          return `This field cannot be more than ${errors['maxlength'].requiredLength} characters`;
-      }
-    }
-    return '';
+    return this.fs.getErrorFromField(this.toolForm, field);
   }
   public isValidField(field: string): boolean | null {
-    return (
-      this.toolForm.controls[field].errors &&
-      this.toolForm.controls[field].touched
-    );
+    return this.fs.isValidField(this.toolForm, field);
   }
-  public getErrorFromFieldInArray(
-    formArray: FormArray,
-    i: number,
-  ): string | null {
-    if (!formArray.controls[i]) return null;
 
-    const errors = formArray.controls[i].errors || {};
-    for (const key of Object.keys(errors)) {
-      switch (key) {
-        case 'required':
-          return 'This field is required';
-        case 'minlength':
-          return `This field required at least ${errors['minlength'].requiredLength} characters`;
-        case 'maxlength':
-          return `This field cannot be more than ${errors['maxlength'].requiredLength} characters`;
-      }
-    }
-    return '';
+  // * Validate Tags
+  public getErrorFromTag(i: number): string | null {
+    return this.fs.getErrorFromFieldInArray(this.tags, i);
   }
-  public isValidFieldInArray(formArray: FormArray, i: number): boolean | null {
-    return formArray.controls[i].errors && formArray.controls[i].touched;
+  public isValidTag(i: number): boolean | null {
+    return this.fs.isValidFieldInArray(this.tags, i);
   }
 }
