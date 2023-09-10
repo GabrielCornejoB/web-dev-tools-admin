@@ -10,4 +10,7 @@ export interface Tool {
   category: Category;
   tags: string[];
 }
-export interface ToolDTO extends Omit<Tool, 'id'> {}
+
+export interface CreateToolDTO extends Omit<Tool, 'id'> {}
+
+export interface UpdateToolDTO extends Partial<CreateToolDTO> {}

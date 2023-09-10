@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, inject, OnDestroy } from '@angular/core';
-import { ToolDTO } from '../../models/tool.model';
+import { CreateToolDTO } from '../../models/tool.model';
 import { ToolsService } from '../../services/tools.service';
 import { Subscription } from 'rxjs';
 
@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
 export class PreviewCardComponent implements OnInit, OnDestroy {
   private toolsService = inject(ToolsService);
 
-  public tool: ToolDTO | undefined;
+  public tool: CreateToolDTO | undefined;
   private subscription: Subscription = new Subscription();
 
   ngOnInit(): void {

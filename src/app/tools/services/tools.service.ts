@@ -5,19 +5,22 @@ import {
   addDoc,
   collection,
   collectionData,
+  updateDoc,
+  doc,
+  getDoc,
 } from '@angular/fire/firestore';
-import { Tool, ToolDTO } from '../models/tool.model';
+import { Tool, CreateToolDTO, UpdateToolDTO } from '../models/tool.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ToolsService {
-  private tool = new BehaviorSubject<ToolDTO | undefined>(undefined);
+  private tool = new BehaviorSubject<CreateToolDTO | undefined>(undefined);
   public tool$ = this.tool.asObservable();
 
   constructor(private firestore: Firestore) {}
 
-  public updatePreviewTool(tool: ToolDTO): void {
+  public updatePreviewTool(tool: CreateToolDTO): void {
     this.tool.next(tool);
   }
 
@@ -26,7 +29,15 @@ export class ToolsService {
       idField: 'id',
     }) as Observable<Tool[]>;
   }
-  public create(dto: ToolDTO) {
+  public getOne(id: string) {
+    const docRef = doc(this.firestore, 'tools', id);
+    return getDoc(docRef);
+  }
+  public create(dto: CreateToolDTO) {
     return addDoc(collection(this.firestore, 'tools'), dto);
+  }
+  public update(id: string, dto: UpdateToolDTO) {
+    const docRef = doc(this.firestore, 'tools', id);
+    return updateDoc(docRef, dto);
   }
 }
