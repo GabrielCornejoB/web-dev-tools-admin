@@ -44,6 +44,48 @@
               </p>
             </div>
           </td>
+          <td>
+            <details class="dropdown dropdown-end">
+              <summary class="btn btn-square">
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12 12H12.01"
+                    stroke="white"
+                    stroke-width="3.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M12 18H12.01"
+                    stroke="white"
+                    stroke-width="3.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M12 6H12.01"
+                    stroke="white"
+                    stroke-width="3.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </summary>
+              <ul
+                class="menu dropdown-content rounded-box z-[1] w-52 bg-base-100 p-2 shadow"
+              >
+                <li><a [routerLink]="['../tool', tool.id]">Details</a></li>
+                <li><a [routerLink]="['../update', tool.id]">Update</a></li>
+                <li><button>Delete</button></li>
+              </ul>
+            </details>
+          </td>
         </tr>
       </tbody>
     </table>

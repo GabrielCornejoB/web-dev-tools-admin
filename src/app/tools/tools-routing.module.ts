@@ -20,7 +20,7 @@ const routes: Routes = [
     component: FormPageComponent,
   },
   {
-    path: 'update',
+    path: 'update/:id',
     component: FormPageComponent,
   },
   {

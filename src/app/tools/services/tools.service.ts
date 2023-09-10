@@ -22,9 +22,9 @@ export class ToolsService {
   }
 
   public getAll(): Observable<Tool[]> {
-    return collectionData(collection(this.firestore, 'tools')) as Observable<
-      Tool[]
-    >;
+    return collectionData(collection(this.firestore, 'tools'), {
+      idField: 'id',
+    }) as Observable<Tool[]>;
   }
   public create(dto: ToolDTO) {
     return addDoc(collection(this.firestore, 'tools'), dto);
