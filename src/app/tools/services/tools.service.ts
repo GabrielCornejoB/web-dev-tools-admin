@@ -8,8 +8,14 @@ import {
   updateDoc,
   doc,
   getDoc,
+  query,
+  where,
+  getDocs,
 } from '@angular/fire/firestore';
 import { Tool, CreateToolDTO, UpdateToolDTO } from '../models/tool.model';
+import { Category } from '../models/category.model';
+
+const COLLECTION_NAME = 'tools';
 
 @Injectable({
   providedIn: 'root',
@@ -25,19 +31,27 @@ export class ToolsService {
   }
 
   public getAll(): Observable<Tool[]> {
-    return collectionData(collection(this.firestore, 'tools'), {
+    return collectionData(collection(this.firestore, COLLECTION_NAME), {
       idField: 'id',
     }) as Observable<Tool[]>;
   }
+
+  public getAllByCategory(category: string) {
+    const collRef = collection(this.firestore, COLLECTION_NAME);
+    return getDocs(query(collRef, where('category', '==', category)));
+  }
+
   public getOne(id: string) {
-    const docRef = doc(this.firestore, 'tools', id);
+    const docRef = doc(this.firestore, COLLECTION_NAME, id);
     return getDoc(docRef);
   }
+
   public create(dto: CreateToolDTO) {
-    return addDoc(collection(this.firestore, 'tools'), dto);
+    return addDoc(collection(this.firestore, COLLECTION_NAME), dto);
   }
+
   public update(id: string, dto: UpdateToolDTO) {
-    const docRef = doc(this.firestore, 'tools', id);
+    const docRef = doc(this.firestore, COLLECTION_NAME, id);
     return updateDoc(docRef, dto);
   }
 }

@@ -1,6 +1,31 @@
-<main class="flex h-full w-full flex-col items-center px-4">
-  <div class="overflow-x-auto">
-    <table *ngIf="!isLoading" class="table">
+<main class="flex h-full max-w-full flex-col items-center px-4">
+  <div *ngIf="!isLoading">
+    <header>
+      <ul class="flex flex-row items-center gap-8 py-4">
+        <li>
+          <button
+            (click)="getAllTools()"
+            type="button"
+            class="badge badge-neutral transition-colors hover:badge-primary"
+            [class.badge-primary]="activeCategory === null"
+          >
+            All
+          </button>
+        </li>
+        <li *ngFor="let category of categories">
+          <button
+            (click)="getFilteredTools(category)"
+            type="button"
+            class="badge badge-neutral transition-colors hover:badge-primary"
+            [class.badge-primary]="activeCategory === category"
+          >
+            {{ category | titlecase }}
+          </button>
+        </li>
+      </ul>
+    </header>
+    <div class="divider mt-0"></div>
+    <table class="table">
       <thead>
         <tr>
           <th>Name</th>
@@ -30,7 +55,7 @@
             </div>
           </td>
           <td>@{{ tool.author }}</td>
-          <td>{{ tool.category }}</td>
+          <td>{{ tool.category | titlecase }}</td>
           <td class="hyphens-auto">
             {{ tool.description }}
           </td>

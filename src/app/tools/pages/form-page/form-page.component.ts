@@ -43,10 +43,11 @@ export class FormPageComponent implements OnInit {
     this.aRoute.params.subscribe(({ id }) => {
       this.toolsService.getOne(id).then((ans) => {
         this.toolId = id;
-        this.toolForm.reset(ans.data());
+        this.toolForm.reset(ans.data() as Tool);
         (this.toolForm.controls['tags'] as FormArray) = this.fb.array(
           (ans.data() as Tool).tags.map((tag) => [tag]),
         );
+        this.showPreview();
       });
     });
   }
@@ -56,7 +57,10 @@ export class FormPageComponent implements OnInit {
 
     if (this.toolId) {
       this.toolsService
-        .update(this.toolId, this.toolForm.value)
+        .update(this.toolId, {
+          ...this.toolForm.value,
+          tags: [...this.tags.controls.map((c) => c.value)],
+        })
         .then(() => this.router.navigateByUrl('/tools/all'));
       return;
     }
