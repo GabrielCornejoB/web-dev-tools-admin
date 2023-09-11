@@ -14,7 +14,7 @@ export class ToolListPageComponent implements OnInit, OnDestroy {
   public tools: Tool[] = [];
   public activeCategory: string | null = null;
 
-  private toolsSubscription: Subscription = new Subscription();
+  private subscriptions: Subscription[] = [];
   public isLoading: boolean = false;
 
   ngOnInit(): void {
@@ -22,7 +22,7 @@ export class ToolListPageComponent implements OnInit, OnDestroy {
     this.getAllTools();
   }
   ngOnDestroy(): void {
-    this.toolsSubscription.unsubscribe();
+    this.subscriptions.forEach((sub) => sub.unsubscribe());
   }
 
   public get categories(): string[] {
@@ -31,20 +31,20 @@ export class ToolListPageComponent implements OnInit, OnDestroy {
 
   public getAllTools() {
     this.activeCategory = null;
-    this.toolsSubscription = this.toolsService.getAll().subscribe((data) => {
-      this.tools = data;
-      this.isLoading = false;
-    });
+    this.subscriptions.push(
+      this.toolsService.getAll().subscribe((data) => {
+        this.tools = data;
+        this.isLoading = false;
+      }),
+    );
   }
 
   public getFilteredTools(category: string) {
     this.activeCategory = category;
-    const filteredTools: Tool[] = [];
-    this.toolsService.getAllByCategory(category).then((qs) => {
-      qs.forEach((doc) => {
-        filteredTools.push({ ...doc.data(), id: doc.id } as Tool);
-      });
-      this.tools = filteredTools;
-    });
+    this.subscriptions.push(
+      this.toolsService
+        .getAllByCategory(category)
+        .subscribe((data) => (this.tools = data)),
+    );
   }
 }

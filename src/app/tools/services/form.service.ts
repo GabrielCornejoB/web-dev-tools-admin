@@ -32,8 +32,8 @@ export class FormService {
   public deleteFieldInArray(formArray: FormArray, i: number): void {
     formArray.removeAt(i);
   }
-  public addFieldToArray(formArray: FormArray): void {
-    formArray.push(this.fb.control('', [V.required, V.minLength(2)]));
+  public addFieldToArray(formArray: FormArray, value?: string): void {
+    formArray.push(this.fb.control(value || '', [V.required, V.minLength(2)]));
   }
   public getErrorFromFieldInArray(
     formArray: FormArray,

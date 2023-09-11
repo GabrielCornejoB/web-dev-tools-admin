@@ -5,15 +5,13 @@ import {
   addDoc,
   collection,
   collectionData,
+  docData,
   updateDoc,
   doc,
-  getDoc,
   query,
   where,
-  getDocs,
 } from '@angular/fire/firestore';
 import { Tool, CreateToolDTO, UpdateToolDTO } from '../models/tool.model';
-import { Category } from '../models/category.model';
 
 const COLLECTION_NAME = 'tools';
 
@@ -36,14 +34,16 @@ export class ToolsService {
     }) as Observable<Tool[]>;
   }
 
-  public getAllByCategory(category: string) {
+  public getAllByCategory(category: string): Observable<Tool[]> {
     const collRef = collection(this.firestore, COLLECTION_NAME);
-    return getDocs(query(collRef, where('category', '==', category)));
+    return collectionData(query(collRef, where('category', '==', category)), {
+      idField: 'id',
+    }) as Observable<Tool[]>;
   }
 
-  public getOne(id: string) {
+  public getOne(id: string): Observable<Tool> {
     const docRef = doc(this.firestore, COLLECTION_NAME, id);
-    return getDoc(docRef);
+    return docData(docRef, { idField: 'id' }) as Observable<Tool>;
   }
 
   public create(dto: CreateToolDTO) {

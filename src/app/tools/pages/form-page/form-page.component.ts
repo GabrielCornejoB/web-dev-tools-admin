@@ -1,7 +1,8 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
+  FormControl,
   FormGroup,
   Validators as V,
 } from '@angular/forms';
@@ -9,14 +10,15 @@ import { Category } from '../../models/category.model';
 import { FormService } from '../../services/form.service';
 import { ToolsService } from '../../services/tools.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { switchMap } from 'rxjs';
-import { Tool } from '../../models/tool.model';
+import { Subscription, switchMap } from 'rxjs';
+
+type myFormArray = FormArray<FormControl<string | null>>;
 
 @Component({
   selector: 'wdt-form-page',
   templateUrl: './form-page.component.html',
 })
-export class FormPageComponent implements OnInit {
+export class FormPageComponent implements OnInit, OnDestroy {
   private fb = inject(FormBuilder);
   private fs = inject(FormService);
   private aRoute = inject(ActivatedRoute);
@@ -31,25 +33,31 @@ export class FormPageComponent implements OnInit {
     description: ['', [V.required, V.minLength(10), V.maxLength(100)]],
     imageURL: ['', []],
     category: this.fb.control<Category>(Category.COLORS, [V.required]),
-    tags: this.fb.array([['TAG', [V.required, V.minLength(2)]]]),
+    tags: this.fb.array<FormControl<string | null>[]>([], [V.required]),
   });
   public isUpdateView: boolean = false;
   private toolId: string | null = null;
+
+  private subscriptions: Subscription[] = [];
 
   ngOnInit(): void {
     if (!this.router.url.includes('update')) return;
     this.isUpdateView = true;
 
-    this.aRoute.params.subscribe(({ id }) => {
-      this.toolsService.getOne(id).then((ans) => {
-        this.toolId = id;
-        this.toolForm.reset(ans.data() as Tool);
-        (this.toolForm.controls['tags'] as FormArray) = this.fb.array(
-          (ans.data() as Tool).tags.map((tag) => [tag]),
-        );
-        this.showPreview();
-      });
-    });
+    this.subscriptions.push(
+      this.aRoute.params
+        .pipe(switchMap(({ id }) => this.toolsService.getOne(id)))
+        .subscribe((data) => {
+          this.toolId = data.id;
+          data.tags.forEach((tag) =>
+            this.fs.addFieldToArray(this.tagsFormArray, tag),
+          );
+          this.toolForm.reset(data);
+        }),
+    );
+  }
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((sub) => sub.unsubscribe());
   }
 
   public onSubmit(): void {
@@ -59,7 +67,7 @@ export class FormPageComponent implements OnInit {
       this.toolsService
         .update(this.toolId, {
           ...this.toolForm.value,
-          tags: [...this.tags.controls.map((c) => c.value)],
+          tags: [...this.tagsFormArray.controls.map((c) => c.value)],
         })
         .then(() => this.router.navigateByUrl('/tools/all'));
       return;
@@ -69,23 +77,21 @@ export class FormPageComponent implements OnInit {
       .then((ans) => console.log(ans));
 
     this.toolForm.reset();
-    (this.toolForm.controls['tags'] as FormArray) = this.fb.array([
-      ['TAG', [V.required, V.minLength(2)]],
-    ]);
+    this.tagsFormArray.clear();
   }
   public showPreview(): void {
     this.toolsService.updatePreviewTool(this.toolForm.value);
   }
 
   // * Tags Array manipulation
-  public get tags(): FormArray {
-    return this.toolForm.get('tags') as FormArray;
+  public get tagsFormArray(): myFormArray {
+    return this.toolForm.get('tags') as myFormArray;
   }
   public onDeleteTag(i: number): void {
-    this.fs.deleteFieldInArray(this.tags, i);
+    this.fs.deleteFieldInArray(this.tagsFormArray, i);
   }
   public onAddTag(): void {
-    this.fs.addFieldToArray(this.tags);
+    this.fs.addFieldToArray(this.tagsFormArray);
   }
 
   // * Validate Form Controls
@@ -98,9 +104,9 @@ export class FormPageComponent implements OnInit {
 
   // * Validate Tags
   public getErrorFromTag(i: number): string | null {
-    return this.fs.getErrorFromFieldInArray(this.tags, i);
+    return this.fs.getErrorFromFieldInArray(this.tagsFormArray, i);
   }
   public isValidTag(i: number): boolean | null {
-    return this.fs.isValidFieldInArray(this.tags, i);
+    return this.fs.isValidFieldInArray(this.tagsFormArray, i);
   }
 }

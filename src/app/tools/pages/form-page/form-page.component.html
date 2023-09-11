@@ -88,7 +88,7 @@
 
       <div formArrayName="tags">
         <wdt-form-control
-          *ngFor="let tag of tags.controls; let i = index"
+          *ngFor="let tag of tagsFormArray.controls; let i = index"
           [fieldName]="'Tag #' + (i + 1)"
           [error]="getErrorFromTag(i)"
           [isValidField]="isValidTag(i)"
