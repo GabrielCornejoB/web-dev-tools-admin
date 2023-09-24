@@ -6,7 +6,7 @@ import {
   FormGroup,
   Validators as V,
 } from '@angular/forms';
-import { Category } from '../../models/category.model';
+import { ALL_CATEGORIES, Category } from '../../models/category.model';
 import { FormService } from '../../services/form.service';
 import { ToolsService } from '../../services/tools.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -25,14 +25,13 @@ export class FormPageComponent implements OnInit, OnDestroy {
   private router = inject(Router);
   private toolsService = inject(ToolsService);
 
-  public categories: string[] = Object.values(Category);
   public toolForm: FormGroup = this.fb.group({
     name: ['', [V.required, V.minLength(3), V.maxLength(30)]],
     author: ['', [V.required, V.minLength(3), V.maxLength(30)]],
     url: ['', [V.required, V.minLength(5)]],
     description: ['', [V.required, V.minLength(10), V.maxLength(100)]],
     imageURL: ['', []],
-    category: this.fb.control<Category>(Category.COLORS, [V.required]),
+    category: this.fb.control<Category>('colors', [V.required]),
     tags: this.fb.array<FormControl<string | null>[]>([], [V.required]),
   });
   public isUpdateView: boolean = false;
@@ -58,6 +57,10 @@ export class FormPageComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy(): void {
     this.subscriptions.forEach((sub) => sub.unsubscribe());
+  }
+
+  public get categories(): string[] {
+    return [...ALL_CATEGORIES];
   }
 
   public onSubmit(): void {

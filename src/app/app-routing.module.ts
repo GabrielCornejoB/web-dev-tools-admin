@@ -4,6 +4,11 @@ import { ToolsLayoutComponent } from './tools/tools-layout.component';
 
 const routes: Routes = [
   {
+    path: '',
+    redirectTo: 'tools',
+    pathMatch: 'full',
+  },
+  {
     path: 'tools',
     component: ToolsLayoutComponent,
     loadChildren: () =>

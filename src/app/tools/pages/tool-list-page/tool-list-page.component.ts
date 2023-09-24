@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Tool } from '../../models/tool.model';
 import { ToolsService } from '../../services/tools.service';
 import { Subscription } from 'rxjs';
-import { Category } from '../../models/category.model';
+import { ALL_CATEGORIES, Category } from '../../models/category.model';
 
 @Component({
   selector: 'wdt-list-page',
@@ -26,7 +26,7 @@ export class ToolListPageComponent implements OnInit, OnDestroy {
   }
 
   public get categories(): string[] {
-    return Object.values(Category);
+    return [...ALL_CATEGORIES];
   }
 
   public getAllTools() {
