@@ -1,16 +1,9 @@
 <main class="flex h-full w-full flex-row items-center justify-center gap-12">
-  <!-- Form Section -->
-  <section
-    aria-label="form container"
-    class="flex h-5/6 max-h-[720px] w-2/5 max-w-xl flex-col rounded-lg bg-base-200"
+  <form
+    class="flex max-h-[490px] flex-row items-start justify-between overflow-y-auto rounded-xl bg-base-200"
+    [formGroup]="toolForm"
   >
-    <form
-      id="form"
-      autocomplete="off"
-      [formGroup]="toolForm"
-      (ngSubmit)="onSubmit()"
-      class="overflow-y-scroll px-12 py-6"
-    >
+    <section class="h-full w-[450px] px-12 py-6">
       <wdt-form-control
         fieldName="Name"
         [error]="getErrorFromField('name')"
@@ -31,31 +24,6 @@
         <input
           formControlName="author"
           type="text"
-          class="input input-bordered w-full"
-        />
-      </wdt-form-control>
-
-      <wdt-form-control
-        fieldName="URL"
-        [error]="getErrorFromField('url')"
-        [isValidField]="isValidField('url')"
-      >
-        <input
-          formControlName="url"
-          type="url"
-          class="input input-bordered w-full"
-        />
-      </wdt-form-control>
-
-      <wdt-form-control
-        fieldName="Image URL"
-        [isOptional]="true"
-        [error]="getErrorFromField('imageURL')"
-        [isValidField]="isValidField('imageURL')"
-      >
-        <input
-          formControlName="imageURL"
-          type="url"
           class="input input-bordered w-full"
         />
       </wdt-form-control>
@@ -85,7 +53,33 @@
           </option>
         </select>
       </wdt-form-control>
+    </section>
 
+    <section class="h-full w-[450px] px-12 py-6">
+      <wdt-form-control
+        fieldName="URL"
+        [error]="getErrorFromField('url')"
+        [isValidField]="isValidField('url')"
+      >
+        <input
+          formControlName="url"
+          type="url"
+          class="input input-bordered w-full"
+        />
+      </wdt-form-control>
+
+      <wdt-form-control
+        fieldName="Image URL"
+        [isOptional]="true"
+        [error]="getErrorFromField('imageURL')"
+        [isValidField]="isValidField('imageURL')"
+      >
+        <input
+          formControlName="imageURL"
+          type="url"
+          class="input input-bordered w-full"
+        />
+      </wdt-form-control>
       <div formArrayName="tags">
         <wdt-form-control
           *ngFor="let tag of tagsFormArray.controls; let i = index"
@@ -125,29 +119,18 @@
       <button
         (click)="onAddTag()"
         type="button"
-        class="btn btn-neutral mt-1 w-full"
+        class="btn btn-neutral my-4 w-full"
       >
         ADD TAG
       </button>
-    </form>
-  </section>
 
-  <!-- Preview Section -->
-  <section
-    aria-label="preview container"
-    class="flex h-5/6 w-2/5 flex-col items-center justify-center rounded-lg"
-  >
-    <wdt-preview-card />
-    <button (click)="showPreview()" type="button" class="btn mb-6 mt-12 w-96">
-      PREVIEW
-    </button>
-    <button
-      [disabled]="toolForm.invalid"
-      type="submit"
-      form="form"
-      class="btn btn-primary w-96"
-    >
-      {{ isUpdateView ? "UPDATE" : "CREATE" }}
-    </button>
-  </section>
+      <button
+        [disabled]="toolForm.invalid"
+        type="submit"
+        class="btn btn-primary w-full"
+      >
+        {{ isUpdateView ? "UPDATE" : "CREATE" }}
+      </button>
+    </section>
+  </form>
 </main>

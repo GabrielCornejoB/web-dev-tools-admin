@@ -12,7 +12,6 @@ import { ArrayTitlecasePipe } from './pipes/array-titlecase.pipe';
 import { ArrayUppercasePipe } from './pipes/array-uppercase.pipe';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormControlComponent } from './components/form-control/form-control.component';
-import { PreviewCardComponent } from './components/preview-card/preview-card.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +24,6 @@ import { PreviewCardComponent } from './components/preview-card/preview-card.com
     ArrayTitlecasePipe,
     ArrayUppercasePipe,
     FormControlComponent,
-    PreviewCardComponent,
   ],
   imports: [CommonModule, ToolsRoutingModule, ReactiveFormsModule],
 })

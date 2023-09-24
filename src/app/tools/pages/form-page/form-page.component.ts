@@ -82,9 +82,6 @@ export class FormPageComponent implements OnInit, OnDestroy {
     this.toolForm.reset();
     this.tagsFormArray.clear();
   }
-  public showPreview(): void {
-    this.toolsService.updatePreviewTool(this.toolForm.value);
-  }
 
   // * Tags Array manipulation
   public get tagsFormArray(): myFormArray {

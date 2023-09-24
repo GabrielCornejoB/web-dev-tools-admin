@@ -19,14 +19,7 @@ const COLLECTION_NAME = 'tools';
   providedIn: 'root',
 })
 export class ToolsService {
-  private tool = new BehaviorSubject<CreateToolDTO | undefined>(undefined);
-  public tool$ = this.tool.asObservable();
-
   constructor(private firestore: Firestore) {}
-
-  public updatePreviewTool(tool: CreateToolDTO): void {
-    this.tool.next(tool);
-  }
 
   public getAll(): Observable<Tool[]> {
     return collectionData(collection(this.firestore, COLLECTION_NAME), {
