@@ -1,29 +1,31 @@
 <main class="flex h-full flex-col px-4">
-  <div *ngIf="!isLoading">
-    <header>
-      <ul class="flex flex-row items-center gap-8 py-4">
-        <li>
-          <button
-            (click)="getAllTools()"
-            type="button"
-            class="badge badge-neutral transition-colors hover:badge-primary"
-            [class.badge-primary]="activeCategory === null"
-          >
-            All
-          </button>
-        </li>
-        <li *ngFor="let category of categories">
-          <button
-            (click)="getFilteredTools(category)"
-            type="button"
-            class="badge badge-neutral transition-colors hover:badge-primary"
-            [class.badge-primary]="activeCategory === category"
-          >
-            {{ category | titlecase }}
-          </button>
-        </li>
-      </ul>
-    </header>
+  <ng-container *ngIf="data$ | async as data">
+    <div *ngIf="data.isLoading">Loading...</div>
+    <div *ngIf="data.error">{{ data.error }}</div>
+    <!-- <header>
+        <ul class="flex flex-row items-center gap-8 py-4">
+          <li>
+            <button
+              (click)="getAllTools()"
+              type="button"
+              class="badge badge-neutral transition-colors hover:badge-primary"
+              [class.badge-primary]="activeCategory === null"
+            >
+              All
+            </button>
+          </li>
+          <li *ngFor="let category of categories">
+            <button
+              (click)="getFilteredTools(category)"
+              type="button"
+              class="badge badge-neutral transition-colors hover:badge-primary"
+              [class.badge-primary]="activeCategory === category"
+            >
+              {{ category | titlecase }}
+            </button>
+          </li>
+        </ul>
+      </header> -->
     <div class="divider mt-0"></div>
     <table class="table mb-4 max-w-full">
       <thead>
@@ -37,7 +39,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let tool of tools" class="hover">
+        <tr *ngFor="let tool of data.tools" class="hover">
           <td>
             <div class="flex flex-row items-center gap-4">
               <div class="avatar">
@@ -114,5 +116,5 @@
         </tr>
       </tbody>
     </table>
-  </div>
+  </ng-container>
 </main>

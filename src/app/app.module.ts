@@ -9,14 +9,16 @@ import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { toolsFeatureKey, toolsReducer } from './tools/store/reducers';
+import * as toolsEffects from './tools/store/effects';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    StoreModule.forRoot({}, {}),
-    EffectsModule.forRoot([]),
+    StoreModule.forRoot({ [toolsFeatureKey]: toolsReducer }),
+    EffectsModule.forRoot(toolsEffects),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: !isDevMode(),
