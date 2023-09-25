@@ -13,7 +13,25 @@ export const getToolsEffect = createEffect(
       switchMap(() => {
         return toolsService.getAll().pipe(
           map((tools: Tool[]) => {
-            console.log(tools);
+            return toolsActions.getToolsSuccess({ tools });
+          }),
+          catchError((error: FirebaseError) => {
+            return of(toolsActions.getToolsFailure({ error }));
+          }),
+        );
+      }),
+    );
+  },
+  { functional: true },
+);
+
+export const getFilteredToolsEffect = createEffect(
+  (actions$ = inject(Actions), toolsService = inject(ToolsService)) => {
+    return actions$.pipe(
+      ofType(toolsActions.getFilteredTools),
+      switchMap(({ category }) => {
+        return toolsService.getAllByCategory(category).pipe(
+          map((tools: Tool[]) => {
             return toolsActions.getToolsSuccess({ tools });
           }),
           catchError((error: FirebaseError) => {

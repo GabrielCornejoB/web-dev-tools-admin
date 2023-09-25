@@ -7,8 +7,8 @@ export const toolsActions = createActionGroup({
   source: 'tools',
   events: {
     'Get tools': emptyProps(),
+    'Get filtered tools': props<{ category: Category }>(),
     'Get tools success': props<{ tools: Tool[] }>(),
     'Get tools failure': props<{ error: FirebaseError }>(),
-    // 'Get filtered tools': props<{ category: Category }>(),
   },
 });

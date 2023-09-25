@@ -2,8 +2,6 @@ import { Component, OnInit, inject } from '@angular/core';
 import { Firestore, collection, collectionData } from '@angular/fire/firestore';
 import { Store } from '@ngrx/store';
 import { toolsActions } from './tools/store/actions';
-import { combineLatest } from 'rxjs';
-import { selectTools } from './tools/store/reducers';
 
 @Component({
   selector: 'app-root',
@@ -11,10 +9,6 @@ import { selectTools } from './tools/store/reducers';
 })
 export class AppComponent implements OnInit {
   private store = inject(Store);
-
-  // data$ = combineLatest({
-  //   tools: this.store.select(selectTools),
-  // });
 
   constructor() {}
 

@@ -2,30 +2,30 @@
   <ng-container *ngIf="data$ | async as data">
     <div *ngIf="data.isLoading">Loading...</div>
     <div *ngIf="data.error">{{ data.error }}</div>
-    <!-- <header>
-        <ul class="flex flex-row items-center gap-8 py-4">
-          <li>
-            <button
-              (click)="getAllTools()"
-              type="button"
-              class="badge badge-neutral transition-colors hover:badge-primary"
-              [class.badge-primary]="activeCategory === null"
-            >
-              All
-            </button>
-          </li>
-          <li *ngFor="let category of categories">
-            <button
-              (click)="getFilteredTools(category)"
-              type="button"
-              class="badge badge-neutral transition-colors hover:badge-primary"
-              [class.badge-primary]="activeCategory === category"
-            >
-              {{ category | titlecase }}
-            </button>
-          </li>
-        </ul>
-      </header> -->
+    <header>
+      <ul class="flex flex-row items-center gap-8 py-4">
+        <li>
+          <button
+            (click)="getAllTools()"
+            type="button"
+            class="badge badge-neutral transition-colors hover:badge-primary"
+            [class.badge-primary]="activeCategory === null"
+          >
+            All
+          </button>
+        </li>
+        <li *ngFor="let category of categories">
+          <button
+            (click)="getFilteredTools(category)"
+            type="button"
+            class="badge badge-neutral transition-colors hover:badge-primary"
+            [class.badge-primary]="activeCategory === category"
+          >
+            {{ category | titlecase }}
+          </button>
+        </li>
+      </ul>
+    </header>
     <div class="divider mt-0"></div>
     <table class="table mb-4 max-w-full">
       <thead>
@@ -107,7 +107,6 @@
               <ul
                 class="menu dropdown-content rounded-box z-[1] w-52 bg-base-100 p-2 shadow"
               >
-                <li><a [routerLink]="['../tool', tool.id]">Details</a></li>
                 <li><a [routerLink]="['../update', tool.id]">Update</a></li>
                 <li><button>Delete</button></li>
               </ul>

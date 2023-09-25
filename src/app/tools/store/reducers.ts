@@ -17,12 +17,24 @@ const toolsFeature = createFeature({
   name: 'tools',
   reducer: createReducer(
     initialState,
-    on(toolsActions.getTools, (state) => ({ ...state, isLoading: true })),
+    on(toolsActions.getTools, (state) => ({
+      ...state,
+      data: null,
+      isLoading: true,
+    })),
+
+    on(toolsActions.getFilteredTools, (state) => ({
+      ...state,
+      data: null,
+      isLoading: true,
+    })),
+
     on(toolsActions.getToolsSuccess, (state, action) => ({
       ...state,
       isLoading: false,
       data: action.tools,
     })),
+
     on(toolsActions.getToolsFailure, (state, action) => ({
       ...state,
       isLoading: false,

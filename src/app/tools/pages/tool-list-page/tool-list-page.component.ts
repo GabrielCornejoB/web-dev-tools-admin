@@ -9,6 +9,7 @@ import {
   selectIsLoading,
   selectTools,
 } from '../../store/reducers';
+import { toolsActions } from '../../store/actions';
 
 @Component({
   selector: 'wdt-list-page',
@@ -17,13 +18,24 @@ import {
 export class ToolListPageComponent {
   private store = inject(Store);
 
+  public activeCategory: Category | null = null;
+
   public data$ = combineLatest({
     isLoading: this.store.select(selectIsLoading),
     error: this.store.select(selectError),
     tools: this.store.select(selectTools),
   });
 
-  public get categories(): string[] {
+  public get categories(): Category[] {
     return [...ALL_CATEGORIES];
+  }
+
+  public getAllTools(): void {
+    this.store.dispatch(toolsActions.getTools());
+    this.activeCategory = null;
+  }
+  public getFilteredTools(category: Category): void {
+    this.store.dispatch(toolsActions.getFilteredTools({ category }));
+    this.activeCategory = category;
   }
 }
