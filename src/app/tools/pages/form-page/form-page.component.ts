@@ -11,6 +11,8 @@ import { FormService } from '../../services/form.service';
 import { ToolsService } from '../../services/tools.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription, switchMap } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { toolsActions } from '../../store/actions';
 
 type myFormArray = FormArray<FormControl<string | null>>;
 
@@ -24,6 +26,7 @@ export class FormPageComponent implements OnInit, OnDestroy {
   private aRoute = inject(ActivatedRoute);
   private router = inject(Router);
   private toolsService = inject(ToolsService);
+  private store = inject(Store);
 
   public toolForm: FormGroup = this.fb.group({
     name: ['', [V.required, V.minLength(3), V.maxLength(30)]],
@@ -40,23 +43,22 @@ export class FormPageComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
 
   ngOnInit(): void {
-    if (!this.router.url.includes('update')) return;
-    this.isUpdateView = true;
-
-    this.subscriptions.push(
-      this.aRoute.params
-        .pipe(switchMap(({ id }) => this.toolsService.getOne(id)))
-        .subscribe((data) => {
-          this.toolId = data.id;
-          data.tags.forEach((tag) =>
-            this.fs.addFieldToArray(this.tagsFormArray, tag),
-          );
-          this.toolForm.reset(data);
-        }),
-    );
+    // if (!this.router.url.includes('update')) return;
+    // this.isUpdateView = true;
+    // this.subscriptions.push(
+    //   this.aRoute.params
+    //     .pipe(switchMap(({ id }) => this.toolsService.getOne(id)))
+    //     .subscribe((data) => {
+    //       this.toolId = data.id;
+    //       data.tags.forEach((tag) =>
+    //         this.fs.addFieldToArray(this.tagsFormArray, tag),
+    //       );
+    //       this.toolForm.reset(data);
+    //     }),
+    // );
   }
   ngOnDestroy(): void {
-    this.subscriptions.forEach((sub) => sub.unsubscribe());
+    // this.subscriptions.forEach((sub) => sub.unsubscribe());
   }
 
   public get categories(): string[] {
@@ -64,20 +66,24 @@ export class FormPageComponent implements OnInit, OnDestroy {
   }
 
   public onSubmit(): void {
+    console.log('hola?');
     if (this.toolForm.invalid) return this.toolForm.markAllAsTouched();
 
-    if (this.toolId) {
-      this.toolsService
-        .update(this.toolId, {
-          ...this.toolForm.value,
-          tags: [...this.tagsFormArray.controls.map((c) => c.value)],
-        })
-        .then(() => this.router.navigateByUrl('/tools/all'));
-      return;
-    }
-    this.toolsService
-      .create(this.toolForm.value)
-      .then((ans) => console.log(ans));
+    // if (this.toolId) {
+    //   this.toolsService
+    //     .update(this.toolId, {
+    //       ...this.toolForm.value,
+    //       tags: [...this.tagsFormArray.controls.map((c) => c.value)],
+    //     })
+    //     .then(() => this.router.navigateByUrl('/tools/all'));
+    //   return;
+    // }
+    this.store.dispatch(
+      toolsActions.createTool({ toolDto: this.toolForm.value }),
+    );
+    // this.toolsService
+    //   .create(this.toolForm.value)
+    //   .then((ans) => console.log(ans));
 
     this.toolForm.reset();
     this.tagsFormArray.clear();

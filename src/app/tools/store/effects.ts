@@ -43,3 +43,24 @@ export const getFilteredToolsEffect = createEffect(
   },
   { functional: true },
 );
+
+export const createToolEffect = createEffect(
+  (actions$ = inject(Actions), toolsService = inject(ToolsService)) => {
+    return actions$.pipe(
+      ofType(toolsActions.createTool),
+      switchMap(({ toolDto: newTool }) => {
+        return toolsService.create(newTool).pipe(
+          map((doc) => {
+            return toolsActions.createToolSuccess({
+              newTool: { ...newTool, id: doc.id },
+            });
+          }),
+          catchError((error: FirebaseError) => {
+            return of(toolsActions.createToolFailure({ error }));
+          }),
+        );
+      }),
+    );
+  },
+  { functional: true },
+);

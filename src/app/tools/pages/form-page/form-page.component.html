@@ -2,6 +2,7 @@
   <form
     class="flex max-h-[490px] flex-row items-start justify-between overflow-y-auto rounded-xl bg-base-200"
     [formGroup]="toolForm"
+    (ngSubmit)="onSubmit()"
   >
     <section class="h-full w-[450px] px-12 py-6">
       <wdt-form-control

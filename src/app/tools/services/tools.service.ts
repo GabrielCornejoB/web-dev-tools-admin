@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable, from, map } from 'rxjs';
 import {
   Firestore,
   addDoc,
@@ -40,7 +40,7 @@ export class ToolsService {
   }
 
   public create(dto: CreateToolDTO) {
-    return addDoc(collection(this.firestore, COLLECTION_NAME), dto);
+    return from(addDoc(collection(this.firestore, COLLECTION_NAME), dto));
   }
 
   public update(id: string, dto: UpdateToolDTO) {
