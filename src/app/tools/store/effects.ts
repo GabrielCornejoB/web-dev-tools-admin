@@ -64,3 +64,22 @@ export const createToolEffect = createEffect(
   },
   { functional: true },
 );
+
+export const deleteToolEffect = createEffect(
+  (actions$ = inject(Actions), toolsService = inject(ToolsService)) => {
+    return actions$.pipe(
+      ofType(toolsActions.deleteTool),
+      switchMap(({ id }) => {
+        return toolsService.delete(id).pipe(
+          map(() => {
+            return toolsActions.deleteToolSuccess({ id });
+          }),
+          catchError((error: FirebaseError) => {
+            return of(toolsActions.deleteToolFailure({ error }));
+          }),
+        );
+      }),
+    );
+  },
+  { functional: true },
+);

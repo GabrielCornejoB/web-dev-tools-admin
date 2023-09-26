@@ -108,7 +108,7 @@
                 class="menu dropdown-content rounded-box z-[1] w-52 bg-base-100 p-2 shadow"
               >
                 <li><a [routerLink]="['../update', tool.id]">Update</a></li>
-                <li><button>Delete</button></li>
+                <li><button (click)="deleteTool(tool.id)">Delete</button></li>
               </ul>
             </details>
           </td>

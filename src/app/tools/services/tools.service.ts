@@ -7,6 +7,7 @@ import {
   collectionData,
   docData,
   updateDoc,
+  deleteDoc,
   doc,
   query,
   where,
@@ -46,5 +47,10 @@ export class ToolsService {
   public update(id: string, dto: UpdateToolDTO) {
     const docRef = doc(this.firestore, COLLECTION_NAME, id);
     return updateDoc(docRef, dto);
+  }
+
+  public delete(id: string) {
+    const docRef = doc(this.firestore, COLLECTION_NAME, id);
+    return from(deleteDoc(docRef));
   }
 }

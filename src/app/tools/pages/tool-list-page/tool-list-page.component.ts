@@ -15,7 +15,7 @@ import { toolsActions } from '../../store/actions';
   selector: 'wdt-list-page',
   templateUrl: './tool-list-page.component.html',
 })
-export class ToolListPageComponent {
+export class ToolListPageComponent implements OnInit {
   private store = inject(Store);
 
   public activeCategory: Category | null = null;
@@ -25,6 +25,10 @@ export class ToolListPageComponent {
     error: this.store.select(selectError),
     tools: this.store.select(selectTools),
   });
+
+  ngOnInit(): void {
+    this.getAllTools();
+  }
 
   public get categories(): Category[] {
     return [...ALL_CATEGORIES];
@@ -37,5 +41,8 @@ export class ToolListPageComponent {
   public getFilteredTools(category: Category): void {
     this.store.dispatch(toolsActions.getFilteredTools({ category }));
     this.activeCategory = category;
+  }
+  public deleteTool(id: string): void {
+    this.store.dispatch(toolsActions.deleteTool({ id }));
   }
 }

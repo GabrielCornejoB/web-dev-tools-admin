@@ -2,6 +2,7 @@ import { createFeature, createReducer, on } from '@ngrx/store';
 import { Tool } from '../models/tool.model';
 import { toolsActions } from './actions';
 import { Actions } from '@ngrx/effects';
+import { routerNavigationAction } from '@ngrx/router-store';
 
 interface ToolsState {
   isLoading: boolean;
@@ -18,6 +19,7 @@ const toolsFeature = createFeature({
   name: 'tools',
   reducer: createReducer(
     initialState,
+    // GET
     on(toolsActions.getTools, (state) => ({
       ...state,
       data: null,
@@ -39,6 +41,7 @@ const toolsFeature = createFeature({
       error: action.error.message,
     })),
 
+    // CREATE
     on(toolsActions.createTool, (state) => ({
       ...state,
       isLoading: true,
@@ -53,6 +56,26 @@ const toolsFeature = createFeature({
       isLoading: false,
       error: action.error.message,
     })),
+
+    // DELETE
+    on(toolsActions.deleteTool, (state) => ({
+      ...state,
+      isLoading: true,
+    })),
+    on(toolsActions.deleteToolSuccess, (state, action) => ({
+      ...state,
+      isLoading: false,
+      data: state.data
+        ? [...state.data.filter((tool) => tool.id !== action.id)]
+        : state.data,
+    })),
+    on(toolsActions.deleteToolFailure, (state, actions) => ({
+      ...state,
+      isLoading: false,
+      error: actions.error.message,
+    })),
+
+    on(routerNavigationAction, () => initialState),
   ),
 });
 

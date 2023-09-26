@@ -11,13 +11,17 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { toolsFeatureKey, toolsReducer } from './tools/store/reducers';
 import * as toolsEffects from './tools/store/effects';
+import { StoreRouterConnectingModule, routerReducer } from '@ngrx/router-store';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    StoreModule.forRoot({ [toolsFeatureKey]: toolsReducer }),
+    StoreModule.forRoot({
+      [toolsFeatureKey]: toolsReducer,
+      router: routerReducer,
+    }),
     EffectsModule.forRoot(toolsEffects),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
@@ -28,6 +32,7 @@ import * as toolsEffects from './tools/store/effects';
     }),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideFirestore(() => getFirestore()),
+    StoreRouterConnectingModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent],

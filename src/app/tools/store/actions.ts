@@ -14,5 +14,9 @@ export const toolsActions = createActionGroup({
     'Create tool': props<{ toolDto: CreateToolDTO }>(),
     'Create tool success': props<{ newTool: Tool }>(),
     'Create tool failure': props<{ error: FirebaseError }>(),
+
+    'Delete tool': props<{ id: string }>(),
+    'Delete tool success': props<{ id: string }>(),
+    'Delete tool failure': props<{ error: FirebaseError }>(),
   },
 });
