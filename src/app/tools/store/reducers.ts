@@ -69,10 +69,29 @@ const toolsFeature = createFeature({
         ? [...state.data.filter((tool) => tool.id !== action.id)]
         : state.data,
     })),
-    on(toolsActions.deleteToolFailure, (state, actions) => ({
+    on(toolsActions.deleteToolFailure, (state, action) => ({
       ...state,
       isLoading: false,
-      error: actions.error.message,
+      error: action.error.message,
+    })),
+
+    // UPDATE
+    on(toolsActions.updateTool, (state) => ({ ...state, isLoading: true })),
+    on(toolsActions.updateToolSuccess, (state, action) => ({
+      ...state,
+      isLoading: true,
+      data: state.data
+        ? [
+            ...state.data.map((tool) =>
+              tool.id === action.updatedTool.id ? action.updatedTool : tool,
+            ),
+          ]
+        : state.data,
+    })),
+    on(toolsActions.updateToolFailure, (state, action) => ({
+      ...state,
+      isLoading: true,
+      error: action.error.message,
     })),
 
     on(routerNavigationAction, () => initialState),

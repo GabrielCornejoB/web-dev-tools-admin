@@ -1,6 +1,6 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import { Category } from '../models/category.model';
-import { CreateToolDTO, Tool } from '../models/tool.model';
+import { CreateToolDTO, Tool, UpdateToolDTO } from '../models/tool.model';
 import { FirebaseError } from 'firebase/app';
 
 export const toolsActions = createActionGroup({
@@ -18,5 +18,9 @@ export const toolsActions = createActionGroup({
     'Delete tool': props<{ id: string }>(),
     'Delete tool success': props<{ id: string }>(),
     'Delete tool failure': props<{ error: FirebaseError }>(),
+
+    'Update tool': props<{ id: string; toolDto: UpdateToolDTO }>(),
+    'Update tool success': props<{ updatedTool: Tool }>(),
+    'Update tool failure': props<{ error: FirebaseError }>(),
   },
 });

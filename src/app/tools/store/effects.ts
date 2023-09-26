@@ -2,9 +2,10 @@ import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ToolsService } from '../services/tools.service';
 import { toolsActions } from './actions';
-import { switchMap, map, catchError, of } from 'rxjs';
+import { switchMap, map, catchError, of, tap } from 'rxjs';
 import { Tool } from '../models/tool.model';
 import { FirebaseError } from 'firebase/app';
+import { Router } from '@angular/router';
 
 export const getToolsEffect = createEffect(
   (actions$ = inject(Actions), toolsService = inject(ToolsService)) => {
@@ -76,6 +77,34 @@ export const deleteToolEffect = createEffect(
           }),
           catchError((error: FirebaseError) => {
             return of(toolsActions.deleteToolFailure({ error }));
+          }),
+        );
+      }),
+    );
+  },
+  { functional: true },
+);
+
+export const updateToolEffect = createEffect(
+  (
+    actions$ = inject(Actions),
+    toolsService = inject(ToolsService),
+    router = inject(Router),
+  ) => {
+    return actions$.pipe(
+      ofType(toolsActions.updateTool),
+      switchMap(({ id, toolDto }) => {
+        return toolsService.update(id, toolDto).pipe(
+          map(() => {
+            return toolsActions.updateToolSuccess({
+              updatedTool: { ...toolDto, id } as Tool,
+            });
+          }),
+          tap(() => {
+            router.navigate(['/tools/all']);
+          }),
+          catchError((error: FirebaseError) => {
+            return of(toolsActions.updateToolFailure({ error }));
           }),
         );
       }),
