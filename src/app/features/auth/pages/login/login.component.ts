@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import {
   FormBuilder,
   FormGroup,
@@ -10,6 +10,7 @@ import {
 
 import { getErrorFromField, canPrintError } from '@core/utils';
 import { validEmail } from '@core/validators';
+import { AuthService } from '@core/services';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -36,6 +37,8 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class LoginComponent {
   private fb = inject(FormBuilder);
+  private router = inject(Router);
+  private authService = inject(AuthService);
 
   //* Variables
   public loginForm: FormGroup = this.fb.group({
@@ -43,6 +46,7 @@ export class LoginComponent {
     password: ['', [V.required, V.minLength(5)]],
   });
   public isVisible: boolean = true;
+  public isLoggedIn = this.authService.isLoggedIn;
 
   //* Functions
   public onSubmit() {
@@ -50,6 +54,10 @@ export class LoginComponent {
       this.loginForm.markAllAsTouched();
       return;
     }
+    this.authService.setUser({
+      email: this.loginForm.controls['password'].value,
+    });
+    this.router.navigateByUrl('/admin');
     console.log(this.loginForm.value);
   }
   public getError(field: string) {
@@ -57,5 +65,9 @@ export class LoginComponent {
   }
   public hasError(field: string) {
     return canPrintError(this.loginForm, field);
+  }
+
+  public logout() {
+    this.authService.removeUser();
   }
 }
