@@ -1,6 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators as V,
+} from '@angular/forms';
+
+import { getErrorFromField } from '@core/utils';
+import { validEmail } from '@core/validators';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -14,6 +23,7 @@ import { MatIconModule } from '@angular/material/icon';
   imports: [
     CommonModule,
     RouterLink,
+    ReactiveFormsModule,
 
     MatFormFieldModule,
     MatInputModule,
@@ -25,5 +35,20 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
-  public hidePassword: boolean = true;
+  private fb = inject(FormBuilder);
+
+  public loginForm: FormGroup = this.fb.group({
+    email: ['', [V.required, V.minLength(5), validEmail]],
+    password: ['', [V.required, V.minLength(5)]],
+  });
+
+  public isVisible: boolean = true;
+
+  public onSubmit() {
+    console.log(this.loginForm.value);
+  }
+
+  public getError(field: string) {
+    return getErrorFromField(this.loginForm, field);
+  }
 }

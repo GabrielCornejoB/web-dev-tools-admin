@@ -1,28 +1,41 @@
 <mat-card>
   <h1>Login</h1>
-  <form>
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <mat-form-field>
       <mat-label>Email</mat-label>
-      <input matInput />
+      <input formControlName="email" matInput required />
       <mat-icon matSuffix>email</mat-icon>
+      <mat-error>{{ getError("email") }}</mat-error>
     </mat-form-field>
 
     <mat-form-field>
       <mat-label>Password</mat-label>
-      <input matInput [type]="hidePassword ? 'password' : 'text'" />
+      <input
+        formControlName="password"
+        matInput
+        required
+        [type]="isVisible ? 'text' : 'password'"
+      />
       <button
         type="button"
         mat-icon-button
         matSuffix
-        (click)="hidePassword = !hidePassword"
+        (click)="isVisible = !isVisible"
       >
-        <mat-icon>{{
-          hidePassword ? "visibility_off" : "visibility"
-        }}</mat-icon>
+        <mat-icon>{{ isVisible ? "visibility" : "visibility_off" }}</mat-icon>
       </button>
+      <mat-error>{{ getError("password") }}</mat-error>
     </mat-form-field>
 
-    <button mat-flat-button color="primary" class="submit-btn">Login</button>
+    <button
+      type="submit"
+      mat-flat-button
+      color="primary"
+      [disabled]="loginForm.invalid"
+      class="submit-btn"
+    >
+      Login
+    </button>
     <span>Don't have an account? <a routerLink="../register">Sign Up</a></span>
   </form>
 </mat-card>

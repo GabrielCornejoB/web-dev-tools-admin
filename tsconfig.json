@@ -22,7 +22,9 @@
     "lib": ["ES2022", "dom"],
     "paths": {
       "@auth/*": ["src/app/features/auth/*"],
-      "@admin/*": ["src/app/features/admin/*"]
+      "@admin/*": ["src/app/features/admin/*"],
+      "@shared/*": ["src/app/shared/*"],
+      "@core/*": ["src/app/core/*"]
     }
   },
   "angularCompilerOptions": {
