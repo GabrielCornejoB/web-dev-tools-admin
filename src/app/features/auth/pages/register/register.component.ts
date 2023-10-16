@@ -8,7 +8,11 @@ import {
   Validators as V,
 } from '@angular/forms';
 
-import { getErrorFromField, getErrorFromForm } from '@core/utils';
+import {
+  canPrintError,
+  getErrorFromField,
+  getErrorFromForm,
+} from '@core/utils';
 import { validEmail, confirmPassword } from '@core/validators';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -60,6 +64,9 @@ export class RegisterComponent {
   }
   public getError(field: string) {
     return getErrorFromField(this.registerForm, field);
+  }
+  public hasError(field: string) {
+    return canPrintError(this.registerForm, field);
   }
   public getFormError() {
     return getErrorFromForm(this.registerForm);

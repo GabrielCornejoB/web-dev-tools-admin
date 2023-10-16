@@ -8,7 +8,7 @@ import {
   Validators as V,
 } from '@angular/forms';
 
-import { getErrorFromField } from '@core/utils';
+import { getErrorFromField, canPrintError } from '@core/utils';
 import { validEmail } from '@core/validators';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -54,5 +54,8 @@ export class LoginComponent {
   }
   public getError(field: string) {
     return getErrorFromField(this.loginForm, field);
+  }
+  public hasError(field: string) {
+    return canPrintError(this.loginForm, field);
   }
 }

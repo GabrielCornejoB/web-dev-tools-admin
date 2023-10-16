@@ -44,13 +44,14 @@ function getErrorFromForm(fg: FormGroup): string | null {
 }
 
 /**
- *
+ * Function that checks if the field has errors & is touched so the errors get printed
+ * thought to be used in an *ngIf clause
  * @param fg Form Group reference
  * @param field Field's name from Form Group
  * @returns If the field is valid or null
  */
-function isValidField(fg: FormGroup, field: string): boolean | null {
+function canPrintError(fg: FormGroup, field: string): boolean | null {
   return fg.controls[field].errors && fg.controls[field].touched;
 }
 
-export { getErrorFromField, getErrorFromForm, isValidField };
+export { getErrorFromField, getErrorFromForm, canPrintError };
