@@ -1,6 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators as V,
+} from '@angular/forms';
+
+import { getErrorFromField, getErrorFromForm } from '@core/utils';
+import { validEmail, confirmPassword } from '@core/validators';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -14,6 +23,7 @@ import { MatIconModule } from '@angular/material/icon';
   imports: [
     CommonModule,
     RouterLink,
+    ReactiveFormsModule,
 
     MatFormFieldModule,
     MatInputModule,
@@ -25,6 +35,34 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent {
+  private fb = inject(FormBuilder);
+
+  public registerForm: FormGroup = this.fb.group(
+    {
+      username: ['', [V.required, V.minLength(5)]],
+      email: ['', [V.required, validEmail]],
+      password: ['', [V.required, V.minLength(5)]],
+      confirmPassword: ['', [V.required, V.minLength(5)]],
+    },
+    { validators: [confirmPassword] }
+  );
+
   public hidePassword: boolean = true;
   public hideConfirmPassword: boolean = true;
+
+  public onSubmit() {
+    if (this.registerForm.invalid) {
+      this.registerForm.markAllAsTouched();
+      return;
+    }
+    console.log('hi');
+  }
+
+  public getError(field: string) {
+    return getErrorFromField(this.registerForm, field);
+  }
+
+  public getFormError() {
+    return getErrorFromForm(this.registerForm);
+  }
 }

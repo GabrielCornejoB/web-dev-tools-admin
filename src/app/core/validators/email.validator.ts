@@ -11,7 +11,7 @@ export const validEmail = (control: FormControl): ValidationErrors | null => {
   const value: string = control.value.trim().toLowerCase();
 
   if (!emailPatterm.test(value)) {
-    return { isInvalidEmail: true };
+    return { isValidEmail: false };
   }
 
   return null;
