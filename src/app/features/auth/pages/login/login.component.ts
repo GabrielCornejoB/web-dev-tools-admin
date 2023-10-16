@@ -45,6 +45,10 @@ export class LoginComponent {
   public isVisible: boolean = true;
 
   public onSubmit() {
+    if (this.loginForm.invalid) {
+      this.loginForm.markAllAsTouched();
+      return;
+    }
     console.log(this.loginForm.value);
   }
 

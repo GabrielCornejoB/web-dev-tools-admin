@@ -14,13 +14,13 @@ form {
   display: flex;
   flex-direction: column;
   width: 100%;
+  gap: 0.75rem;
   .submit-btn {
     padding: 1.5rem 0;
   }
 }
 span {
   text-align: center;
-  margin-top: 1rem;
   a {
     text-decoration: none;
     font-weight: 500;

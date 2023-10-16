@@ -9,7 +9,6 @@ const emailPatterm = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
  */
 export const validEmail = (control: FormControl): ValidationErrors | null => {
   const value: string = control.value.trim().toLowerCase();
-  console.log(emailPatterm.test(value));
 
   if (!emailPatterm.test(value)) {
     return { isInvalidEmail: true };
