@@ -1,9 +1,9 @@
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 
 /**
- * Custom e-mail validator
+ * Custom Confirm password validator, checks if both fields are equal
  * @param control Required form control argument for validator
- * @returns If the e-mail is valid or null
+ * @returns If both fields match or null
  */
 export const confirmPassword = (
   control: AbstractControl

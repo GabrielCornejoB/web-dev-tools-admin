@@ -37,13 +37,14 @@ import { MatIconModule } from '@angular/material/icon';
 export class LoginComponent {
   private fb = inject(FormBuilder);
 
+  //* Variables
   public loginForm: FormGroup = this.fb.group({
     email: ['', [V.required, validEmail]],
     password: ['', [V.required, V.minLength(5)]],
   });
-
   public isVisible: boolean = true;
 
+  //* Functions
   public onSubmit() {
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
@@ -51,7 +52,6 @@ export class LoginComponent {
     }
     console.log(this.loginForm.value);
   }
-
   public getError(field: string) {
     return getErrorFromField(this.loginForm, field);
   }

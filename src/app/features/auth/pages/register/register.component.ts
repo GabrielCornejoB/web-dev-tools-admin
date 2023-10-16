@@ -37,6 +37,7 @@ import { MatIconModule } from '@angular/material/icon';
 export class RegisterComponent {
   private fb = inject(FormBuilder);
 
+  //* Variables
   public registerForm: FormGroup = this.fb.group(
     {
       username: ['', [V.required, V.minLength(5)]],
@@ -46,22 +47,20 @@ export class RegisterComponent {
     },
     { validators: [confirmPassword] }
   );
-
   public hidePassword: boolean = true;
   public hideConfirmPassword: boolean = true;
 
+  //* Functions
   public onSubmit() {
     if (this.registerForm.invalid) {
       this.registerForm.markAllAsTouched();
       return;
     }
-    console.log('hi');
+    console.log(this.registerForm.value);
   }
-
   public getError(field: string) {
     return getErrorFromField(this.registerForm, field);
   }
-
   public getFormError() {
     return getErrorFromForm(this.registerForm);
   }

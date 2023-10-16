@@ -32,7 +32,7 @@ function getErrorFromField(fg: FormGroup, field: string): string | null {
 }
 
 /**
- * Function that return the error message of a Form
+ * Function that return the error message from a Form
  * @param fg Form Group reference
  * @returns Error message from Form
  */
