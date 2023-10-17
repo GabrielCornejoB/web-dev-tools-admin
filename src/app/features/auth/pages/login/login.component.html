@@ -1,4 +1,5 @@
 <mat-card>
+  <!--! PoC -->
   <h1>Login {{ isLoggedIn() ? "logueao" : "no logueao" }}</h1>
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <mat-form-field>
@@ -34,6 +35,7 @@
     </button>
     <span>Don't have an account? <a routerLink="../register">Sign Up</a></span>
   </form>
+  <!--! PoC -->
   <button type="button" mat-flat-button color="accent" (click)="logout()">
     Logout
   </button>
