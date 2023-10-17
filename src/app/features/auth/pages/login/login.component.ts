@@ -66,8 +66,4 @@ export class LoginComponent {
   public hasError(field: string) {
     return canPrintError(this.loginForm, field);
   }
-
-  public logout() {
-    this.authService.removeUser();
-  }
 }
