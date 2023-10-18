@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '@core/services';
 
 import { MatButtonModule } from '@angular/material/button';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'wdt-admin-layout',
@@ -14,8 +15,11 @@ import { MatButtonModule } from '@angular/material/button';
 })
 export class AdminLayoutComponent {
   private authService = inject(AuthService);
+  private router = inject(Router);
 
   public logout(): void {
-    this.authService.removeUser();
+    this.authService
+      .logout()
+      .then(() => this.router.navigateByUrl('/auth/login'));
   }
 }

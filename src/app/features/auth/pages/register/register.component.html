@@ -64,7 +64,15 @@
       }}</mat-error>
     </mat-form-field>
 
-    <mat-error *ngIf="getFormError()">{{ getFormError() }}</mat-error>
+    <mat-error
+      *ngIf="
+        registerForm.controls['confirmPassword'].touched &&
+        hasSubmittedForm &&
+        getFormError()
+      "
+    >
+      {{ getFormError() }}
+    </mat-error>
     <button mat-flat-button type="submit" color="primary" class="submit-btn">
       Create Account
     </button>

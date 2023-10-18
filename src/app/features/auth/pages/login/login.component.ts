@@ -17,6 +17,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { FirebaseError } from '@angular/fire/app';
 
 @Component({
   selector: 'wdt-login',
@@ -41,24 +42,31 @@ export class LoginComponent {
   private authService = inject(AuthService);
 
   //* Variables
+  // TODO: Type form with interface
   public loginForm: FormGroup = this.fb.group({
     email: ['', [V.required, validEmail]],
     password: ['', [V.required, V.minLength(5)]],
   });
   public isVisible: boolean = true;
-  public isLoggedIn = this.authService.isLoggedIn;
 
   //* Functions
-  public onSubmit() {
+  public async onSubmit(): Promise<void> {
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
       return;
     }
-    this.authService.setUser({
-      email: this.loginForm.controls['password'].value,
-    });
-    this.router.navigateByUrl('/admin');
-    console.log(this.loginForm.value);
+
+    try {
+      const response = await this.authService.login(
+        this.loginForm.value.email,
+        this.loginForm.value.password
+      );
+      console.log(response);
+      this.router.navigateByUrl('/admin');
+    } catch (error) {
+      const firebaseError = error as FirebaseError;
+      console.error(firebaseError.message);
+    }
   }
   public getError(field: string) {
     return getErrorFromField(this.loginForm, field);
