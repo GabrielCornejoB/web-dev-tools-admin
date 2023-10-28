@@ -14,9 +14,11 @@ import { Router } from '@angular/router';
   styleUrls: ['./admin-layout.component.scss'],
 })
 export class AdminLayoutComponent {
+  //* Dependency Injection
   private authService = inject(AuthService);
   private router = inject(Router);
 
+  //* Core Functions
   public logout(): void {
     this.authService
       .logout()

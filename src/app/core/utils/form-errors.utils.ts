@@ -1,5 +1,6 @@
 import { FormGroup, ValidationErrors } from '@angular/forms';
 
+// TODO: Documentation
 function getErrorMessages(errors: ValidationErrors): string {
   for (const key of Object.keys(errors)) {
     switch (key) {

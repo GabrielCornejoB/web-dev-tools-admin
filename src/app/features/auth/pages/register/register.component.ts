@@ -41,12 +41,13 @@ import { FirebaseError } from '@angular/fire/app';
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent {
+  //* Dependency Injection
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private router = inject(Router);
 
   //* Variables
-  // TODO: Type form with interface
+    // TODO: Type form with interface
   public registerForm: FormGroup = this.fb.group(
     {
       username: ['', [V.required, V.minLength(5)]],
@@ -56,18 +57,19 @@ export class RegisterComponent {
     },
     { validators: [confirmPassword] }
   );
+
+  public hasSubmittedForm: boolean = false;
+    // TODO: Rename variables to correct naming convention
   public hidePassword: boolean = true;
   public hideConfirmPassword: boolean = true;
-  public hasSubmittedForm: boolean = false;
 
-  //* Functions
+  //* Core Functions
   public async onSubmit(): Promise<void> {
     if (this.registerForm.invalid) {
       this.hasSubmittedForm = true;
       this.registerForm.markAllAsTouched();
       return;
     }
-
     try {
       const response = await this.authService.register(
         this.registerForm.value.email,
@@ -80,6 +82,8 @@ export class RegisterComponent {
       console.error(firebaseError.message);
     }
   }
+
+  //* Utils
   public getError(field: string) {
     return getErrorFromField(this.registerForm, field);
   }

@@ -1,6 +1,6 @@
 import { FormControl, ValidationErrors } from '@angular/forms';
 
-const emailPatterm = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+const emailPattern = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
 /**
  * Custom e-mail validator
@@ -10,7 +10,7 @@ const emailPatterm = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 export const validEmail = (control: FormControl): ValidationErrors | null => {
   const value: string = control.value.trim().toLowerCase();
 
-  if (!emailPatterm.test(value)) {
+  if (!emailPattern.test(value)) {
     return { isValidEmail: false };
   }
 

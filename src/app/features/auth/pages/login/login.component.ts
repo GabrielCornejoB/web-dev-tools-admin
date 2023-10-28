@@ -37,25 +37,25 @@ import { FirebaseError } from '@angular/fire/app';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
+  //* Dependency Injection
   private fb = inject(FormBuilder);
   private router = inject(Router);
   private authService = inject(AuthService);
 
   //* Variables
-  // TODO: Type form with interface
+    // TODO: Type form with interface
   public loginForm: FormGroup = this.fb.group({
     email: ['', [V.required, validEmail]],
     password: ['', [V.required, V.minLength(5)]],
   });
   public isVisible: boolean = true;
 
-  //* Functions
+  //* Core Functions
   public async onSubmit(): Promise<void> {
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
       return;
     }
-
     try {
       const response = await this.authService.login(
         this.loginForm.value.email,
@@ -68,6 +68,8 @@ export class LoginComponent {
       console.error(firebaseError.message);
     }
   }
+
+  //* Utils
   public getError(field: string) {
     return getErrorFromField(this.loginForm, field);
   }
