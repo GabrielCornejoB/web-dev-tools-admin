@@ -20,6 +20,9 @@
     "module": "ES2022",
     "useDefineForClassFields": false,
     "lib": ["ES2022", "dom"],
+    "types": ["jest"],
+    "esModuleInterop": true,
+    "emitDecoratorMetadata": true,
     "paths": {
       "@auth/*": ["src/app/features/auth/*"],
       "@admin/*": ["src/app/features/admin/*"],

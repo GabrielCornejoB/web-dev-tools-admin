@@ -24,9 +24,9 @@
       >
         <mat-icon>{{ isVisible ? "visibility" : "visibility_off" }}</mat-icon>
       </button>
-      <mat-error *ngIf="hasError('password')">{{
-        getError("password")
-      }}</mat-error>
+      <mat-error *ngIf="hasError('password')">
+        {{ getError("password") }}
+      </mat-error>
     </mat-form-field>
 
     <button type="submit" mat-flat-button color="primary" class="submit-btn">
