@@ -5,6 +5,7 @@ import {
   authState,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signOut,
 } from '@angular/fire/auth';
 
 @Injectable({
@@ -26,6 +27,6 @@ export class AuthService {
     return signInWithEmailAndPassword(this.auth, email, password);
   }
   public logout(): Promise<void> {
-    return this.auth.signOut();
+    return signOut(this.auth);
   }
 }
