@@ -5,7 +5,14 @@
     "outDir": "./out-tsc/spec",
     "types": ["jest"],
     "esModuleInterop": true,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "paths": {
+      "@auth/*": ["src/app/features/auth/*"],
+      "@admin/*": ["src/app/features/admin/*"],
+      "@shared/*": ["src/app/shared/*"],
+      "@core/*": ["src/app/core/*"],
+      "@env/*": ["src/environments/*"]
+    }
   },
   "include": ["src/**/*.spec.ts", "src/**/*.d.ts"]
 }

@@ -6,10 +6,13 @@ describe('AuthLayoutComponent', () => {
   let component: AuthLayoutComponent;
   let fixture: ComponentFixture<AuthLayoutComponent>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [AuthLayoutComponent],
-    });
+    }).compileComponents();
+  });
+
+  beforeEach(() => {
     fixture = TestBed.createComponent(AuthLayoutComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
