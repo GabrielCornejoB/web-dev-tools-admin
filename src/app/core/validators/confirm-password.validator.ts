@@ -3,15 +3,17 @@ import { AbstractControl, ValidationErrors } from '@angular/forms';
 /**
  * Custom Confirm password validator, checks if both fields are equal
  * @param control Required form control argument for validator
- * @returns If both fields match or null
+ * @returns ValidationError if passwords are not equal or null if they are
  */
 export const confirmPassword = (
   control: AbstractControl
 ): ValidationErrors | null => {
-  const password = control.get('password')?.value;
-  const confirmPassword = control.get('confirmPassword')?.value;
+  const password = control.get('password');
+  const confirmPassword = control.get('confirmPassword');
 
-  if (password !== confirmPassword) {
+  if (!password || !confirmPassword) return null;
+
+  if (password.value !== confirmPassword.value) {
     return { arePasswordsEqual: false };
   }
 
