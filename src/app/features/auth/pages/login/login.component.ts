@@ -43,11 +43,7 @@ export class LoginComponent {
   private authService = inject(AuthService);
 
   //* Variables
-    // TODO: Type form with interface
-  public loginForm: FormGroup = this.fb.group({
-    email: ['', [V.required, validEmail]],
-    password: ['', [V.required, V.minLength(5)]],
-  });
+  public loginForm: FormGroup = this.createForm();
   public isVisible: boolean = true;
 
   //* Core Functions
@@ -75,5 +71,11 @@ export class LoginComponent {
   }
   public hasError(field: string) {
     return canPrintError(this.loginForm, field);
+  }
+  public createForm() {
+    return this.fb.group({
+      email: ['', [V.required, validEmail]],
+      password: ['', [V.required, V.minLength(5)]],
+    });
   }
 }

@@ -1,6 +1,10 @@
 import { FormGroup, ValidationErrors } from '@angular/forms';
 
-// TODO: Documentation
+/**
+ * Function that returns custom error messages depending on the type of the ValidationError sent, if the ValidationError type is not defined in the function then it will return the default message "Invalid Field"
+ * @param errors ValidationErrors from formControl or formGroup
+ * @returns Error message depending on error type
+ */
 function getErrorMessages(errors: ValidationErrors): string {
   for (const key of Object.keys(errors)) {
     switch (key) {
@@ -27,8 +31,9 @@ function getErrorMessages(errors: ValidationErrors): string {
  */
 function getErrorFromField(fg: FormGroup, field: string): string | null {
   if (!fg.controls[field]) return null;
-  const errors = fg.controls[field].errors || {};
+  const errors = fg.controls[field].errors;
 
+  if (!errors) return null;
   return getErrorMessages(errors);
 }
 
@@ -39,7 +44,7 @@ function getErrorFromField(fg: FormGroup, field: string): string | null {
  */
 function getErrorFromForm(fg: FormGroup): string | null {
   if (!fg.errors) return null;
-  const errors = fg.errors || {};
+  const errors = fg.errors;
 
   return getErrorMessages(errors);
 }
@@ -55,4 +60,4 @@ function canPrintError(fg: FormGroup, field: string): boolean | null {
   return fg.controls[field].errors && fg.controls[field].touched;
 }
 
-export { getErrorFromField, getErrorFromForm, canPrintError };
+export { getErrorFromField, getErrorFromForm, canPrintError, getErrorMessages };
