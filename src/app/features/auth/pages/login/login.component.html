@@ -37,11 +37,15 @@
       </mat-error>
     </mat-form-field>
 
+    <mat-error *ngIf="submitStatus === 'error'" data-testid="form-error">{{
+      formErrorMessage
+    }}</mat-error>
     <button
       type="submit"
       mat-flat-button
       color="primary"
       class="submit-btn"
+      [disabled]="submitStatus === 'loading'"
       data-testid="submit-button"
     >
       Login

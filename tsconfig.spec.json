@@ -11,6 +11,7 @@
       "@admin/*": ["src/app/features/admin/*"],
       "@shared/*": ["src/app/shared/*"],
       "@core/*": ["src/app/core/*"],
+      "@testing/*": ["src/app/testing/*"],
       "@env/*": ["src/environments/*"]
     }
   },

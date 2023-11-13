@@ -45,24 +45,28 @@ export class LoginComponent {
   //* Variables
   public loginForm: FormGroup = this.createForm();
   public isVisible: boolean = false;
+  public formErrorMessage: string = '';
+  public submitStatus: 'loading' | 'error' | 'success' | 'init' = 'init';
 
   //* Core Functions
-  public async onSubmit(): Promise<void> {
+  public onSubmit(): void {
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
       return;
     }
-    try {
-      const response = await this.authService.login(
-        this.loginForm.value.email,
-        this.loginForm.value.password
-      );
-      console.log(response);
-      this.router.navigateByUrl('/admin');
-    } catch (error) {
-      const firebaseError = error as FirebaseError;
-      console.error(firebaseError.message);
-    }
+    this.formErrorMessage = '';
+    this.submitStatus = 'loading';
+
+    this.authService
+      .login(this.loginForm.value.email, this.loginForm.value.password)
+      .then(() => {
+        this.submitStatus = 'success';
+        this.router.navigateByUrl('/admin');
+      })
+      .catch(() => {
+        this.submitStatus = 'error';
+        this.formErrorMessage = 'Invalid Username or Password';
+      });
   }
 
   //* Utils
