@@ -3,7 +3,7 @@ import {
   getErrorFromField,
   getErrorFromForm,
   getErrorMessages,
-} from './form-errors.utils';
+} from './form-errors.util';
 
 describe('FormErrors Utils', () => {
   describe('getErrorMessages()', () => {

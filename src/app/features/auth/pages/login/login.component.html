@@ -3,9 +3,16 @@
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <mat-form-field>
       <mat-label>Email</mat-label>
-      <input formControlName="email" matInput required />
+      <input
+        formControlName="email"
+        matInput
+        required
+        data-testid="email-input"
+      />
       <mat-icon matSuffix>email</mat-icon>
-      <mat-error *ngIf="hasError('email')">{{ getError("email") }}</mat-error>
+      <mat-error *ngIf="hasError('email')" data-testid="email-error">{{
+        getError("email")
+      }}</mat-error>
     </mat-form-field>
 
     <mat-form-field>
@@ -15,6 +22,7 @@
         matInput
         required
         [type]="isVisible ? 'text' : 'password'"
+        data-testid="password-input"
       />
       <button
         type="button"
@@ -24,12 +32,18 @@
       >
         <mat-icon>{{ isVisible ? "visibility" : "visibility_off" }}</mat-icon>
       </button>
-      <mat-error *ngIf="hasError('password')">
+      <mat-error *ngIf="hasError('password')" data-testid="password-error">
         {{ getError("password") }}
       </mat-error>
     </mat-form-field>
 
-    <button type="submit" mat-flat-button color="primary" class="submit-btn">
+    <button
+      type="submit"
+      mat-flat-button
+      color="primary"
+      class="submit-btn"
+      data-testid="submit-button"
+    >
       Login
     </button>
     <span>Don't have an account? <a routerLink="../register">Sign Up</a></span>

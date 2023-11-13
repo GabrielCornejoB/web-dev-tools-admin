@@ -44,7 +44,7 @@ export class LoginComponent {
 
   //* Variables
   public loginForm: FormGroup = this.createForm();
-  public isVisible: boolean = true;
+  public isVisible: boolean = false;
 
   //* Core Functions
   public async onSubmit(): Promise<void> {

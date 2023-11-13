@@ -1,1 +1,1 @@
-export * from './form-errors.utils';
+export * from './form-errors.util';
