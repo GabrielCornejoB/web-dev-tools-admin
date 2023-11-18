@@ -1,7 +1,7 @@
 import { FormControl } from '@angular/forms';
 import { validEmail } from './email.validator';
 
-describe('EmailValidator', () => {
+describe('Email - Validator', () => {
   it('should return null if the email is valid', () => {
     let email = 'johndoe@gmail.com';
     let result = validEmail(new FormControl(email));

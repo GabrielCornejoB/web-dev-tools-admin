@@ -27,7 +27,7 @@ function initComponent(invalidForm: boolean = false): LoginComponent {
   }).get(LoginComponent);
 }
 
-describe('LoginComponent', () => {
+describe('Login - Component', () => {
   let component: LoginComponent;
   let authServiceMock: Partial<AuthService> = AuthServiceMock;
   let routerMock: Partial<Router> = RouterMock;

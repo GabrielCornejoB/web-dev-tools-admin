@@ -5,7 +5,7 @@ import {
   getErrorMessages,
 } from './form-errors.util';
 
-describe('FormErrors Utils', () => {
+describe('FormErrors - Utils', () => {
   describe('getErrorMessages()', () => {
     it('should return "Invalid Field" when an unknown error is sent', () => {
       const unknownError = { notValidErrorMessage: true };

@@ -1,7 +1,7 @@
 import { FormControl, FormGroup } from '@angular/forms';
 import { confirmPassword } from './confirm-password.validator';
 
-describe('ConfirmPasswordValidator', () => {
+describe('ConfirmPassword - Validator', () => {
   it('should return null if both controls does not exist in the AbstractControl', () => {
     const fg = new FormGroup({
       user: new FormControl(),

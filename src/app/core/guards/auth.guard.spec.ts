@@ -7,7 +7,7 @@ import { provideAuth, getAuth } from '@angular/fire/auth';
 import { environment } from '@env/environment';
 import { AuthService } from '@core/services';
 
-describe('authGuard', () => {
+describe('Auth - Guard', () => {
   const executeGuard: CanActivateFn = (...guardParameters) =>
     TestBed.runInInjectionContext(() => authGuard(...guardParameters));
 

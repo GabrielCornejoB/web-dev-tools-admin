@@ -8,7 +8,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { RouterModule, provideRouter } from '@angular/router';
 import { environment } from '@env/environment';
 
-describe('AdminLayoutComponent', () => {
+describe('AdminLayout - Component', () => {
   let component: AdminLayoutComponent;
   let fixture: ComponentFixture<AdminLayoutComponent>;
 

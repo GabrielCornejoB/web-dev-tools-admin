@@ -7,7 +7,7 @@ import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { provideAuth, getAuth } from '@angular/fire/auth';
 import { environment } from '@env/environment';
 
-describe('publicGuard', () => {
+describe('Public - Guard', () => {
   const executeGuard: CanActivateFn = (...guardParameters) =>
     TestBed.runInInjectionContext(() => publicGuard(...guardParameters));
 

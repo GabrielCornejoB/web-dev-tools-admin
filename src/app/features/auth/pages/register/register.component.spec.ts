@@ -8,7 +8,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { AuthService } from '@core/services';
 import { environment } from '@env/environment';
 
-describe('RegisterComponent', () => {
+describe('Register - Component', () => {
   let component: RegisterComponent;
   let fixture: ComponentFixture<RegisterComponent>;
 

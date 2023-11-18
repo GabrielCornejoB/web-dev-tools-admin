@@ -7,7 +7,7 @@ import * as AngularFireAuth from '@angular/fire/auth';
 import { AuthService } from './auth.service';
 import { environment } from '@env/environment';
 
-describe('AuthService', () => {
+describe('Auth - Service', () => {
   let service: AuthService;
   let auth: Auth;
 
