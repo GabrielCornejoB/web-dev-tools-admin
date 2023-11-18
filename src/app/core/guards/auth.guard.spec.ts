@@ -1,28 +1,48 @@
-import { TestBed } from '@angular/core/testing';
-import { CanActivateFn, RouterModule, provideRouter } from '@angular/router';
-
-import { authGuard } from './auth.guard';
-import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
-import { provideAuth, getAuth } from '@angular/fire/auth';
-import { environment } from '@env/environment';
+import { Router } from '@angular/router';
+import { Observable, of } from 'rxjs';
+import { User } from '@angular/fire/auth';
 import { AuthService } from '@core/services';
+import { AuthServiceMock, RouterMock } from '@testing/mocks';
+import { initGuard } from '@testing/setups';
+import { authGuard } from './auth.guard';
 
 describe('Auth - Guard', () => {
-  const executeGuard: CanActivateFn = (...guardParameters) =>
-    TestBed.runInInjectionContext(() => authGuard(...guardParameters));
+  let guard: Observable<boolean>;
+  const authServiceMock: Partial<AuthService> = AuthServiceMock;
+  const routerMock: Partial<Router> = RouterMock;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        RouterModule,
-        provideFirebaseApp(() => initializeApp(environment.firebase)),
-        provideAuth(() => getAuth()),
-      ],
-      providers: [AuthService, provideRouter([])],
-    });
+    jest.clearAllMocks();
   });
 
   it('should be created', () => {
-    expect(executeGuard).toBeTruthy();
+    guard = initGuard(authGuard);
+
+    expect(guard).toBeTruthy();
+  });
+
+  it('should return false and redirect if user is not logged in', (done) => {
+    jest
+      .spyOn(authServiceMock, 'getAuthState')
+      .mockImplementationOnce(() => of(null));
+    guard = initGuard(authGuard);
+
+    guard.subscribe((result) => {
+      expect(result).toBeFalsy();
+      expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/auth/login');
+      done();
+    });
+  });
+
+  it('should return true if user is logged in', (done) => {
+    jest
+      .spyOn(authServiceMock, 'getAuthState')
+      .mockImplementationOnce(() => of({} as User));
+    guard = initGuard(authGuard);
+
+    guard.subscribe((result) => {
+      expect(result).toBeTruthy();
+      done();
+    });
   });
 });

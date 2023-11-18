@@ -1,28 +1,49 @@
-import { TestBed } from '@angular/core/testing';
-import { CanActivateFn, RouterModule, provideRouter } from '@angular/router';
+import { Router } from '@angular/router';
 
 import { publicGuard } from './public.guard';
 import { AuthService } from '@core/services';
-import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
-import { provideAuth, getAuth } from '@angular/fire/auth';
-import { environment } from '@env/environment';
+import { AuthServiceMock, RouterMock } from '@testing/mocks';
+import { initGuard } from '@testing/setups';
+import { Observable, of } from 'rxjs';
+import { User } from '@angular/fire/auth';
 
 describe('Public - Guard', () => {
-  const executeGuard: CanActivateFn = (...guardParameters) =>
-    TestBed.runInInjectionContext(() => publicGuard(...guardParameters));
+  let guard: Observable<boolean>;
+  const authServiceMock: Partial<AuthService> = AuthServiceMock;
+  const routerMock: Partial<Router> = RouterMock;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        RouterModule,
-        provideFirebaseApp(() => initializeApp(environment.firebase)),
-        provideAuth(() => getAuth()),
-      ],
-      providers: [AuthService, provideRouter([])],
-    });
+    jest.clearAllMocks();
   });
 
   it('should be created', () => {
-    expect(executeGuard).toBeTruthy();
+    guard = initGuard(publicGuard);
+
+    expect(guard).toBeTruthy();
+  });
+
+  it('should return false and redirect if user is logged in', (done) => {
+    jest
+      .spyOn(authServiceMock, 'getAuthState')
+      .mockImplementationOnce(() => of({} as User));
+    guard = initGuard(publicGuard);
+
+    guard.subscribe((result) => {
+      expect(result).toBeFalsy();
+      expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/admin');
+      done();
+    });
+  });
+
+  it('should return true if user is not logged in', (done) => {
+    jest
+      .spyOn(authServiceMock, 'getAuthState')
+      .mockImplementationOnce(() => of(null));
+    guard = initGuard(publicGuard);
+
+    guard.subscribe((result) => {
+      expect(result).toBeTruthy();
+      done();
+    });
   });
 });

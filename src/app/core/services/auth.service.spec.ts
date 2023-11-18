@@ -6,6 +6,7 @@ import * as AngularFireAuth from '@angular/fire/auth';
 
 import { AuthService } from './auth.service';
 import { environment } from '@env/environment';
+import { of } from 'rxjs';
 
 describe('Auth - Service', () => {
   let service: AuthService;
@@ -71,6 +72,18 @@ describe('Auth - Service', () => {
       await service.logout();
 
       expect(AngularFireAuth.signOut).toHaveBeenCalledWith(auth);
+    });
+  });
+
+  describe('getAuthState()', () => {
+    it('should call authState()', (done) => {
+      jest
+        .spyOn(AngularFireAuth, 'authState')
+        .mockImplementation(() => of(null));
+      service.getAuthState().subscribe(() => {
+        expect(AngularFireAuth.authState).toHaveBeenCalledWith(auth);
+        done();
+      });
     });
   });
 });
