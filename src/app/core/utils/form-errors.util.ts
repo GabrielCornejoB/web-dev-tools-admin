@@ -22,6 +22,8 @@ function getErrorMessages(errors: ValidationErrors): string {
         return 'Incorrect password';
       case 'tooManyAttempts':
         return 'Too many login attempts, please try again later';
+      case 'emailNotAvailable':
+        return 'Email already in use, try using another one';
       case 'unknownFbError':
         return 'Unknown error :c';
     }

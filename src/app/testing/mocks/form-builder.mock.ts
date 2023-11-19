@@ -19,6 +19,7 @@ export const FormBuilderMock = <T extends {}>(
       value: { ...initialValue },
       invalid,
       controls,
+      errors: invalid ? { error: 'error' } : null,
     };
   }),
 });

@@ -4,6 +4,7 @@ import { AuthService } from '@core/services';
 import { Injector } from '@angular/core';
 import { AuthServiceMock, FormBuilderMock, RouterMock } from '@testing/mocks';
 import { FormBuilder } from '@angular/forms';
+import { AUTH_EMAIL_ALREADY_IN_USE } from '@core/constants';
 
 function initComponent(invalidForm: boolean = false): RegisterComponent {
   return Injector.create({
@@ -14,7 +15,7 @@ function initComponent(invalidForm: boolean = false): RegisterComponent {
         provide: FormBuilder,
         useValue: FormBuilderMock(
           {
-            userName: invalidForm ? '' : 'johndoe',
+            username: invalidForm ? '' : 'johndoe',
             email: invalidForm ? '' : 'mail@mail.com',
             password: invalidForm ? '' : 'password123',
             confirmPassword: invalidForm ? '' : 'password123',
@@ -29,8 +30,8 @@ function initComponent(invalidForm: boolean = false): RegisterComponent {
 
 describe('Register - Component', () => {
   let component: RegisterComponent;
-  let authServiceMock: Partial<AuthService>;
-  let routerMock: Partial<Router>;
+  let authServiceMock: Partial<AuthService> = AuthServiceMock;
+  let routerMock: Partial<Router> = RouterMock;
 
   beforeEach(() => {
     component = initComponent();
@@ -38,7 +39,93 @@ describe('Register - Component', () => {
 
   it('should create and initializate component', () => {
     expect(component).toBeTruthy();
+    expect(component.registerForm).toBeTruthy();
+    expect(component.isPasswordHidden).toBeTruthy();
+    expect(component.isConfirmPasswordHidden).toBeTruthy();
+    expect(component.submitStatus).toBe('init');
   });
 
-  describe('onSubmit()', () => {});
+  describe('onSubmit()', () => {
+    it('should call markAllAsTouched() if the form is invalid', async () => {
+      component = initComponent(true);
+
+      await component.onSubmit();
+      expect(component.registerForm.markAllAsTouched).toHaveBeenCalled();
+      expect(authServiceMock.register).not.toHaveBeenCalled();
+      expect(
+        component.registerForm.controls['confirmPassword'].setErrors
+      ).toHaveBeenCalledWith({ arePasswordsEqual: false });
+    });
+
+    it('should call register() from AuthService if the form is valid', async () => {
+      await component.onSubmit();
+
+      expect(authServiceMock.register).toHaveBeenCalled();
+    });
+
+    it('should change submitStatus from "loading" to "success" if there are no errors and then redirect', async () => {
+      const promise = component.onSubmit();
+
+      expect(component.submitStatus).toBe('loading');
+      await promise;
+      expect(component.submitStatus).toBe('success');
+      expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/admin');
+    });
+
+    it('should change submitStatus from "loading" to "error" if there are errors', async () => {
+      jest.spyOn(authServiceMock, 'register').mockRejectedValueOnce(() => {});
+      const promise = component.onSubmit();
+
+      expect(component.submitStatus).toBe('loading');
+      await promise;
+      expect(component.submitStatus).toBe('error');
+    });
+
+    it('should set error to password field when credentials are invalid', async () => {
+      jest
+        .spyOn(authServiceMock, 'register')
+        .mockImplementationOnce(() =>
+          Promise.reject({ code: AUTH_EMAIL_ALREADY_IN_USE })
+        );
+      await component.onSubmit();
+      expect(
+        component.registerForm.controls['email'].setErrors
+      ).toHaveBeenCalledWith({ emailNotAvailable: true });
+    });
+  });
+
+  describe('getError()', () => {
+    it('should return error message if field exists and is invalid', () => {
+      component = initComponent(true);
+
+      const result = component.getError('username');
+
+      expect(result).toBeTruthy();
+    });
+    it('should return null if field exists and is valid', () => {
+      component = initComponent();
+
+      const result = component.getError('username');
+
+      expect(result).toBeNull();
+    });
+  });
+
+  describe('hasError()', () => {
+    it('should return true if field exists, is invalid and has been touched', () => {
+      component = initComponent(true);
+
+      const result = component.hasError('email');
+
+      expect(result).toBeTruthy();
+    });
+
+    it('should return null if field exists and is valid', () => {
+      component = initComponent();
+
+      const result = component.hasError('email');
+
+      expect(result).toBeNull();
+    });
+  });
 });

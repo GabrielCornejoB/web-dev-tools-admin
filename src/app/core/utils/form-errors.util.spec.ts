@@ -84,6 +84,14 @@ describe('FormErrors - Utils', () => {
 
       expect(result).toEqual('Unknown error :c');
     });
+
+    it('should return "Unknown error :c" when the error if of type "emailNotAvailable"', () => {
+      const validationError = { emailNotAvailable: true };
+
+      const result = getErrorMessages(validationError);
+
+      expect(result).toEqual('Email already in use, try using another one');
+    });
   });
 
   describe('getErrorFromField()', () => {

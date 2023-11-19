@@ -55,32 +55,37 @@ export class RegisterComponent {
   public submitStatus: LoadingStatus = 'init';
 
   //* Core Functions
-  public onSubmit(): void {
+  public async onSubmit(): Promise<void> {
     this.registerForm.controls['confirmPassword'].setErrors(null);
 
     if (this.registerForm.invalid) {
       this.registerForm.markAllAsTouched();
       if (this.getFormError()) {
         this.registerForm.controls['confirmPassword'].setErrors({
-          arePasswordsEqual: true,
+          arePasswordsEqual: false,
         });
       }
       return;
     }
+
     this.submitStatus = 'loading';
-    this.authService
-      .register(this.registerForm.value.email, this.registerForm.value.password)
-      .then(() => {
-        this.submitStatus = 'success';
-        this.router.navigateByUrl('/admin');
-      })
-      .catch((error) => {
-        this.submitStatus = 'error';
-        const fbError = error as FirebaseError;
-        if (fbError.code === AUTH_EMAIL_ALREADY_IN_USE)
-          console.error('Email already in use');
-        else console.error('Unknown error');
-      });
+
+    try {
+      await this.authService.register(
+        this.registerForm.value.email,
+        this.registerForm.value.password
+      );
+      this.submitStatus = 'success';
+      this.router.navigateByUrl('/admin');
+    } catch (error) {
+      this.submitStatus = 'error';
+      const fbError = error as FirebaseError;
+      const validationError =
+        fbError.code === AUTH_EMAIL_ALREADY_IN_USE
+          ? { emailNotAvailable: true }
+          : { unknownFbError: true };
+      this.registerForm.controls['email'].setErrors(validationError);
+    }
   }
 
   //* Utils
