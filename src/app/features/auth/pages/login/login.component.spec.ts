@@ -5,7 +5,6 @@ import { Injector } from '@angular/core';
 
 import { AuthServiceMock, FormBuilderMock, RouterMock } from '@testing/mocks';
 import { LoginComponent } from './login.component';
-import { fakeAsync, tick } from '@angular/core/testing';
 
 function initComponent(invalidForm: boolean = false): LoginComponent {
   return Injector.create({
@@ -40,47 +39,42 @@ describe('Login - Component', () => {
     expect(component).toBeTruthy();
     expect(component.loginForm).toBeTruthy();
     expect(component.isVisible).toBeFalsy();
-    expect(component.formErrorMessage).toBeFalsy();
     expect(component.submitStatus).toBe('init');
   });
 
   describe('onSubmit()', () => {
-    it('should call markAllAsTouched() if the form is invalid', () => {
+    it('should call markAllAsTouched() if the form is invalid', async () => {
       component = initComponent(true);
 
-      component.onSubmit();
+      await component.onSubmit();
 
       expect(component.loginForm.markAllAsTouched).toHaveBeenCalled();
       expect(authServiceMock.login).not.toHaveBeenCalled();
     });
 
-    it('should call login() from the AuthService if the form is valid', () => {
-      component.onSubmit();
+    it('should call login() from the AuthService if the form is valid', async () => {
+      await component.onSubmit();
 
       expect(authServiceMock.login).toHaveBeenCalled();
     });
 
-    it('should change submitStatus from "loading" to "success" if there are no errors and then redirect', fakeAsync(() => {
-      component.onSubmit();
+    it('should change submitStatus from "loading" to "success" if there are no errors and then redirect', async () => {
+      const promise = component.onSubmit();
 
-      expect(component.formErrorMessage).toEqual('');
       expect(component.submitStatus).toBe('loading');
-      tick();
+      await promise;
       expect(component.submitStatus).toBe('success');
       expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/admin');
-    }));
+    });
 
-    it('should change submitStatus from "loading" to "error" if there are errors and then set formErrorMessage', fakeAsync(() => {
+    it('should change submitStatus from "loading" to "error" if there are errors', async () => {
       jest.spyOn(authServiceMock, 'login').mockRejectedValueOnce(() => {});
+      const promise = component.onSubmit();
 
-      component.onSubmit();
-
-      expect(component.formErrorMessage).toEqual('');
       expect(component.submitStatus).toBe('loading');
-      tick();
+      await promise;
       expect(component.submitStatus).toBe('error');
-      expect(component.formErrorMessage).toBeTruthy();
-    }));
+    });
   });
 
   describe('getError()', () => {

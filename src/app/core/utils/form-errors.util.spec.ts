@@ -60,6 +60,14 @@ describe('FormErrors - Utils', () => {
 
       expect(result).toEqual('The passwords must match');
     });
+
+    it('should return "Incorrect password" when the error if of type "correctPassword"', () => {
+      const validationError = { correctPassword: false };
+
+      const result = getErrorMessages(validationError);
+
+      expect(result).toEqual('Incorrect password');
+    });
   });
 
   describe('getErrorFromField()', () => {

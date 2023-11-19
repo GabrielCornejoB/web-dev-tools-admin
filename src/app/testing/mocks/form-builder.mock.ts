@@ -10,6 +10,7 @@ export const FormBuilderMock = <T extends {}>(
       controls[field] = {
         errors: invalid ? { error: 'error' } : null,
         touched: invalid ? true : false,
+        setErrors: jest.fn(),
       };
     }
 

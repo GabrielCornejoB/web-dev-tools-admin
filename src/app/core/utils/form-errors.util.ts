@@ -18,6 +18,12 @@ function getErrorMessages(errors: ValidationErrors): string {
         return 'This field must be a valid email';
       case 'arePasswordsEqual':
         return 'The passwords must match';
+      case 'correctPassword':
+        return 'Incorrect password';
+      case 'tooManyAttempts':
+        return 'Too many login attempts, please try again later';
+      case 'unknownFbError':
+        return 'Unknown error :c';
     }
   }
   return 'Invalid Field';

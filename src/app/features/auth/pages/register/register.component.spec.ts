@@ -1,36 +1,44 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { RegisterComponent } from './register.component';
-import { RouterModule, provideRouter } from '@angular/router';
-import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
-import { provideAuth, getAuth } from '@angular/fire/auth';
-import { provideAnimations } from '@angular/platform-browser/animations';
+import { Router } from '@angular/router';
 import { AuthService } from '@core/services';
-import { environment } from '@env/environment';
+import { Injector } from '@angular/core';
+import { AuthServiceMock, FormBuilderMock, RouterMock } from '@testing/mocks';
+import { FormBuilder } from '@angular/forms';
+
+function initComponent(invalidForm: boolean = false): RegisterComponent {
+  return Injector.create({
+    providers: [
+      { provide: RegisterComponent },
+      { provide: AuthService, useValue: AuthServiceMock },
+      {
+        provide: FormBuilder,
+        useValue: FormBuilderMock(
+          {
+            userName: invalidForm ? '' : 'johndoe',
+            email: invalidForm ? '' : 'mail@mail.com',
+            password: invalidForm ? '' : 'password123',
+            confirmPassword: invalidForm ? '' : 'password123',
+          },
+          invalidForm
+        ),
+      },
+      { provide: Router, useValue: RouterMock },
+    ],
+  }).get(RegisterComponent);
+}
 
 describe('Register - Component', () => {
   let component: RegisterComponent;
-  let fixture: ComponentFixture<RegisterComponent>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [
-        RegisterComponent,
-        RouterModule,
-        provideFirebaseApp(() => initializeApp(environment.firebase)),
-        provideAuth(() => getAuth()),
-      ],
-      providers: [AuthService, provideRouter([]), provideAnimations()],
-    }).compileComponents();
-  });
+  let authServiceMock: Partial<AuthService>;
+  let routerMock: Partial<Router>;
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RegisterComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    component = initComponent();
   });
 
-  it('should create', () => {
+  it('should create and initializate component', () => {
     expect(component).toBeTruthy();
   });
+
+  describe('onSubmit()', () => {});
 });

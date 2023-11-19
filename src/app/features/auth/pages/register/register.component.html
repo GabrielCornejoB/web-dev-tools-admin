@@ -22,17 +22,17 @@
       <input
         formControlName="password"
         matInput
-        [type]="hidePassword ? 'password' : 'text'"
+        [type]="isPasswordHidden ? 'password' : 'text'"
         required
       />
       <button
         type="button"
         mat-icon-button
         matSuffix
-        (click)="hidePassword = !hidePassword"
+        (click)="isPasswordHidden = !isPasswordHidden"
       >
         <mat-icon>{{
-          hidePassword ? "visibility_off" : "visibility"
+          isPasswordHidden ? "visibility_off" : "visibility"
         }}</mat-icon>
       </button>
       <mat-error *ngIf="hasError('password')">{{
@@ -45,34 +45,25 @@
       <input
         formControlName="confirmPassword"
         matInput
-        [type]="hideConfirmPassword ? 'password' : 'text'"
+        [type]="isConfirmPasswordHidden ? 'password' : 'text'"
         required
       />
       <button
         type="button"
         mat-icon-button
         matSuffix
-        (click)="hideConfirmPassword = !hideConfirmPassword"
+        (click)="isConfirmPasswordHidden = !isConfirmPasswordHidden"
       >
         <mat-icon>{{
-          hideConfirmPassword ? "visibility_off" : "visibility"
+          isConfirmPasswordHidden ? "visibility_off" : "visibility"
         }}</mat-icon>
       </button>
 
-      <mat-error *ngIf="hasError('confirmPassword')">{{
+      <mat-error *ngIf="hasError('confirmPassword') || getFormError()">{{
         getError("confirmPassword")
       }}</mat-error>
     </mat-form-field>
 
-    <mat-error
-      *ngIf="
-        registerForm.controls['confirmPassword'].touched &&
-        hasSubmittedForm &&
-        getFormError()
-      "
-    >
-      {{ getFormError() }}
-    </mat-error>
     <button mat-flat-button type="submit" color="primary" class="submit-btn">
       Create Account
     </button>

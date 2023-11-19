@@ -18,6 +18,11 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { FirebaseError } from '@angular/fire/app';
+import { LoadingStatus } from '@core/types';
+import {
+  AUTH_INVALID_LOGIN_CREDENTIALS,
+  AUTH_TOO_MANY_ATTEMPTS,
+} from '@core/constants';
 
 @Component({
   selector: 'wdt-login',
@@ -45,28 +50,38 @@ export class LoginComponent {
   //* Variables
   public loginForm: FormGroup = this.createForm();
   public isVisible: boolean = false;
-  public formErrorMessage: string = '';
-  public submitStatus: 'loading' | 'error' | 'success' | 'init' = 'init';
+  public submitStatus: LoadingStatus = 'init';
 
   //* Core Functions
-  public onSubmit(): void {
+  public async onSubmit() {
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
       return;
     }
-    this.formErrorMessage = '';
     this.submitStatus = 'loading';
 
-    this.authService
-      .login(this.loginForm.value.email, this.loginForm.value.password)
-      .then(() => {
-        this.submitStatus = 'success';
-        this.router.navigateByUrl('/admin');
-      })
-      .catch(() => {
-        this.submitStatus = 'error';
-        this.formErrorMessage = 'Invalid Username or Password';
-      });
+    try {
+      await this.authService.login(
+        this.loginForm.value.email,
+        this.loginForm.value.password
+      );
+      this.submitStatus = 'success';
+      this.router.navigateByUrl('/admin');
+    } catch (error) {
+      console.log({ error });
+      console.log('-----');
+      console.log(error);
+      this.submitStatus = 'error';
+      const fbError = error as FirebaseError;
+
+      const validationError =
+        fbError.code === AUTH_INVALID_LOGIN_CREDENTIALS
+          ? { correctPassword: false }
+          : fbError.code === AUTH_TOO_MANY_ATTEMPTS
+          ? { tooManyAttemps: true }
+          : { unknownError: true };
+      this.loginForm.controls['password'].setErrors(validationError);
+    }
   }
 
   //* Utils
@@ -79,7 +94,7 @@ export class LoginComponent {
   public createForm() {
     return this.fb.group({
       email: ['', [V.required, validEmail]],
-      password: ['', [V.required, V.minLength(5)]],
+      password: ['', [V.required]],
     });
   }
 }
