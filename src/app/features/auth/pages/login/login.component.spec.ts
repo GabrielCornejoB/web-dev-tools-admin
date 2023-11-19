@@ -5,6 +5,10 @@ import { Injector } from '@angular/core';
 
 import { AuthServiceMock, FormBuilderMock, RouterMock } from '@testing/mocks';
 import { LoginComponent } from './login.component';
+import {
+  AUTH_INVALID_LOGIN_CREDENTIALS,
+  AUTH_TOO_MANY_ATTEMPTS,
+} from '@core/constants';
 
 function initComponent(invalidForm: boolean = false): LoginComponent {
   return Injector.create({
@@ -74,6 +78,30 @@ describe('Login - Component', () => {
       expect(component.submitStatus).toBe('loading');
       await promise;
       expect(component.submitStatus).toBe('error');
+    });
+
+    it('should set error to password field when credentials are invalid', async () => {
+      jest
+        .spyOn(authServiceMock, 'login')
+        .mockImplementationOnce(() =>
+          Promise.reject({ code: AUTH_INVALID_LOGIN_CREDENTIALS })
+        );
+      await component.onSubmit();
+      expect(
+        component.loginForm.controls['password'].setErrors
+      ).toHaveBeenCalledWith({ correctPassword: false });
+    });
+
+    it('should set error to password field when too many attempts', async () => {
+      jest
+        .spyOn(authServiceMock, 'login')
+        .mockImplementationOnce(() =>
+          Promise.reject({ code: AUTH_TOO_MANY_ATTEMPTS })
+        );
+      await component.onSubmit();
+      expect(
+        component.loginForm.controls['password'].setErrors
+      ).toHaveBeenCalledWith({ tooManyAttemps: true });
     });
   });
 

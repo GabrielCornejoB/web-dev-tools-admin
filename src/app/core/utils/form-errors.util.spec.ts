@@ -68,6 +68,22 @@ describe('FormErrors - Utils', () => {
 
       expect(result).toEqual('Incorrect password');
     });
+
+    it('should return "Too many login attempts..." when the error if of type "correctPassword"', () => {
+      const validationError = { tooManyAttempts: true };
+
+      const result = getErrorMessages(validationError);
+
+      expect(result).toEqual('Too many login attempts, please try again later');
+    });
+
+    it('should return "Unknown error :c" when the error if of type "correctPassword"', () => {
+      const validationError = { unknownFbError: true };
+
+      const result = getErrorMessages(validationError);
+
+      expect(result).toEqual('Unknown error :c');
+    });
   });
 
   describe('getErrorFromField()', () => {

@@ -6,6 +6,7 @@ import {
   FormGroup,
   ReactiveFormsModule,
   Validators as V,
+  ValidationErrors,
 } from '@angular/forms';
 
 import { getErrorFromField, canPrintError } from '@core/utils';
@@ -68,9 +69,6 @@ export class LoginComponent {
       this.submitStatus = 'success';
       this.router.navigateByUrl('/admin');
     } catch (error) {
-      console.log({ error });
-      console.log('-----');
-      console.log(error);
       this.submitStatus = 'error';
       const fbError = error as FirebaseError;
 
@@ -79,7 +77,7 @@ export class LoginComponent {
           ? { correctPassword: false }
           : fbError.code === AUTH_TOO_MANY_ATTEMPTS
           ? { tooManyAttemps: true }
-          : { unknownError: true };
+          : { unknownFbError: true };
       this.loginForm.controls['password'].setErrors(validationError);
     }
   }
