@@ -1,10 +1,11 @@
-import { RegisterComponent } from './register.component';
-import { Router } from '@angular/router';
-import { AuthService } from '@core/services';
 import { Injector } from '@angular/core';
-import { AuthServiceMock, FormBuilderMock, RouterMock } from '@testing/mocks';
+import { Router } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
+
+import { AuthService } from '@core/services';
 import { AUTH_EMAIL_ALREADY_IN_USE } from '@core/constants';
+import { AuthServiceMock, FormBuilderMock, RouterMock } from '@testing/mocks';
+import { RegisterComponent } from './register.component';
 
 function initComponent(invalidForm: boolean = false): RegisterComponent {
   return Injector.create({

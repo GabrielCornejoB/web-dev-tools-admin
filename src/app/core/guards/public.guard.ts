@@ -1,7 +1,8 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { AuthService } from '@core/services';
 import { map } from 'rxjs';
+
+import { AuthService } from '@core/services';
 
 /**
  * Guard that doesn't allows logged in users to access the authentication pages of the application

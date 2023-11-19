@@ -1,14 +1,14 @@
+import { Injector } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
-import { AuthService } from '@core/services';
-import { Injector } from '@angular/core';
 
+import { AuthService } from '@core/services';
 import { AuthServiceMock, FormBuilderMock, RouterMock } from '@testing/mocks';
-import { LoginComponent } from './login.component';
 import {
   AUTH_INVALID_LOGIN_CREDENTIALS,
   AUTH_TOO_MANY_ATTEMPTS,
 } from '@core/constants';
+import { LoginComponent } from './login.component';
 
 function initComponent(invalidForm: boolean = false): LoginComponent {
   return Injector.create({

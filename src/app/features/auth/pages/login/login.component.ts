@@ -6,19 +6,18 @@ import {
   FormGroup,
   ReactiveFormsModule,
   Validators as V,
-  ValidationErrors,
 } from '@angular/forms';
-
-import { getErrorFromField, canPrintError } from '@core/utils';
-import { validEmail } from '@core/validators';
-import { AuthService } from '@core/services';
+import { FirebaseError } from '@angular/fire/app';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { FirebaseError } from '@angular/fire/app';
+
+import { AuthService } from '@core/services';
+import { getErrorFromField, canPrintError } from '@core/utils';
+import { validEmail } from '@core/validators';
 import { LoadingStatus } from '@core/types';
 import {
   AUTH_INVALID_LOGIN_CREDENTIALS,

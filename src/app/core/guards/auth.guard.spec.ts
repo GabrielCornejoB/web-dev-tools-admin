@@ -1,6 +1,7 @@
 import { Router } from '@angular/router';
-import { Observable, of } from 'rxjs';
 import { User } from '@angular/fire/auth';
+import { Observable, of } from 'rxjs';
+
 import { AuthService } from '@core/services';
 import { AuthServiceMock, RouterMock } from '@testing/mocks';
 import { initGuard } from '@testing/setups';

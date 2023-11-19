@@ -1,12 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-
+import * as AngularFireAuth from '@angular/fire/auth';
 import { Auth, getAuth, provideAuth } from '@angular/fire/auth';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
-import * as AngularFireAuth from '@angular/fire/auth';
-
-import { AuthService } from './auth.service';
-import { environment } from '@env/environment';
 import { of } from 'rxjs';
+
+import { environment } from '@env/environment';
+import { AuthService } from './auth.service';
 
 describe('Auth - Service', () => {
   let service: AuthService;

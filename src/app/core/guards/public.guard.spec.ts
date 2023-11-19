@@ -1,11 +1,11 @@
 import { Router } from '@angular/router';
+import { User } from '@angular/fire/auth';
+import { Observable, of } from 'rxjs';
 
-import { publicGuard } from './public.guard';
 import { AuthService } from '@core/services';
 import { AuthServiceMock, RouterMock } from '@testing/mocks';
 import { initGuard } from '@testing/setups';
-import { Observable, of } from 'rxjs';
-import { User } from '@angular/fire/auth';
+import { publicGuard } from './public.guard';
 
 describe('Public - Guard', () => {
   let guard: Observable<boolean>;

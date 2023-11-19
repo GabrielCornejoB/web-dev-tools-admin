@@ -1,10 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { AuthService } from '@core/services';
+import { Router } from '@angular/router';
 
 import { MatButtonModule } from '@angular/material/button';
-import { Router } from '@angular/router';
+
+import { AuthService } from '@core/services';
 
 @Component({
   selector: 'wdt-admin-layout',
