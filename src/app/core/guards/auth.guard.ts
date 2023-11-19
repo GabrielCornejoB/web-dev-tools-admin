@@ -3,7 +3,9 @@ import { inject } from '@angular/core';
 import { AuthService } from '@core/services';
 import { map } from 'rxjs';
 
-// TODO: Documentation
+/**
+ * Guard that allows logged in users to access certain pages of the application
+ */
 export const authGuard: CanActivateFn = () => {
   const authService = inject(AuthService);
   const router = inject(Router);

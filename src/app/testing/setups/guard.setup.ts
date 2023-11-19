@@ -13,6 +13,11 @@ import { environment } from '@env/environment';
 import { AuthServiceMock, RouterMock } from '@testing/mocks';
 import { Observable } from 'rxjs';
 
+/**
+ * Guard initializator function to reduce code in the Guards Unit tests
+ * @param canActivateGuard Guard to be initialized
+ * @returns The result of the guard
+ */
 export const initGuard = (canActivateGuard: CanActivateFn) => {
   TestBed.configureTestingModule({
     imports: [

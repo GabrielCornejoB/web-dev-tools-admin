@@ -3,7 +3,9 @@ import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from '@core/services';
 import { map } from 'rxjs';
 
-// TODO: Documentation
+/**
+ * Guard that doesn't allows logged in users to access the authentication pages of the application
+ */
 export const publicGuard: CanActivateFn = () => {
   const authService = inject(AuthService);
   const router = inject(Router);
