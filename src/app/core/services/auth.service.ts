@@ -19,16 +19,16 @@ export class AuthService {
 
   //* Functions
   /** Function to register a new User into Angular Auth */
-  public register(email: string, password: string): Promise<UserCredential> {
+  register(email: string, password: string): Promise<UserCredential> {
     return createUserWithEmailAndPassword(this.auth, email, password);
   }
 
   /** Function to log-in already existing users */
-  public login(email: string, password: string): Promise<UserCredential> {
+  login(email: string, password: string): Promise<UserCredential> {
     return signInWithEmailAndPassword(this.auth, email, password);
   }
   /** Function to logout users from the application */
-  public logout(): Promise<void> {
+  logout(): Promise<void> {
     return signOut(this.auth);
   }
 
@@ -36,7 +36,7 @@ export class AuthService {
    * Function to get the current Authentication State on the application
    * @returns The authenticated User or null if there's no authenticated user
    */
-  public getAuthState(): Observable<User | null> {
+  getAuthState(): Observable<User | null> {
     return authState(this.auth);
   }
 }

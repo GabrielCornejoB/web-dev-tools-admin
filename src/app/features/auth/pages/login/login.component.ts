@@ -48,12 +48,12 @@ export class LoginComponent {
   private authService = inject(AuthService);
 
   //* Variables
-  public loginForm: FormGroup = this.createForm();
-  public isVisible: boolean = false;
-  public submitStatus: LoadingStatus = 'init';
+  loginForm: FormGroup = this.createForm();
+  isVisible: boolean = false;
+  submitStatus: LoadingStatus = 'init';
 
   //* Core Functions
-  public async onSubmit() {
+  async onSubmit() {
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
       return;
@@ -82,13 +82,13 @@ export class LoginComponent {
   }
 
   //* Utils
-  public getError(field: string) {
+  getError(field: string) {
     return getErrorFromField(this.loginForm, field);
   }
-  public hasError(field: string) {
+  hasError(field: string) {
     return canPrintError(this.loginForm, field);
   }
-  public createForm() {
+  createForm() {
     return this.fb.group({
       email: ['', [V.required, validEmail]],
       password: ['', [V.required]],

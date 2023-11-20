@@ -19,7 +19,7 @@ export class AdminLayoutComponent {
   private router = inject(Router);
 
   //* Core Functions
-  public logout(): void {
+  logout(): void {
     this.authService
       .logout()
       .then(() => this.router.navigateByUrl('/auth/login'));

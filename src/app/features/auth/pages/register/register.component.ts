@@ -49,13 +49,13 @@ export class RegisterComponent {
   private router = inject(Router);
 
   //* Variables
-  public registerForm: FormGroup = this.createForm();
-  public isPasswordHidden: boolean = true;
-  public isConfirmPasswordHidden: boolean = true;
-  public submitStatus: LoadingStatus = 'init';
+  registerForm: FormGroup = this.createForm();
+  isPasswordHidden: boolean = true;
+  isConfirmPasswordHidden: boolean = true;
+  submitStatus: LoadingStatus = 'init';
 
   //* Core Functions
-  public async onSubmit(): Promise<void> {
+  async onSubmit(): Promise<void> {
     this.registerForm.controls['confirmPassword'].setErrors(null);
 
     if (this.registerForm.invalid) {
@@ -89,16 +89,16 @@ export class RegisterComponent {
   }
 
   //* Utils
-  public getError(field: string) {
+  getError(field: string) {
     return getErrorFromField(this.registerForm, field);
   }
-  public hasError(field: string) {
+  hasError(field: string) {
     return canPrintError(this.registerForm, field);
   }
-  public getFormError() {
+  getFormError() {
     return getErrorFromForm(this.registerForm);
   }
-  public createForm() {
+  createForm() {
     return this.fb.group(
       {
         username: ['', [V.required, V.minLength(5)]],
