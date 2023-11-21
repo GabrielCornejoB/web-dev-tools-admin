@@ -19,12 +19,7 @@ import { AuthService } from '@core/services';
 import { getErrorFromField, canPrintError } from '@core/utils';
 import { validEmail } from '@core/validators';
 import { LoadingStatus } from '@core/types';
-import {
-  AUTH_INVALID_LOGIN_CREDENTIALS,
-  AUTH_INVALID_PASSOWRD,
-  AUTH_TOO_MANY_ATTEMPTS,
-  AUTH_USER_NOT_FOUND,
-} from '@core/constants';
+import { AUTH } from '@core/constants';
 
 @Component({
   selector: 'wdt-login',
@@ -73,14 +68,14 @@ export class LoginComponent {
       this.submitStatus = 'error';
       const { code } = error as FirebaseError;
 
-      if (code === AUTH_USER_NOT_FOUND) {
+      if (code === AUTH.USER_NOT_FOUND) {
         this.loginForm.controls['email'].setErrors({ userNotFound: true });
       } else {
         const validationError =
-          code === AUTH_INVALID_LOGIN_CREDENTIALS ||
-          code === AUTH_INVALID_PASSOWRD
+          code === AUTH.INVALID_LOGIN_CREDENTIALS ||
+          code === AUTH.INVALID_PASSWORD
             ? { incorrectPassword: true }
-            : code === AUTH_TOO_MANY_ATTEMPTS
+            : code === AUTH.TOO_MANY_ATTEMPTS
             ? { tooManyAttemps: true }
             : { unknownFbError: true };
         this.loginForm.controls['password'].setErrors(validationError);

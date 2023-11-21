@@ -4,11 +4,7 @@ import { FormBuilder } from '@angular/forms';
 
 import { AuthService } from '@core/services';
 import { AuthServiceMock, FormBuilderMock, RouterMock } from '@testing/mocks';
-import {
-  AUTH_INVALID_LOGIN_CREDENTIALS,
-  AUTH_TOO_MANY_ATTEMPTS,
-  AUTH_USER_NOT_FOUND,
-} from '@core/constants';
+import { AUTH } from '@core/constants';
 import { LoginComponent } from './login.component';
 
 function initComponent(invalidForm: boolean = false): LoginComponent {
@@ -85,7 +81,7 @@ describe('Login - Component', () => {
       jest
         .spyOn(authServiceMock, 'login')
         .mockImplementationOnce(() =>
-          Promise.reject({ code: AUTH_USER_NOT_FOUND })
+          Promise.reject({ code: AUTH.USER_NOT_FOUND })
         );
 
       await component.onSubmit();
@@ -101,7 +97,7 @@ describe('Login - Component', () => {
       jest
         .spyOn(authServiceMock, 'login')
         .mockImplementationOnce(() =>
-          Promise.reject({ code: AUTH_INVALID_LOGIN_CREDENTIALS })
+          Promise.reject({ code: AUTH.INVALID_LOGIN_CREDENTIALS })
         );
       await component.onSubmit();
       expect(
@@ -113,7 +109,7 @@ describe('Login - Component', () => {
       jest
         .spyOn(authServiceMock, 'login')
         .mockImplementationOnce(() =>
-          Promise.reject({ code: AUTH_TOO_MANY_ATTEMPTS })
+          Promise.reject({ code: AUTH.TOO_MANY_ATTEMPTS })
         );
 
       await component.onSubmit();

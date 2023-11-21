@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
 
 import { AuthService } from '@core/services';
-import { AUTH_EMAIL_ALREADY_IN_USE } from '@core/constants';
+import { AUTH } from '@core/constants';
 import { AuthServiceMock, FormBuilderMock, RouterMock } from '@testing/mocks';
 import { RegisterComponent } from './register.component';
 
@@ -86,7 +86,7 @@ describe('Register - Component', () => {
       jest
         .spyOn(authServiceMock, 'register')
         .mockImplementationOnce(() =>
-          Promise.reject({ code: AUTH_EMAIL_ALREADY_IN_USE })
+          Promise.reject({ code: AUTH.EMAIL_ALREADY_IN_USE })
         );
       await component.onSubmit();
       expect(

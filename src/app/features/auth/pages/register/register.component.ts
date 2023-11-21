@@ -23,7 +23,7 @@ import {
 import { AuthService } from '@core/services';
 import { validEmail, confirmPassword } from '@core/validators';
 import { LoadingStatus } from '@core/types';
-import { AUTH_EMAIL_ALREADY_IN_USE } from '@core/constants';
+import { AUTH } from '@core/constants';
 
 @Component({
   selector: 'wdt-register',
@@ -81,7 +81,7 @@ export class RegisterComponent {
       this.submitStatus = 'error';
       const fbError = error as FirebaseError;
       const validationError =
-        fbError.code === AUTH_EMAIL_ALREADY_IN_USE
+        fbError.code === AUTH.EMAIL_ALREADY_IN_USE
           ? { emailNotAvailable: true }
           : { unknownFbError: true };
       this.registerForm.controls['email'].setErrors(validationError);
