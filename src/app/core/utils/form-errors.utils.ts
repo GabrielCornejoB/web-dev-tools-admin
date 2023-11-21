@@ -14,7 +14,7 @@ function getErrorMessages(errors: ValidationErrors): string {
   if (errorKey === 'maxlength')
     return `This field cannot be more than ${errors['maxlength'].requiredLength} characters`;
 
-  return FORM_ERROR_MESSAGES[errorKey] ?? 'Invalid Field';
+  return FORM_ERROR_MESSAGES[errorKey] ?? 'Invalid field';
 }
 
 /**
