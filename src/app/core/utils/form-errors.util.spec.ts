@@ -61,8 +61,8 @@ describe('FormErrors - Utils', () => {
       expect(result).toEqual('The passwords must match');
     });
 
-    it('should return "Incorrect password" when the error if of type "correctPassword"', () => {
-      const validationError = { correctPassword: false };
+    it('should return "Incorrect password" when the error if of type "incorrectPassword"', () => {
+      const validationError = { incorrectPassword: true };
 
       const result = getErrorMessages(validationError);
 
@@ -85,12 +85,20 @@ describe('FormErrors - Utils', () => {
       expect(result).toEqual('Unknown error :c');
     });
 
-    it('should return "Unknown error :c" when the error if of type "emailNotAvailable"', () => {
+    it('should return "Email already in use..." when the error if of type "emailNotAvailable"', () => {
       const validationError = { emailNotAvailable: true };
 
       const result = getErrorMessages(validationError);
 
       expect(result).toEqual('Email already in use, try using another one');
+    });
+
+    it('should return "User not found" when the error if of type "userNotFound"', () => {
+      const validationError = { userNotFound: true };
+
+      const result = getErrorMessages(validationError);
+
+      expect(result).toEqual('User not found');
     });
   });
 

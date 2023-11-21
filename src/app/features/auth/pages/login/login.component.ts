@@ -21,7 +21,9 @@ import { validEmail } from '@core/validators';
 import { LoadingStatus } from '@core/types';
 import {
   AUTH_INVALID_LOGIN_CREDENTIALS,
+  AUTH_INVALID_PASSOWRD,
   AUTH_TOO_MANY_ATTEMPTS,
+  AUTH_USER_NOT_FOUND,
 } from '@core/constants';
 
 @Component({
@@ -69,15 +71,20 @@ export class LoginComponent {
       this.router.navigateByUrl('/admin');
     } catch (error) {
       this.submitStatus = 'error';
-      const fbError = error as FirebaseError;
+      const { code } = error as FirebaseError;
 
-      const validationError =
-        fbError.code === AUTH_INVALID_LOGIN_CREDENTIALS
-          ? { correctPassword: false }
-          : fbError.code === AUTH_TOO_MANY_ATTEMPTS
-          ? { tooManyAttemps: true }
-          : { unknownFbError: true };
-      this.loginForm.controls['password'].setErrors(validationError);
+      if (code === AUTH_USER_NOT_FOUND) {
+        this.loginForm.controls['email'].setErrors({ userNotFound: true });
+      } else {
+        const validationError =
+          code === AUTH_INVALID_LOGIN_CREDENTIALS ||
+          code === AUTH_INVALID_PASSOWRD
+            ? { incorrectPassword: true }
+            : code === AUTH_TOO_MANY_ATTEMPTS
+            ? { tooManyAttemps: true }
+            : { unknownFbError: true };
+        this.loginForm.controls['password'].setErrors(validationError);
+      }
     }
   }
 

@@ -7,6 +7,7 @@ import { AuthServiceMock, FormBuilderMock, RouterMock } from '@testing/mocks';
 import {
   AUTH_INVALID_LOGIN_CREDENTIALS,
   AUTH_TOO_MANY_ATTEMPTS,
+  AUTH_USER_NOT_FOUND,
 } from '@core/constants';
 import { LoginComponent } from './login.component';
 
@@ -80,6 +81,22 @@ describe('Login - Component', () => {
       expect(component.submitStatus).toBe('error');
     });
 
+    it('should set error to email field when users is not existing', async () => {
+      jest
+        .spyOn(authServiceMock, 'login')
+        .mockImplementationOnce(() =>
+          Promise.reject({ code: AUTH_USER_NOT_FOUND })
+        );
+
+      await component.onSubmit();
+      expect(
+        component.loginForm.controls['email'].setErrors
+      ).toHaveBeenCalledWith({ userNotFound: true });
+      expect(
+        component.loginForm.controls['password'].setErrors
+      ).not.toHaveBeenCalled();
+    });
+
     it('should set error to password field when credentials are invalid', async () => {
       jest
         .spyOn(authServiceMock, 'login')
@@ -89,7 +106,7 @@ describe('Login - Component', () => {
       await component.onSubmit();
       expect(
         component.loginForm.controls['password'].setErrors
-      ).toHaveBeenCalledWith({ correctPassword: false });
+      ).toHaveBeenCalledWith({ incorrectPassword: true });
     });
 
     it('should set error to password field when too many attempts', async () => {
@@ -98,6 +115,7 @@ describe('Login - Component', () => {
         .mockImplementationOnce(() =>
           Promise.reject({ code: AUTH_TOO_MANY_ATTEMPTS })
         );
+
       await component.onSubmit();
       expect(
         component.loginForm.controls['password'].setErrors

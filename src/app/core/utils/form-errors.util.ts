@@ -18,8 +18,10 @@ function getErrorMessages(errors: ValidationErrors): string {
         return 'This field must be a valid email';
       case 'arePasswordsEqual':
         return 'The passwords must match';
-      case 'correctPassword':
+      case 'incorrectPassword':
         return 'Incorrect password';
+      case 'userNotFound':
+        return 'User not found';
       case 'tooManyAttempts':
         return 'Too many login attempts, please try again later';
       case 'emailNotAvailable':
