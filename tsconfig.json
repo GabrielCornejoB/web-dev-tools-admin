@@ -26,6 +26,7 @@
     "paths": {
       "@auth/*": ["src/app/features/auth/*"],
       "@admin/*": ["src/app/features/admin/*"],
+      "@home/*": ["src/app/features/home/*"],
       "@shared/*": ["src/app/shared/*"],
       "@core/*": ["src/app/core/*"],
       "@env/*": ["src/environments/*"],

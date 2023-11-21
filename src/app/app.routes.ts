@@ -1,11 +1,9 @@
 import { Routes } from '@angular/router';
 
-import { authGuard } from '@core/guards/auth.guard';
-import { publicGuard } from '@core/guards/public.guard';
+import { publicGuard, authGuard, adminGuard } from '@core/guards';
 import { AdminLayoutComponent } from '@admin/admin-layout.component';
 import { AuthLayoutComponent } from '@auth/auth-layout.component';
-import { HomeLayoutComponent } from './features/home/home-layout.component';
-import { adminGuard } from '@core/guards/admin.guard';
+import { HomeLayoutComponent } from '@home/home-layout.component';
 
 export const routes: Routes = [
   {
