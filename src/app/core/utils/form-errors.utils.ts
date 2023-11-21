@@ -1,4 +1,5 @@
 import { FormGroup, ValidationErrors } from '@angular/forms';
+import { FORM_ERROR_MESSAGES } from '@core/constants';
 
 /**
  * Function that returns custom error messages depending on the type of the ValidationError sent, if the ValidationError type is not defined in the function then it will return the default message "Invalid Field"
@@ -6,31 +7,14 @@ import { FormGroup, ValidationErrors } from '@angular/forms';
  * @returns Error message depending on error type
  */
 function getErrorMessages(errors: ValidationErrors): string {
-  for (const key of Object.keys(errors)) {
-    switch (key) {
-      case 'required':
-        return 'This field is required';
-      case 'minlength':
-        return `This field requires at least ${errors['minlength'].requiredLength} characters`;
-      case 'maxlength':
-        return `This field cannot be more than ${errors['maxlength'].requiredLength} characters`;
-      case 'isValidEmail':
-        return 'This field must be a valid email';
-      case 'arePasswordsEqual':
-        return 'The passwords must match';
-      case 'incorrectPassword':
-        return 'Incorrect password';
-      case 'userNotFound':
-        return 'User not found';
-      case 'tooManyAttempts':
-        return 'Too many login attempts, please try again later';
-      case 'emailNotAvailable':
-        return 'Email already in use, try using another one';
-      case 'unknownFbError':
-        return 'Unknown error :c';
-    }
-  }
-  return 'Invalid Field';
+  const errorKey = Object.keys(errors)[0];
+
+  if (errorKey === 'minlength')
+    return `This field requires at least ${errors['minlength'].requiredLength} characters`;
+  if (errorKey === 'maxlength')
+    return `This field cannot be more than ${errors['maxlength'].requiredLength} characters`;
+
+  return FORM_ERROR_MESSAGES[errorKey] ?? 'Invalid Field';
 }
 
 /**
