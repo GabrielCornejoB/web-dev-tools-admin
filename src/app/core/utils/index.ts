@@ -1,1 +1,2 @@
-export * from './form-errors.util';
+export * from './firestore.utils';
+export * from './form-errors.utils';

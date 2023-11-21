@@ -17,6 +17,7 @@ export const publicGuard: CanActivateFn = () => {
         router.navigateByUrl('/admin');
         return false;
       }
+      console.log(user);
       return true;
     })
   );

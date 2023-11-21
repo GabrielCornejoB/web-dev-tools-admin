@@ -72,7 +72,10 @@ export class RegisterComponent {
 
     try {
       await this.authService.register(
-        this.registerForm.value.email,
+        {
+          email: this.registerForm.value.email,
+          username: this.registerForm.value.username,
+        },
         this.registerForm.value.password
       );
       this.submitStatus = 'success';
