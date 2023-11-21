@@ -22,7 +22,6 @@ export class UsersService {
 
   addUserToFirestore(user: User) {
     const { uid, ...userWithoutId } = user;
-    console.log(userWithoutId);
     return setDoc(doc(this.firestore, this.collectionName, uid), {
       ...userWithoutId,
     });

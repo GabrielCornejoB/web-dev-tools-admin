@@ -1,19 +1,18 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
+import { AuthService } from '@core/services';
 import { map } from 'rxjs';
 
-import { AuthService } from '@core/services';
-
 /**
- * Guard that doesn't allows logged in users to access the authentication pages of the application
+ * Guard that allows logged in admin users to access the Admin module
  */
-export const publicGuard: CanActivateFn = () => {
+export const adminGuard: CanActivateFn = () => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
   return authService.getAuthState().pipe(
     map((user) => {
-      if (user) {
+      if (!user || !user.isAdmin) {
         router.navigateByUrl('/home');
         return false;
       }

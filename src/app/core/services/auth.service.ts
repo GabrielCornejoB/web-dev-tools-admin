@@ -6,7 +6,6 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
-  deleteUser,
 } from '@angular/fire/auth';
 import { Observable, of, switchMap } from 'rxjs';
 
