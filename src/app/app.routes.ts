@@ -1,9 +1,8 @@
 import { Routes } from '@angular/router';
 
-import { publicGuard, authGuard, adminGuard } from '@core/guards';
-import { AdminLayoutComponent } from '@admin/admin-layout.component';
+import { publicGuard, authGuard } from '@core/guards';
 import { AuthLayoutComponent } from '@auth/auth-layout.component';
-import { HomeLayoutComponent } from '@home/home-layout.component';
+import { DashboardLayoutComponent } from '@dashboard/dashboard-layout.component';
 
 export const routes: Routes = [
   {
@@ -18,13 +17,10 @@ export const routes: Routes = [
     canActivate: [publicGuard],
   },
   {
-    path: 'admin',
-    component: AdminLayoutComponent,
-    canActivate: [authGuard, adminGuard],
-  },
-  {
     path: 'home',
-    component: HomeLayoutComponent,
+    component: DashboardLayoutComponent,
+    loadChildren: () =>
+      import('@dashboard/dashboard.routes').then((r) => r.routes),
     canActivate: [authGuard],
   },
 ];
