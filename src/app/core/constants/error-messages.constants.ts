@@ -1,7 +1,6 @@
+/** Object that contains custom form error messages for different error types. The key is the type of the error and the value is the message */
 export const FORM_ERROR_MESSAGES: { [key: string]: string } = {
   required: 'This field is required',
-  minlength: '',
-  maxlength: '',
   isValidEmail: 'This field must be a valid email',
   arePasswordsEqual: 'The passwords must match',
   incorrectPassword: 'Incorrect password',
