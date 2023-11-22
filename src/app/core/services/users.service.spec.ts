@@ -6,7 +6,7 @@ import { UsersService } from './users.service';
 
 jest.mock('@angular/fire/firestore');
 
-describe('UsersService', () => {
+describe('Users - Service', () => {
   let service: UsersService;
 
   beforeEach(() => {

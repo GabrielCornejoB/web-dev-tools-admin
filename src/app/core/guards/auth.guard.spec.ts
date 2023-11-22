@@ -38,7 +38,7 @@ describe('Auth - Guard', () => {
   it('should return true if user is logged in', (done) => {
     jest
       .spyOn(authServiceMock, 'getAuthState')
-      .mockImplementationOnce(() => of({} as User));
+      .mockImplementationOnce(() => of({} as any));
     guard = initGuard(authGuard);
 
     guard.subscribe((result) => {

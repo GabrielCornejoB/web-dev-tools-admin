@@ -25,12 +25,12 @@ describe('Public - Guard', () => {
   it('should return false and redirect if user is logged in', (done) => {
     jest
       .spyOn(authServiceMock, 'getAuthState')
-      .mockImplementationOnce(() => of({} as User));
+      .mockImplementationOnce(() => of({} as any));
     guard = initGuard(publicGuard);
 
     guard.subscribe((result) => {
       expect(result).toBeFalsy();
-      expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/admin');
+      expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/home');
       done();
     });
   });
