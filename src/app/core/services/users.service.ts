@@ -12,8 +12,10 @@ export class UsersService {
   //* Dependency Injection
   private firestore = inject(Firestore);
 
+  //* Attributes
   readonly collectionName = 'users';
 
+  //* Functions
   getUserById(uid: string): Observable<User> {
     return defer(() =>
       from(getDocumentById<User>(this.firestore, this.collectionName, uid))

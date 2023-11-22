@@ -1,10 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import * as AngularFireAuth from '@angular/fire/auth';
-import * as AngularFirestore from '@angular/fire/firestore';
 
 import { UsersServiceMock } from '@testing/mocks/users-service.mock';
-import { User, UserCreateDto } from '@core/models';
+import { UserCreateDto } from '@core/models';
 import { AuthService } from './auth.service';
 import { UsersService } from './users.service';
 
@@ -21,7 +20,6 @@ describe('Auth - Service', () => {
 
     TestBed.configureTestingModule({
       providers: [
-        AngularFirestore.Firestore,
         AngularFireAuth.Auth,
         { provide: UsersService, useValue: UsersServiceMock },
       ],
