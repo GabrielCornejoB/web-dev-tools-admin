@@ -9,12 +9,6 @@ import {
 } from '@angular/forms';
 import { FirebaseError } from '@angular/fire/app';
 
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-
 import { AuthService } from '@core/services';
 import { getErrorFromField, canPrintError } from '@core/utils';
 import { validEmail } from '@core/validators';
@@ -24,17 +18,7 @@ import { AUTH } from '@core/constants';
 @Component({
   selector: 'wdt-login',
   standalone: true,
-  imports: [
-    CommonModule,
-    RouterLink,
-    ReactiveFormsModule,
-
-    MatFormFieldModule,
-    MatInputModule,
-    MatCardModule,
-    MatButtonModule,
-    MatIconModule,
-  ],
+  imports: [CommonModule, RouterLink, ReactiveFormsModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
