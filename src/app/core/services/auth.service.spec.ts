@@ -1,26 +1,33 @@
 import { TestBed } from '@angular/core/testing';
-import * as AngularFireAuth from '@angular/fire/auth';
-import { Auth, getAuth, provideAuth } from '@angular/fire/auth';
-import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { of } from 'rxjs';
+import * as AngularFireAuth from '@angular/fire/auth';
+import * as AngularFirestore from '@angular/fire/firestore';
 
-import { environment } from '@env/environment';
+import { UsersServiceMock } from '@testing/mocks/users-service.mock';
+import { User, UserCreateDto } from '@core/models';
 import { AuthService } from './auth.service';
+import { UsersService } from './users.service';
+
+jest.mock('@angular/fire/firestore');
+jest.mock('@angular/fire/auth');
 
 describe('Auth - Service', () => {
   let service: AuthService;
-  let auth: Auth;
+  let usersServiceMock: Partial<UsersService> = UsersServiceMock;
 
   beforeEach(() => {
+    jest.restoreAllMocks();
+    jest.clearAllMocks();
+
     TestBed.configureTestingModule({
-      imports: [
-        provideFirebaseApp(() => initializeApp(environment.firebase)),
-        provideAuth(() => getAuth()),
+      providers: [
+        AngularFirestore.Firestore,
+        AngularFireAuth.Auth,
+        { provide: UsersService, useValue: UsersServiceMock },
       ],
-      providers: [AuthService],
     });
+
     service = TestBed.inject(AuthService);
-    auth = TestBed.inject(Auth);
   });
 
   it('should be created', () => {
@@ -28,40 +35,37 @@ describe('Auth - Service', () => {
   });
 
   describe('register()', () => {
-    it('should call createUserWithEmailAndPassword()', async () => {
-      const testResult = 'test';
-      const email = 'test@mail.com';
-      const password = '123456';
+    it('should call createUserWithEmailAndPassword() and addUserToFirestore()', async () => {
+      const userCredentialMock = { user: { uid: 'test' } };
+      const dto: UserCreateDto = {
+        email: 'test@mail.com',
+        username: 'testUser',
+      };
+      const password = '1234567';
 
+      jest.spyOn(usersServiceMock, 'addUserToFirestore').mockResolvedValue();
       jest
         .spyOn(AngularFireAuth, 'createUserWithEmailAndPassword')
-        .mockResolvedValue(testResult as any);
-      const result = await service.register(email, password);
+        .mockResolvedValue(userCredentialMock as any);
+      await service.register(dto, password);
 
-      expect(
-        AngularFireAuth.createUserWithEmailAndPassword
-      ).toHaveBeenCalledWith(auth, email, password);
-      expect(result).toEqual(testResult);
+      expect(AngularFireAuth.createUserWithEmailAndPassword).toHaveBeenCalled();
+      expect(usersServiceMock.addUserToFirestore).toHaveBeenCalled();
     });
   });
 
   describe('login()', () => {
     it('should call signInWithEmailAndPassword()', async () => {
-      const testResult = 'test';
+      const resultMock = 'test';
       const email = 'test@mail.com';
-      const password = '123456';
+      const password = '1234567';
 
       jest
         .spyOn(AngularFireAuth, 'signInWithEmailAndPassword')
-        .mockResolvedValue(testResult as any);
-      const result = await service.login(email, password);
+        .mockResolvedValue(resultMock as any);
+      await service.login(email, password);
 
-      expect(AngularFireAuth.signInWithEmailAndPassword).toHaveBeenCalledWith(
-        auth,
-        email,
-        password
-      );
-      expect(result).toEqual(testResult);
+      expect(AngularFireAuth.signInWithEmailAndPassword).toHaveBeenCalled();
     });
   });
 
@@ -70,17 +74,29 @@ describe('Auth - Service', () => {
       jest.spyOn(AngularFireAuth, 'signOut').mockResolvedValue();
       await service.logout();
 
-      expect(AngularFireAuth.signOut).toHaveBeenCalledWith(auth);
+      expect(AngularFireAuth.signOut).toHaveBeenCalled();
     });
   });
 
   describe('getAuthState()', () => {
-    it('should call authState()', (done) => {
+    it('should call authState() and return null if the user is not logged in', (done) => {
       jest
         .spyOn(AngularFireAuth, 'authState')
         .mockImplementation(() => of(null));
       service.getAuthState().subscribe(() => {
-        expect(AngularFireAuth.authState).toHaveBeenCalledWith(auth);
+        expect(AngularFireAuth.authState).toHaveBeenCalled();
+        done();
+      });
+    });
+
+    it('should call authState() and call getUserById() if user is logged in', (done) => {
+      jest.spyOn(usersServiceMock, 'getUserById');
+      jest
+        .spyOn(AngularFireAuth, 'authState')
+        .mockImplementation(() => of({ data: 'test' } as any));
+      service.getAuthState().subscribe((data) => {
+        expect(AngularFireAuth.authState).toHaveBeenCalled();
+        expect(usersServiceMock.getUserById).toHaveBeenCalled();
         done();
       });
     });

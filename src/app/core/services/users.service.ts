@@ -20,7 +20,7 @@ export class UsersService {
     );
   }
 
-  addUserToFirestore(user: User) {
+  addUserToFirestore(user: User): Promise<void> {
     const { uid, ...userWithoutId } = user;
     return setDoc(doc(this.firestore, this.collectionName, uid), {
       ...userWithoutId,
