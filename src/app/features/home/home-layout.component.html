@@ -1,1 +1,26 @@
-<p>home-layout works!</p>
+<mat-toolbar color="primary">
+  <span class="toolbar-title">Web Dev Tools Dashboard</span>
+
+  <a
+    mat-button
+    routerLink="/home"
+    routerLinkActive="active"
+    class="toolbar-link"
+  >
+    <span>Home</span>
+  </a>
+  <a
+    mat-button
+    routerLink="/admin"
+    routerLinkActive="active"
+    class="toolbar-link"
+  >
+    <span>Admin</span>
+  </a>
+  <a mat-button routerLink="/home" class="toolbar-link">
+    <span>Profile</span>
+  </a>
+  <button mat-icon-button>
+    <mat-icon>logout</mat-icon>
+  </button>
+</mat-toolbar>
