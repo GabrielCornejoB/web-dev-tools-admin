@@ -24,7 +24,6 @@ import { AUTH } from '@core/constants';
   standalone: true,
   imports: [CommonModule, RouterLink, ReactiveFormsModule],
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent {
   //* Dependency Injection
@@ -60,7 +59,7 @@ export class RegisterComponent {
           email: this.registerForm.value.email,
           username: this.registerForm.value.username,
         },
-        this.registerForm.value.password
+        this.registerForm.value.password,
       );
       this.submitStatus = 'success';
       this.router.navigateByUrl('/admin');
@@ -93,7 +92,7 @@ export class RegisterComponent {
         password: ['', [V.required, V.minLength(6)]],
         confirmPassword: ['', [V.required]],
       },
-      { validators: [confirmPassword] }
+      { validators: [confirmPassword] },
     );
   }
 }

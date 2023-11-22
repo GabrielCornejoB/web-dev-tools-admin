@@ -20,7 +20,6 @@ import { AUTH } from '@core/constants';
   standalone: true,
   imports: [CommonModule, RouterLink, ReactiveFormsModule],
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
   //* Dependency Injection
@@ -44,7 +43,7 @@ export class LoginComponent {
     try {
       await this.authService.login(
         this.loginForm.value.email,
-        this.loginForm.value.password
+        this.loginForm.value.password,
       );
       this.submitStatus = 'success';
       this.router.navigateByUrl('/admin');
@@ -60,8 +59,8 @@ export class LoginComponent {
           code === AUTH.INVALID_PASSWORD
             ? { incorrectPassword: true }
             : code === AUTH.TOO_MANY_ATTEMPTS
-            ? { tooManyAttemps: true }
-            : { unknownFbError: true };
+              ? { tooManyAttemps: true }
+              : { unknownFbError: true };
         this.loginForm.controls['password'].setErrors(validationError);
       }
     }
