@@ -1,0 +1,7 @@
+<span
+  class="pl-1 text-sm text-red-400"
+  [ngClass]="{ 'text-transparent': !showIf }"
+>
+  <ng-container *ngIf="!showIf">invisible</ng-container>
+  <ng-content></ng-content>
+</span>

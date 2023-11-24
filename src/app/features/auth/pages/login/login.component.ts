@@ -14,11 +14,21 @@ import { getErrorFromField, canPrintError } from '@core/utils';
 import { validEmail } from '@core/validators';
 import { LoadingStatus } from '@core/types';
 import { AUTH } from '@core/constants';
+import { InputDirective } from '@shared/directives/input.directive';
+import { LabelDirective } from '@shared/directives/label.directive';
+import { ErrorMessageComponent } from '@shared/components/error-message/error-message.component';
 
 @Component({
   selector: 'wdt-login',
   standalone: true,
-  imports: [CommonModule, RouterLink, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    RouterLink,
+    ReactiveFormsModule,
+    InputDirective,
+    LabelDirective,
+    ErrorMessageComponent,
+  ],
   templateUrl: './login.component.html',
 })
 export class LoginComponent {
@@ -27,7 +37,7 @@ export class LoginComponent {
   private router = inject(Router);
   private authService = inject(AuthService);
 
-  //* Variables
+  //* Attributes
   loginForm: FormGroup = this.createForm();
   isVisible: boolean = false;
   submitStatus: LoadingStatus = 'init';
