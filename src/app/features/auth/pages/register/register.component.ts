@@ -20,6 +20,8 @@ import { LoadingStatus } from '@core/types';
 import { AUTH } from '@core/constants';
 import { ErrorMessageComponent } from '@shared/components';
 import { InputDirective, LabelDirective } from '@shared/directives';
+import { Store } from '@ngrx/store';
+import { authActions, selectIsSubmitting } from '@store/auth';
 
 @Component({
   selector: 'wdt-register',
@@ -38,50 +40,63 @@ import { InputDirective, LabelDirective } from '@shared/directives';
 export class RegisterComponent {
   //* Dependency Injection
   private fb = inject(FormBuilder);
-  private authService = inject(AuthService);
   private router = inject(Router);
+  private store = inject(Store);
 
   //* Attributes
   registerForm: FormGroup = this.createForm();
   isPasswordHidden: boolean = true;
   isConfirmPasswordHidden: boolean = true;
   submitStatus: LoadingStatus = 'init';
+  isSubmitting$ = this.store.select(selectIsSubmitting);
 
   //* Core Functions
-  async onSubmit(): Promise<void> {
-    this.registerForm.controls['confirmPassword'].setErrors(null);
+  // async onSubmit(): Promise<void> {
+  //   this.registerForm.controls['confirmPassword'].setErrors(null);
 
-    if (this.registerForm.invalid) {
-      this.registerForm.markAllAsTouched();
-      if (this.getFormError()) {
-        this.registerForm.controls['confirmPassword'].setErrors({
-          arePasswordsEqual: false,
-        });
-      }
-      return;
-    }
+  //   if (this.registerForm.invalid) {
+  //     this.registerForm.markAllAsTouched();
+  //     if (this.getFormError()) {
+  //       this.registerForm.controls['confirmPassword'].setErrors({
+  //         arePasswordsEqual: false,
+  //       });
+  //     }
+  //     return;
+  //   }
 
-    this.submitStatus = 'loading';
+  //   this.submitStatus = 'loading';
 
-    try {
-      await this.authService.register(
-        {
+  //   try {
+  //     await this.authService.register(
+  //       {
+  //         email: this.registerForm.value.email,
+  //         username: this.registerForm.value.username,
+  //       },
+  //       this.registerForm.value.password,
+  //     );
+  //     this.submitStatus = 'success';
+  //     this.router.navigateByUrl('/home');
+  //   } catch (error) {
+  //     this.submitStatus = 'error';
+  //     const fbError = error as FirebaseError;
+  //     const validationError =
+  //       fbError.code === AUTH.EMAIL_ALREADY_IN_USE
+  //         ? { emailNotAvailable: true }
+  //         : { unknownFbError: true };
+  //     this.registerForm.controls['email'].setErrors(validationError);
+  //   }
+  // }
+
+  onSubmit() {
+    this.store.dispatch(
+      authActions.register({
+        dto: {
           email: this.registerForm.value.email,
           username: this.registerForm.value.username,
         },
-        this.registerForm.value.password,
-      );
-      this.submitStatus = 'success';
-      this.router.navigateByUrl('/home');
-    } catch (error) {
-      this.submitStatus = 'error';
-      const fbError = error as FirebaseError;
-      const validationError =
-        fbError.code === AUTH.EMAIL_ALREADY_IN_USE
-          ? { emailNotAvailable: true }
-          : { unknownFbError: true };
-      this.registerForm.controls['email'].setErrors(validationError);
-    }
+        password: this.registerForm.value.password,
+      }),
+    );
   }
 
   //* Utils

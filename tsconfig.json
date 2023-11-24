@@ -30,6 +30,7 @@
       "@shared/*": ["src/app/shared/*"],
       "@core/*": ["src/app/core/*"],
       "@env/*": ["src/environments/*"],
+      "@store/*": ["src/app/store/*"],
       "@testing/*": ["src/app/testing/*"]
     }
   },

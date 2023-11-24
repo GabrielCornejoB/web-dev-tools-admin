@@ -1,9 +1,9 @@
 import { Injectable, inject } from '@angular/core';
 import { Firestore, doc, setDoc } from '@angular/fire/firestore';
-import { Observable, defer, from } from 'rxjs';
+import { Observable, defer, from, map, of } from 'rxjs';
 
 import { User } from '@core/models';
-import { getDocumentById } from '@core/utils';
+import { getDocumentById, toObservable } from '@core/utils';
 
 @Injectable({
   providedIn: 'root',
@@ -22,8 +22,8 @@ export class UsersService {
    * @returns The user
    */
   getUserById(uid: string): Observable<User> {
-    return defer(() =>
-      from(getDocumentById<User>(this.firestore, this.collectionName, uid))
+    return toObservable(
+      getDocumentById<User>(this.firestore, this.collectionName, uid),
     );
   }
 
@@ -31,10 +31,13 @@ export class UsersService {
    * Function to create a User in firestore db when a new user is registered
    * @param user User object
    */
-  addUserToFirestore(user: User): Promise<void> {
+  //! Fix Unit tests
+  addUserToFirestore(user: User): Observable<User> {
     const { uid, ...userWithoutId } = user;
-    return setDoc(doc(this.firestore, this.collectionName, uid), {
-      ...userWithoutId,
-    });
+    return toObservable(
+      setDoc(doc(this.firestore, this.collectionName, uid), {
+        ...userWithoutId,
+      }),
+    ).pipe(map(() => user));
   }
 }
