@@ -90,10 +90,11 @@
     </div>
 
     <button
+      [disabled]="submitStatus === 'loading'"
       type="submit"
-      class="bg-base-200 py-3 text-white transition-opacity hover:bg-opacity-75"
+      class="bg-base-200 py-3 text-white transition-opacity hover:bg-opacity-75 disabled:cursor-not-allowed disabled:bg-opacity-50"
     >
-      Sign Up
+      {{ submitStatus === "loading" ? "Loading..." : "Sign Up" }}
     </button>
   </form>
 
