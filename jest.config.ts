@@ -93,6 +93,7 @@ const config: Config = {
   moduleNameMapper: {
     '^@core(.*)$': '<rootDir>/src/app/core$1',
     '^@testing(.*)$': '<rootDir>/src/app/testing$1',
+    '^@shared(.*)$': '<rootDir>/src/app/shared$1',
     '^@env(.*)$': '<rootDir>/src/environments$1',
   },
 

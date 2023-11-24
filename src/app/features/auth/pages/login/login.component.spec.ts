@@ -19,7 +19,7 @@ function initComponent(invalidForm: boolean = false): LoginComponent {
             email: invalidForm ? '' : 'mail@mail.com',
             password: invalidForm ? '' : 'password123',
           },
-          invalidForm
+          invalidForm,
         ),
       },
       { provide: Router, useValue: RouterMock },
@@ -65,7 +65,7 @@ describe('Login - Component', () => {
       expect(component.submitStatus).toBe('loading');
       await promise;
       expect(component.submitStatus).toBe('success');
-      expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/admin');
+      expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/home');
     });
 
     it('should change submitStatus from "loading" to "error" if there are errors', async () => {
@@ -81,15 +81,15 @@ describe('Login - Component', () => {
       jest
         .spyOn(authServiceMock, 'login')
         .mockImplementationOnce(() =>
-          Promise.reject({ code: AUTH.USER_NOT_FOUND })
+          Promise.reject({ code: AUTH.USER_NOT_FOUND }),
         );
 
       await component.onSubmit();
       expect(
-        component.loginForm.controls['email'].setErrors
+        component.loginForm.controls['email'].setErrors,
       ).toHaveBeenCalledWith({ userNotFound: true });
       expect(
-        component.loginForm.controls['password'].setErrors
+        component.loginForm.controls['password'].setErrors,
       ).not.toHaveBeenCalled();
     });
 
@@ -97,11 +97,11 @@ describe('Login - Component', () => {
       jest
         .spyOn(authServiceMock, 'login')
         .mockImplementationOnce(() =>
-          Promise.reject({ code: AUTH.INVALID_LOGIN_CREDENTIALS })
+          Promise.reject({ code: AUTH.INVALID_LOGIN_CREDENTIALS }),
         );
       await component.onSubmit();
       expect(
-        component.loginForm.controls['password'].setErrors
+        component.loginForm.controls['password'].setErrors,
       ).toHaveBeenCalledWith({ incorrectPassword: true });
     });
 
@@ -109,12 +109,12 @@ describe('Login - Component', () => {
       jest
         .spyOn(authServiceMock, 'login')
         .mockImplementationOnce(() =>
-          Promise.reject({ code: AUTH.TOO_MANY_ATTEMPTS })
+          Promise.reject({ code: AUTH.TOO_MANY_ATTEMPTS }),
         );
 
       await component.onSubmit();
       expect(
-        component.loginForm.controls['password'].setErrors
+        component.loginForm.controls['password'].setErrors,
       ).toHaveBeenCalledWith({ tooManyAttemps: true });
     });
   });

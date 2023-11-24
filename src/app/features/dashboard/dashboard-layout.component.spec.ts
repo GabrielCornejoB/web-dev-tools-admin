@@ -8,7 +8,7 @@ describe('DashboardLayoutComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [DashboardLayoutComponent]
+      imports: [DashboardLayoutComponent],
     });
     fixture = TestBed.createComponent(DashboardLayoutComponent);
     component = fixture.componentInstance;

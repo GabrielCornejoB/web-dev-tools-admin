@@ -21,7 +21,7 @@ function initComponent(invalidForm: boolean = false): RegisterComponent {
             password: invalidForm ? '' : 'password123',
             confirmPassword: invalidForm ? '' : 'password123',
           },
-          invalidForm
+          invalidForm,
         ),
       },
       { provide: Router, useValue: RouterMock },
@@ -54,7 +54,7 @@ describe('Register - Component', () => {
       expect(component.registerForm.markAllAsTouched).toHaveBeenCalled();
       expect(authServiceMock.register).not.toHaveBeenCalled();
       expect(
-        component.registerForm.controls['confirmPassword'].setErrors
+        component.registerForm.controls['confirmPassword'].setErrors,
       ).toHaveBeenCalledWith({ arePasswordsEqual: false });
     });
 
@@ -70,7 +70,7 @@ describe('Register - Component', () => {
       expect(component.submitStatus).toBe('loading');
       await promise;
       expect(component.submitStatus).toBe('success');
-      expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/admin');
+      expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/home');
     });
 
     it('should change submitStatus from "loading" to "error" if there are errors', async () => {
@@ -86,11 +86,11 @@ describe('Register - Component', () => {
       jest
         .spyOn(authServiceMock, 'register')
         .mockImplementationOnce(() =>
-          Promise.reject({ code: AUTH.EMAIL_ALREADY_IN_USE })
+          Promise.reject({ code: AUTH.EMAIL_ALREADY_IN_USE }),
         );
       await component.onSubmit();
       expect(
-        component.registerForm.controls['email'].setErrors
+        component.registerForm.controls['email'].setErrors,
       ).toHaveBeenCalledWith({ emailNotAvailable: true });
     });
   });
