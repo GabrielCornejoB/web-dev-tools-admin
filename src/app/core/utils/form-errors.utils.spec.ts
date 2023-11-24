@@ -1,9 +1,11 @@
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
+  canPrintError,
   getErrorFromField,
   getErrorFromForm,
   getErrorMessages,
 } from './form-errors.utils';
+import { FormBuilderMock } from '@testing/mocks';
 
 describe('FormErrors - Utils', () => {
   describe('getErrorMessages()', () => {
@@ -82,6 +84,16 @@ describe('FormErrors - Utils', () => {
       fg.setErrors({ customError: true });
 
       const result = getErrorFromForm(fg);
+
+      expect(result).toBeTruthy();
+    });
+  });
+
+  describe('canPrintError()', () => {
+    it('should return true if formGroup has error and field hjas been touched', () => {
+      const fg = FormBuilderMock({ test: 'test' }, true).group() as any;
+
+      const result = canPrintError(fg, 'test');
 
       expect(result).toBeTruthy();
     });
