@@ -1,73 +1,111 @@
-<p>Register</p>
-<!-- <mat-card>
-  <h1>Register</h1>
-  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-    <mat-form-field>
-      <mat-label>Username</mat-label>
-      <input formControlName="username" matInput required />
-      <mat-icon matSuffix>person</mat-icon>
-      <mat-error *ngIf="hasError('username')">{{
-        getError("username")
-      }}</mat-error>
-    </mat-form-field>
+<div class="flex h-screen w-full flex-col items-center">
+  <h1 class="py-6 text-center text-4xl font-bold italic text-white">
+    Web Dev Tools
+  </h1>
 
-    <mat-form-field>
-      <mat-label>Email</mat-label>
-      <input formControlName="email" matInput required />
-      <mat-icon matSuffix>email</mat-icon>
-      <mat-error *ngIf="hasError('email')">{{ getError("email") }}</mat-error>
-    </mat-form-field>
+  <h2
+    class="w-full border-t-1 border-base-200 py-6 text-center text-3xl font-bold italic text-base-content"
+  >
+    Create an Account
+  </h2>
 
-    <mat-form-field>
-      <mat-label>Password</mat-label>
+  <form
+    class="flex w-full grow flex-col justify-center gap-6 border-y-1 border-base-200 p-12"
+    autocomplete="off"
+    (ngSubmit)="onSubmit()"
+    [formGroup]="registerForm"
+  >
+    <div class="relative">
       <input
-        formControlName="password"
-        matInput
+        wdt-input
+        id="username"
+        type="text"
+        formControlName="username"
+        [hasError]="hasError('username')"
+      />
+      <label wdt-label for="username">Username</label>
+      <wdt-error-message [showIf]="hasError('username')">
+        {{ getError("username") }}
+      </wdt-error-message>
+    </div>
+
+    <div class="relative">
+      <input
+        wdt-input
+        id="email"
+        type="text"
+        formControlName="email"
+        [hasError]="hasError('email')"
+      />
+      <label wdt-label for="email">Email Address</label>
+      <wdt-error-message [showIf]="hasError('email')">
+        {{ getError("email") }}
+      </wdt-error-message>
+    </div>
+
+    <div class="relative">
+      <input
+        wdt-input
+        id="password"
         [type]="isPasswordHidden ? 'password' : 'text'"
-        required
+        formControlName="password"
+        [hasError]="hasError('password')"
       />
+      <label wdt-label for="password">Password</label>
       <button
         type="button"
-        mat-icon-button
-        matSuffix
         (click)="isPasswordHidden = !isPasswordHidden"
+        class="absolute right-4 top-3.5"
       >
-        <mat-icon>{{
-          isPasswordHidden ? "visibility_off" : "visibility"
-        }}</mat-icon>
+        <span class="material-symbols-outlined text-base-300">
+          {{ isPasswordHidden ? "visibility" : "visibility_off" }}
+        </span>
       </button>
-      <mat-error *ngIf="hasError('password')">{{
-        getError("password")
-      }}</mat-error>
-    </mat-form-field>
+      <wdt-error-message [showIf]="hasError('password')">
+        {{ getError("password") }}
+      </wdt-error-message>
+    </div>
 
-    <mat-form-field>
-      <mat-label>Confirm Password</mat-label>
+    <div class="relative">
       <input
-        formControlName="confirmPassword"
-        matInput
+        wdt-input
+        id="confirmPassword"
         [type]="isConfirmPasswordHidden ? 'password' : 'text'"
-        required
+        formControlName="confirmPassword"
+        [hasError]="hasError('confirmPassword')"
       />
+      <label wdt-label for="confirmPassword">Confirm Password</label>
       <button
         type="button"
-        mat-icon-button
-        matSuffix
         (click)="isConfirmPasswordHidden = !isConfirmPasswordHidden"
+        class="absolute right-4 top-3.5"
       >
-        <mat-icon>{{
-          isConfirmPasswordHidden ? "visibility_off" : "visibility"
-        }}</mat-icon>
+        <span class="material-symbols-outlined text-base-300">
+          {{ isConfirmPasswordHidden ? "visibility" : "visibility_off" }}
+        </span>
       </button>
+      <wdt-error-message [showIf]="hasError('confirmPassword')">
+        {{ getError("confirmPassword") }}
+      </wdt-error-message>
+    </div>
 
-      <mat-error *ngIf="hasError('confirmPassword') || getFormError()">{{
-        getError("confirmPassword")
-      }}</mat-error>
-    </mat-form-field>
-
-    <button mat-flat-button type="submit" color="primary" class="submit-btn">
-      Create Account
+    <button
+      type="submit"
+      class="bg-base-200 py-3 text-white transition-opacity hover:bg-opacity-75"
+    >
+      Sign Up
     </button>
-    <span>Already have an account? <a routerLink="../login">Sign In</a></span>
   </form>
-</mat-card> -->
+
+  <div class="py-6 text-base-content">
+    <span>
+      Already have an account?
+      <a
+        routerLink="/auth/login"
+        class="cursor-pointer font-semibold italic text-white hover:underline"
+      >
+        Sign In
+      </a>
+    </span>
+  </div>
+</div>

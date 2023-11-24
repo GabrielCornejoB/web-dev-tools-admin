@@ -56,7 +56,7 @@ export class LoginComponent {
         this.loginForm.value.password,
       );
       this.submitStatus = 'success';
-      this.router.navigateByUrl('/admin');
+      this.router.navigateByUrl('/home');
     } catch (error) {
       this.submitStatus = 'error';
       const { code } = error as FirebaseError;

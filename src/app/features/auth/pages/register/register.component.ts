@@ -18,11 +18,22 @@ import { AuthService } from '@core/services';
 import { validEmail, confirmPassword } from '@core/validators';
 import { LoadingStatus } from '@core/types';
 import { AUTH } from '@core/constants';
+import { InputDirective } from '@shared/directives/input.directive';
+import { LabelDirective } from '@shared/directives/label.directive';
+import { ErrorMessageComponent } from '@shared/components/error-message/error-message.component';
 
 @Component({
   selector: 'wdt-register',
   standalone: true,
-  imports: [CommonModule, RouterLink, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    RouterLink,
+    ReactiveFormsModule,
+
+    InputDirective,
+    LabelDirective,
+    ErrorMessageComponent,
+  ],
   templateUrl: './register.component.html',
 })
 export class RegisterComponent {
@@ -31,7 +42,7 @@ export class RegisterComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
 
-  //* Variables
+  //* Attributes
   registerForm: FormGroup = this.createForm();
   isPasswordHidden: boolean = true;
   isConfirmPasswordHidden: boolean = true;
@@ -62,7 +73,7 @@ export class RegisterComponent {
         this.registerForm.value.password,
       );
       this.submitStatus = 'success';
-      this.router.navigateByUrl('/admin');
+      this.router.navigateByUrl('/home');
     } catch (error) {
       this.submitStatus = 'error';
       const fbError = error as FirebaseError;
