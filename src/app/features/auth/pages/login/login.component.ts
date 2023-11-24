@@ -14,9 +14,8 @@ import { getErrorFromField, canPrintError } from '@core/utils';
 import { validEmail } from '@core/validators';
 import { LoadingStatus } from '@core/types';
 import { AUTH } from '@core/constants';
-import { InputDirective } from '@shared/directives/input.directive';
-import { LabelDirective } from '@shared/directives/label.directive';
-import { ErrorMessageComponent } from '@shared/components/error-message/error-message.component';
+import { ErrorMessageComponent } from '@shared/components';
+import { InputDirective, LabelDirective } from '@shared/directives';
 
 @Component({
   selector: 'wdt-login',
@@ -25,6 +24,7 @@ import { ErrorMessageComponent } from '@shared/components/error-message/error-me
     CommonModule,
     RouterLink,
     ReactiveFormsModule,
+
     InputDirective,
     LabelDirective,
     ErrorMessageComponent,

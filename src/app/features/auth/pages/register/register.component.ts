@@ -18,9 +18,8 @@ import { AuthService } from '@core/services';
 import { validEmail, confirmPassword } from '@core/validators';
 import { LoadingStatus } from '@core/types';
 import { AUTH } from '@core/constants';
-import { InputDirective } from '@shared/directives/input.directive';
-import { LabelDirective } from '@shared/directives/label.directive';
-import { ErrorMessageComponent } from '@shared/components/error-message/error-message.component';
+import { ErrorMessageComponent } from '@shared/components';
+import { InputDirective, LabelDirective } from '@shared/directives';
 
 @Component({
   selector: 'wdt-register',
