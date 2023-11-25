@@ -1,112 +1,114 @@
-<div class="flex h-screen w-full flex-col items-center">
-  <h1 class="py-6 text-center text-4xl font-bold italic text-white">
-    Web Dev Tools
-  </h1>
+<ng-container *ngIf="data$ | async as data">
+  <div class="flex h-screen w-full flex-col items-center">
+    <h1 class="py-6 text-center text-4xl font-bold italic text-white">
+      Web Dev Tools
+    </h1>
 
-  <h2
-    class="w-full border-t-1 border-base-200 py-6 text-center text-3xl font-bold italic text-base-content"
-  >
-    Create an Account
-  </h2>
-
-  <form
-    class="flex w-full grow flex-col justify-center gap-6 border-y-1 border-base-200 p-12"
-    autocomplete="off"
-    (ngSubmit)="onSubmit()"
-    [formGroup]="registerForm"
-  >
-    <div class="relative">
-      <input
-        wdt-input
-        id="username"
-        type="text"
-        formControlName="username"
-        [hasError]="hasError('username')"
-      />
-      <label wdt-label for="username">Username</label>
-      <wdt-error-message [showIf]="hasError('username')">
-        {{ getError("username") }}
-      </wdt-error-message>
-    </div>
-
-    <div class="relative">
-      <input
-        wdt-input
-        id="email"
-        type="text"
-        formControlName="email"
-        [hasError]="hasError('email')"
-      />
-      <label wdt-label for="email">Email Address</label>
-      <wdt-error-message [showIf]="hasError('email')">
-        {{ getError("email") }}
-      </wdt-error-message>
-    </div>
-
-    <div class="relative">
-      <input
-        wdt-input
-        id="password"
-        [type]="isPasswordHidden ? 'password' : 'text'"
-        formControlName="password"
-        [hasError]="hasError('password')"
-      />
-      <label wdt-label for="password">Password</label>
-      <button
-        type="button"
-        (click)="isPasswordHidden = !isPasswordHidden"
-        class="absolute right-4 top-3.5"
-      >
-        <span class="material-symbols-outlined text-base-300">
-          {{ isPasswordHidden ? "visibility" : "visibility_off" }}
-        </span>
-      </button>
-      <wdt-error-message [showIf]="hasError('password')">
-        {{ getError("password") }}
-      </wdt-error-message>
-    </div>
-
-    <div class="relative">
-      <input
-        wdt-input
-        id="confirmPassword"
-        [type]="isConfirmPasswordHidden ? 'password' : 'text'"
-        formControlName="confirmPassword"
-        [hasError]="hasError('confirmPassword')"
-      />
-      <label wdt-label for="confirmPassword">Confirm Password</label>
-      <button
-        type="button"
-        (click)="isConfirmPasswordHidden = !isConfirmPasswordHidden"
-        class="absolute right-4 top-3.5"
-      >
-        <span class="material-symbols-outlined text-base-300">
-          {{ isConfirmPasswordHidden ? "visibility" : "visibility_off" }}
-        </span>
-      </button>
-      <wdt-error-message [showIf]="hasError('confirmPassword')">
-        {{ getError("confirmPassword") }}
-      </wdt-error-message>
-    </div>
-
-    <button
-      [disabled]="submitStatus === 'loading'"
-      type="submit"
-      class="bg-base-200 py-3 text-white transition-opacity hover:bg-opacity-75 disabled:cursor-not-allowed disabled:bg-opacity-50"
+    <h2
+      class="w-full border-t-1 border-base-200 py-6 text-center text-3xl font-bold italic text-base-content"
     >
-      {{ submitStatus === "loading" ? "Loading..." : "Sign Up" }}
-    </button>
-  </form>
+      Create an Account
+    </h2>
 
-  <div class="py-6 text-base-content">
-    <span>
-      Already have an account?
-      <a
-        routerLink="/auth/login"
-        class="cursor-pointer font-semibold italic text-white hover:underline"
+    <form
+      class="flex w-full grow flex-col justify-center gap-6 border-y-1 border-base-200 p-12"
+      autocomplete="off"
+      (ngSubmit)="onSubmit()"
+      [formGroup]="registerForm"
+    >
+      <div class="relative">
+        <input
+          wdt-input
+          id="username"
+          type="text"
+          formControlName="username"
+          [hasError]="hasError('username')"
+        />
+        <label wdt-label for="username">Username</label>
+        <wdt-error-message [showIf]="hasError('username')">
+          {{ getError("username") }}
+        </wdt-error-message>
+      </div>
+
+      <div class="relative">
+        <input
+          wdt-input
+          id="email"
+          type="text"
+          formControlName="email"
+          [hasError]="hasError('email')"
+        />
+        <label wdt-label for="email">Email Address</label>
+        <wdt-error-message [showIf]="hasError('email')">
+          {{ getError("email") }}
+        </wdt-error-message>
+      </div>
+
+      <div class="relative">
+        <input
+          wdt-input
+          id="password"
+          [type]="isPasswordHidden ? 'password' : 'text'"
+          formControlName="password"
+          [hasError]="hasError('password')"
+        />
+        <label wdt-label for="password">Password</label>
+        <button
+          type="button"
+          (click)="isPasswordHidden = !isPasswordHidden"
+          class="absolute right-4 top-3.5"
+        >
+          <span class="material-symbols-outlined text-base-300">
+            {{ isPasswordHidden ? "visibility" : "visibility_off" }}
+          </span>
+        </button>
+        <wdt-error-message [showIf]="hasError('password')">
+          {{ getError("password") }}
+        </wdt-error-message>
+      </div>
+
+      <div class="relative">
+        <input
+          wdt-input
+          id="confirmPassword"
+          [type]="isConfirmPasswordHidden ? 'password' : 'text'"
+          formControlName="confirmPassword"
+          [hasError]="hasError('confirmPassword')"
+        />
+        <label wdt-label for="confirmPassword">Confirm Password</label>
+        <button
+          type="button"
+          (click)="isConfirmPasswordHidden = !isConfirmPasswordHidden"
+          class="absolute right-4 top-3.5"
+        >
+          <span class="material-symbols-outlined text-base-300">
+            {{ isConfirmPasswordHidden ? "visibility" : "visibility_off" }}
+          </span>
+        </button>
+        <wdt-error-message [showIf]="hasError('confirmPassword')">
+          {{ getError("confirmPassword") }}
+        </wdt-error-message>
+      </div>
+
+      <button
+        [disabled]="data.isSubmitting"
+        type="submit"
+        class="bg-base-200 py-3 text-white transition-opacity hover:bg-opacity-75 disabled:cursor-not-allowed disabled:bg-opacity-50"
       >
-        Sign In
-      </a>
-    </span>
+        {{ data.isSubmitting ? "Loading..." : "Sign Up" }}
+      </button>
+    </form>
+
+    <div class="py-6 text-base-content">
+      <span>
+        Already have an account?
+        <a
+          routerLink="/auth/login"
+          class="cursor-pointer font-semibold italic text-white hover:underline"
+        >
+          Sign In
+        </a>
+      </span>
+    </div>
   </div>
-</div>
+</ng-container>

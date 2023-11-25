@@ -1,27 +1,28 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
   Validators as V,
 } from '@angular/forms';
-import { FirebaseError } from '@angular/fire/app';
+import { Subscription, combineLatest } from 'rxjs';
+import { Store } from '@ngrx/store';
 
 import {
   canPrintError,
   getErrorFromField,
   getErrorFromForm,
 } from '@core/utils';
-import { AuthService } from '@core/services';
 import { validEmail, confirmPassword } from '@core/validators';
-import { LoadingStatus } from '@core/types';
-import { AUTH } from '@core/constants';
 import { ErrorMessageComponent } from '@shared/components';
 import { InputDirective, LabelDirective } from '@shared/directives';
-import { Store } from '@ngrx/store';
-import { authActions, selectIsSubmitting } from '@store/auth';
+import {
+  authActions,
+  selectIsSubmitting,
+  selectBackendError,
+} from '@store/auth';
 
 @Component({
   selector: 'wdt-register',
@@ -37,57 +38,43 @@ import { authActions, selectIsSubmitting } from '@store/auth';
   ],
   templateUrl: './register.component.html',
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit, OnDestroy {
   //* Dependency Injection
   private fb = inject(FormBuilder);
-  private router = inject(Router);
   private store = inject(Store);
 
   //* Attributes
   registerForm: FormGroup = this.createForm();
   isPasswordHidden: boolean = true;
   isConfirmPasswordHidden: boolean = true;
-  submitStatus: LoadingStatus = 'init';
-  isSubmitting$ = this.store.select(selectIsSubmitting);
+  data$ = combineLatest({
+    isSubmitting: this.store.select(selectIsSubmitting),
+  });
+  subscription = new Subscription();
+
+  //* Lifecycle
+  ngOnInit(): void {
+    this.subscription = this.store
+      .select(selectBackendError)
+      .subscribe((backendError) => {
+        this.registerForm.controls['email'].setErrors(backendError);
+      });
+  }
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
 
   //* Core Functions
-  // async onSubmit(): Promise<void> {
-  //   this.registerForm.controls['confirmPassword'].setErrors(null);
-
-  //   if (this.registerForm.invalid) {
-  //     this.registerForm.markAllAsTouched();
-  //     if (this.getFormError()) {
-  //       this.registerForm.controls['confirmPassword'].setErrors({
-  //         arePasswordsEqual: false,
-  //       });
-  //     }
-  //     return;
-  //   }
-
-  //   this.submitStatus = 'loading';
-
-  //   try {
-  //     await this.authService.register(
-  //       {
-  //         email: this.registerForm.value.email,
-  //         username: this.registerForm.value.username,
-  //       },
-  //       this.registerForm.value.password,
-  //     );
-  //     this.submitStatus = 'success';
-  //     this.router.navigateByUrl('/home');
-  //   } catch (error) {
-  //     this.submitStatus = 'error';
-  //     const fbError = error as FirebaseError;
-  //     const validationError =
-  //       fbError.code === AUTH.EMAIL_ALREADY_IN_USE
-  //         ? { emailNotAvailable: true }
-  //         : { unknownFbError: true };
-  //     this.registerForm.controls['email'].setErrors(validationError);
-  //   }
-  // }
-
   onSubmit() {
+    if (this.registerForm.invalid) {
+      this.registerForm.markAllAsTouched();
+      if (this.getFormError()) {
+        this.registerForm.controls['confirmPassword'].setErrors({
+          arePasswordsEqual: false,
+        });
+      }
+      return;
+    }
     this.store.dispatch(
       authActions.register({
         dto: {
