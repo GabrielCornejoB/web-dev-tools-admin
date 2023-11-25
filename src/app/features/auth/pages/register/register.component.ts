@@ -75,6 +75,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       }
       return;
     }
+
     this.store.dispatch(
       authActions.register({
         dto: {

@@ -1,75 +1,77 @@
-<div class="flex h-screen w-full flex-col items-center">
-  <h1 class="py-6 text-center text-4xl font-bold italic text-white">
-    Web Dev Tools
-  </h1>
+<ng-container *ngIf="data$ | async as data">
+  <div class="flex h-screen w-full flex-col items-center">
+    <h1 class="py-6 text-center text-4xl font-bold italic text-white">
+      Web Dev Tools
+    </h1>
 
-  <h2
-    class="w-full border-t-1 border-base-200 py-6 text-center text-3xl font-bold italic text-base-content"
-  >
-    User Login
-  </h2>
-
-  <form
-    class="flex w-full grow flex-col justify-center gap-6 border-y-1 border-base-200 p-12"
-    autocomplete="off"
-    (ngSubmit)="onSubmit()"
-    [formGroup]="loginForm"
-  >
-    <div class="relative">
-      <input
-        wdt-input
-        id="email"
-        type="text"
-        formControlName="email"
-        [hasError]="hasError('email')"
-      />
-      <label wdt-label for="email">Email address</label>
-      <wdt-error-message [showIf]="hasError('email')">
-        {{ getError("email") }}
-      </wdt-error-message>
-    </div>
-
-    <div class="relative">
-      <input
-        wdt-input
-        id="password"
-        [type]="isVisible ? 'text' : 'password'"
-        formControlName="password"
-        [hasError]="hasError('password')"
-      />
-      <label wdt-label for="password">Password</label>
-      <button
-        type="button"
-        (click)="isVisible = !isVisible"
-        class="absolute right-4 top-3.5"
-      >
-        <span class="material-symbols-outlined text-base-300">
-          {{ isVisible ? "visibility_off" : "visibility" }}
-        </span>
-      </button>
-      <wdt-error-message [showIf]="hasError('password')">
-        {{ getError("password") }}
-      </wdt-error-message>
-    </div>
-
-    <button
-      [disabled]="submitStatus === 'loading'"
-      type="submit"
-      class="bg-base-200 py-3 text-white transition-opacity hover:bg-opacity-75 disabled:cursor-not-allowed disabled:bg-opacity-50"
+    <h2
+      class="w-full border-t-1 border-base-200 py-6 text-center text-3xl font-bold italic text-base-content"
     >
-      {{ submitStatus === "loading" ? "Loading..." : "Sign In" }}
-    </button>
-  </form>
+      User Login
+    </h2>
 
-  <div class="py-6 text-base-content">
-    <span>
-      Don't have an account?
-      <a
-        routerLink="/auth/register"
-        class="cursor-pointer font-semibold italic text-white hover:underline"
+    <form
+      class="flex w-full grow flex-col justify-center gap-6 border-y-1 border-base-200 p-12"
+      autocomplete="off"
+      (ngSubmit)="onSubmit()"
+      [formGroup]="loginForm"
+    >
+      <div class="relative">
+        <input
+          wdt-input
+          id="email"
+          type="text"
+          formControlName="email"
+          [hasError]="hasError('email')"
+        />
+        <label wdt-label for="email">Email address</label>
+        <wdt-error-message [showIf]="hasError('email')">
+          {{ getError("email") }}
+        </wdt-error-message>
+      </div>
+
+      <div class="relative">
+        <input
+          wdt-input
+          id="password"
+          [type]="isVisible ? 'text' : 'password'"
+          formControlName="password"
+          [hasError]="hasError('password')"
+        />
+        <label wdt-label for="password">Password</label>
+        <button
+          type="button"
+          (click)="isVisible = !isVisible"
+          class="absolute right-4 top-3.5"
+        >
+          <span class="material-symbols-outlined text-base-300">
+            {{ isVisible ? "visibility_off" : "visibility" }}
+          </span>
+        </button>
+        <wdt-error-message [showIf]="hasError('password')">
+          {{ getError("password") }}
+        </wdt-error-message>
+      </div>
+
+      <button
+        [disabled]="data.isSubmitting"
+        type="submit"
+        class="bg-base-200 py-3 text-white transition-opacity hover:bg-opacity-75 disabled:cursor-not-allowed disabled:bg-opacity-50"
       >
-        Sign Up
-      </a>
-    </span>
+        {{ data.isSubmitting ? "Loading..." : "Sign In" }}
+      </button>
+    </form>
+
+    <div class="py-6 text-base-content">
+      <span>
+        Don't have an account?
+        <a
+          routerLink="/auth/register"
+          class="cursor-pointer font-semibold italic text-white hover:underline"
+        >
+          Sign Up
+        </a>
+      </span>
+    </div>
   </div>
-</div>
+</ng-container>

@@ -42,8 +42,10 @@ export class AuthService {
 
   /** Function to log-in already existing users */
   //! Fix Unit Tests
-  login(email: string, password: string): Observable<UserCredential> {
-    return toObservable(signInWithEmailAndPassword(this.auth, email, password));
+  login(email: string, password: string): Observable<User> {
+    return toObservable(
+      signInWithEmailAndPassword(this.auth, email, password),
+    ).pipe(switchMap(({ user }) => this.usersService.getUserById(user.uid)));
   }
 
   /** Function to logout users from the application */

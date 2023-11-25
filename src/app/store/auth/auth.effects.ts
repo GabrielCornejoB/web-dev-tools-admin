@@ -33,13 +33,81 @@ export const registerEffect = createEffect(
   },
   { functional: true },
 );
-
 export const redirectAfterRegisterEffect = createEffect(
   (actions$ = inject(Actions), router = inject(Router)) => {
     return actions$.pipe(
       ofType(authActions.registerSuccess),
       tap(() => {
         router.navigateByUrl('/home');
+      }),
+    );
+  },
+  { functional: true, dispatch: false },
+);
+
+export const loginEffect = createEffect(
+  (actions$ = inject(Actions), authService = inject(AuthService)) => {
+    return actions$.pipe(
+      ofType(authActions.login),
+      switchMap(({ email, password }) => {
+        return authService.login(email, password).pipe(
+          map((currentUser) => {
+            return authActions.loginSuccess({
+              currentUser,
+            });
+          }),
+          catchError((error: FirebaseError) => {
+            const { code } = error;
+            const backendError: BackendError =
+              code === AUTH.USER_NOT_FOUND
+                ? { userNotFound: true }
+                : code === AUTH.INVALID_LOGIN_CREDENTIALS ||
+                    AUTH.INVALID_PASSWORD
+                  ? { invalidLoginCredentials: true }
+                  : code === AUTH.TOO_MANY_ATTEMPTS
+                    ? { tooManyAttempts: true }
+                    : { unknownFbError: true };
+            return of(authActions.loginFailure({ backendError }));
+          }),
+        );
+      }),
+    );
+  },
+  { functional: true },
+);
+export const redirectAfterLoginEffect = createEffect(
+  (actions$ = inject(Actions), router = inject(Router)) => {
+    return actions$.pipe(
+      ofType(authActions.loginSuccess),
+      tap(() => {
+        router.navigateByUrl('/home');
+      }),
+    );
+  },
+  { functional: true, dispatch: false },
+);
+
+export const logoutEffect = createEffect(
+  (actions$ = inject(Actions), authService = inject(AuthService)) => {
+    return actions$.pipe(
+      ofType(authActions.logout),
+      switchMap(() =>
+        authService.logout().pipe(
+          map(() => authActions.logoutSuccess()),
+          catchError((error) => of(authActions.logoutFailure(error))),
+        ),
+      ),
+    );
+  },
+  { functional: true },
+);
+
+export const redirectAfterLogout = createEffect(
+  (actions$ = inject(Actions), router = inject(Router)) => {
+    return actions$.pipe(
+      ofType(authActions.logoutSuccess),
+      tap(() => {
+        router.navigateByUrl('/auth/login');
       }),
     );
   },

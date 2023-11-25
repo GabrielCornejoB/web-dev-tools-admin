@@ -5,4 +5,4 @@ export const AUTH = {
   INVALID_PASSWORD: 'auth/wrong-password',
   USER_NOT_FOUND: 'auth/user-not-found',
   TOO_MANY_ATTEMPTS: 'auth/too-many-requests',
-};
+} as const;

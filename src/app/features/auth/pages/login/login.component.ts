@@ -1,21 +1,24 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
   Validators as V,
 } from '@angular/forms';
-import { FirebaseError } from '@angular/fire/app';
+import { combineLatest, Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
 
-import { AuthService } from '@core/services';
 import { getErrorFromField, canPrintError } from '@core/utils';
 import { validEmail } from '@core/validators';
-import { LoadingStatus } from '@core/types';
-import { AUTH } from '@core/constants';
 import { ErrorMessageComponent } from '@shared/components';
 import { InputDirective, LabelDirective } from '@shared/directives';
+import {
+  authActions,
+  selectBackendError,
+  selectIsSubmitting,
+} from '@store/auth';
 
 @Component({
   selector: 'wdt-login',
@@ -31,49 +34,53 @@ import { InputDirective, LabelDirective } from '@shared/directives';
   ],
   templateUrl: './login.component.html',
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit, OnDestroy {
   //* Dependency Injection
   private fb = inject(FormBuilder);
-  private router = inject(Router);
-  private authService = inject(AuthService);
+  private store = inject(Store);
 
   //* Attributes
   loginForm: FormGroup = this.createForm();
   isVisible: boolean = false;
-  submitStatus: LoadingStatus = 'init';
+  data$ = combineLatest({
+    isSubmitting: this.store.select(selectIsSubmitting),
+  });
+  subscription = new Subscription();
+
+  //* Lifecycle
+  ngOnInit(): void {
+    this.subscription = this.store
+      .select(selectBackendError)
+      .subscribe((backendError) => {
+        console.log(backendError);
+        if (!backendError) return;
+        if (backendError['userNotFound'])
+          return this.loginForm.controls['email'].setErrors(backendError);
+        if (backendError['invalidLoginCredentials']) {
+          this.loginForm.controls['email'].setErrors(backendError);
+          this.loginForm.controls['password'].setErrors(backendError);
+          return;
+        }
+        this.loginForm.controls['password'].setErrors(backendError);
+      });
+  }
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
 
   //* Core Functions
-  async onSubmit() {
+  onSubmit() {
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
       return;
     }
-    this.submitStatus = 'loading';
 
-    try {
-      await this.authService.login(
-        this.loginForm.value.email,
-        this.loginForm.value.password,
-      );
-      this.submitStatus = 'success';
-      this.router.navigateByUrl('/home');
-    } catch (error) {
-      this.submitStatus = 'error';
-      const { code } = error as FirebaseError;
-
-      if (code === AUTH.USER_NOT_FOUND) {
-        this.loginForm.controls['email'].setErrors({ userNotFound: true });
-      } else {
-        const validationError =
-          code === AUTH.INVALID_LOGIN_CREDENTIALS ||
-          code === AUTH.INVALID_PASSWORD
-            ? { incorrectPassword: true }
-            : code === AUTH.TOO_MANY_ATTEMPTS
-              ? { tooManyAttemps: true }
-              : { unknownFbError: true };
-        this.loginForm.controls['password'].setErrors(validationError);
-      }
-    }
+    this.store.dispatch(
+      authActions.login({
+        email: this.loginForm.value.email,
+        password: this.loginForm.value.password,
+      }),
+    );
   }
 
   //* Utils

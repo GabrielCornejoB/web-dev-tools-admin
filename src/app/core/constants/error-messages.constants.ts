@@ -4,6 +4,7 @@ export const FORM_ERROR_MESSAGES: { [key: string]: string } = {
   isValidEmail: 'This field must be a valid email',
   arePasswordsEqual: 'The passwords must match',
 
+  invalidLoginCredentials: 'Invalid login credentials',
   incorrectPassword: 'Incorrect password',
   userNotFound: 'User not found',
   tooManyAttempts: 'Too many login attempts, please try again later',

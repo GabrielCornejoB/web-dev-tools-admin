@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '@core/services';
-import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { authActions } from '@store/auth';
 
 @Component({
   selector: 'wdt-dashboard-layout',
@@ -10,11 +10,9 @@ import { Router } from '@angular/router';
   templateUrl: './dashboard-layout.component.html',
 })
 export class DashboardLayoutComponent {
-  private authService = inject(AuthService);
-  private router = inject(Router);
+  private store = inject(Store);
 
-  async onClick() {
-    await this.authService.logout();
-    this.router.navigateByUrl('/auth/login');
+  onClick() {
+    this.store.dispatch(authActions.logout());
   }
 }
