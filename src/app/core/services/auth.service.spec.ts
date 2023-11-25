@@ -33,7 +33,7 @@ describe('Auth - Service', () => {
   });
 
   describe('register()', () => {
-    it('should call createUserWithEmailAndPassword() and addUserToFirestore()', async () => {
+    it('should call createUserWithEmailAndPassword() and addUserToFirestore()', (done) => {
       const userCredentialMock = { user: { uid: 'test' } };
       const dto: UserCreateDto = {
         email: 'test@mail.com',
@@ -41,38 +41,48 @@ describe('Auth - Service', () => {
       };
       const password = '1234567';
 
-      jest.spyOn(usersServiceMock, 'addUserToFirestore').mockResolvedValue();
+      jest
+        .spyOn(usersServiceMock, 'addUserToFirestore')
+        .mockImplementation(() => of({} as any));
       jest
         .spyOn(AngularFireAuth, 'createUserWithEmailAndPassword')
         .mockResolvedValue(userCredentialMock as any);
-      await service.register(dto, password);
 
-      expect(AngularFireAuth.createUserWithEmailAndPassword).toHaveBeenCalled();
-      expect(usersServiceMock.addUserToFirestore).toHaveBeenCalled();
+      service.register(dto, password).subscribe(() => {
+        expect(
+          AngularFireAuth.createUserWithEmailAndPassword,
+        ).toHaveBeenCalled();
+        expect(usersServiceMock.addUserToFirestore).toHaveBeenCalled();
+        done();
+      });
     });
   });
 
   describe('login()', () => {
-    it('should call signInWithEmailAndPassword()', async () => {
-      const resultMock = 'test';
+    it('should call signInWithEmailAndPassword()', (done) => {
+      const userCredentialMock = { user: { uid: 'test' } };
       const email = 'test@mail.com';
       const password = '1234567';
 
       jest
         .spyOn(AngularFireAuth, 'signInWithEmailAndPassword')
-        .mockResolvedValue(resultMock as any);
-      await service.login(email, password);
+        .mockResolvedValue(userCredentialMock as any);
 
-      expect(AngularFireAuth.signInWithEmailAndPassword).toHaveBeenCalled();
+      service.login(email, password).subscribe(() => {
+        expect(AngularFireAuth.signInWithEmailAndPassword).toHaveBeenCalled();
+        done();
+      });
     });
   });
 
   describe('logout()', () => {
-    it('should call signOut()', async () => {
+    it('should call signOut()', (done) => {
       jest.spyOn(AngularFireAuth, 'signOut').mockResolvedValue();
-      await service.logout();
 
-      expect(AngularFireAuth.signOut).toHaveBeenCalled();
+      service.logout().subscribe(() => {
+        expect(AngularFireAuth.signOut).toHaveBeenCalled();
+        done();
+      });
     });
   });
 

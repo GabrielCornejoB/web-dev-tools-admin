@@ -2,16 +2,16 @@ import { Injector } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
 
-import { AuthService } from '@core/services';
-import { AuthServiceMock, FormBuilderMock, RouterMock } from '@testing/mocks';
-import { AUTH } from '@core/constants';
+import { FormBuilderMock, RouterMock, StoreMock } from '@testing/mocks';
 import { LoginComponent } from './login.component';
+import { Store } from '@ngrx/store';
+import { of } from 'rxjs';
 
 function initComponent(invalidForm: boolean = false): LoginComponent {
   return Injector.create({
     providers: [
       { provide: LoginComponent },
-      { provide: AuthService, useValue: AuthServiceMock },
+      { provide: Store, useValue: StoreMock },
       {
         provide: FormBuilder,
         useValue: FormBuilderMock(
@@ -29,8 +29,7 @@ function initComponent(invalidForm: boolean = false): LoginComponent {
 
 describe('Login - Component', () => {
   let component: LoginComponent;
-  let authServiceMock: Partial<AuthService> = AuthServiceMock;
-  let routerMock: Partial<Router> = RouterMock;
+  let storeMock: Partial<Store> = StoreMock;
 
   beforeEach(() => {
     component = initComponent();
@@ -40,82 +39,94 @@ describe('Login - Component', () => {
     expect(component).toBeTruthy();
     expect(component.loginForm).toBeTruthy();
     expect(component.isVisible).toBeFalsy();
-    expect(component.submitStatus).toBe('init');
   });
 
-  describe('onSubmit()', () => {
-    it('should call markAllAsTouched() if the form is invalid', async () => {
-      component = initComponent(true);
+  describe('ngOnInit()', () => {
+    it("should not set errors if the store doesn't returns errors", () => {
+      jest.spyOn(storeMock, 'select').mockImplementationOnce(() => of(null));
 
-      await component.onSubmit();
+      component.ngOnInit();
 
-      expect(component.loginForm.markAllAsTouched).toHaveBeenCalled();
-      expect(authServiceMock.login).not.toHaveBeenCalled();
-    });
-
-    it('should call login() from the AuthService if the form is valid', async () => {
-      await component.onSubmit();
-
-      expect(authServiceMock.login).toHaveBeenCalled();
-    });
-
-    it('should change submitStatus from "loading" to "success" if there are no errors and then redirect', async () => {
-      const promise = component.onSubmit();
-
-      expect(component.submitStatus).toBe('loading');
-      await promise;
-      expect(component.submitStatus).toBe('success');
-      expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/home');
-    });
-
-    it('should change submitStatus from "loading" to "error" if there are errors', async () => {
-      jest.spyOn(authServiceMock, 'login').mockRejectedValueOnce(() => {});
-      const promise = component.onSubmit();
-
-      expect(component.submitStatus).toBe('loading');
-      await promise;
-      expect(component.submitStatus).toBe('error');
-    });
-
-    it('should set error to email field when users is not existing', async () => {
-      jest
-        .spyOn(authServiceMock, 'login')
-        .mockImplementationOnce(() =>
-          Promise.reject({ code: AUTH.USER_NOT_FOUND }),
-        );
-
-      await component.onSubmit();
+      expect(storeMock.select).toHaveBeenCalled();
       expect(
         component.loginForm.controls['email'].setErrors,
-      ).toHaveBeenCalledWith({ userNotFound: true });
+      ).not.toHaveBeenCalled();
       expect(
         component.loginForm.controls['password'].setErrors,
       ).not.toHaveBeenCalled();
     });
 
-    it('should set error to password field when credentials are invalid', async () => {
+    it('should set an error in the email field if the store returns "userNotFound"', () => {
+      const errorMock = { userNotFound: true };
       jest
-        .spyOn(authServiceMock, 'login')
-        .mockImplementationOnce(() =>
-          Promise.reject({ code: AUTH.INVALID_LOGIN_CREDENTIALS }),
-        );
-      await component.onSubmit();
+        .spyOn(storeMock, 'select')
+        .mockImplementationOnce(() => of(errorMock));
+
+      component.ngOnInit();
+
+      expect(storeMock.select).toHaveBeenCalled();
       expect(
-        component.loginForm.controls['password'].setErrors,
-      ).toHaveBeenCalledWith({ incorrectPassword: true });
+        component.loginForm.controls['email'].setErrors,
+      ).toHaveBeenCalledWith(errorMock);
     });
 
-    it('should set error to password field when too many attempts', async () => {
+    it('should set an error in both fields if the store returns "invalidLoginCredentials"', () => {
+      const errorMock = { invalidLoginCredentials: true };
       jest
-        .spyOn(authServiceMock, 'login')
-        .mockImplementationOnce(() =>
-          Promise.reject({ code: AUTH.TOO_MANY_ATTEMPTS }),
-        );
+        .spyOn(storeMock, 'select')
+        .mockImplementationOnce(() => of(errorMock));
 
-      await component.onSubmit();
+      component.ngOnInit();
+
+      expect(storeMock.select).toHaveBeenCalled();
+      expect(
+        component.loginForm.controls['email'].setErrors,
+      ).toHaveBeenCalledWith(errorMock);
       expect(
         component.loginForm.controls['password'].setErrors,
-      ).toHaveBeenCalledWith({ tooManyAttemps: true });
+      ).toHaveBeenCalledWith(errorMock);
+    });
+
+    it('should set an error in the password field if the store returns any other error', () => {
+      const errorMock = { tooManyAttempts: true };
+      jest
+        .spyOn(storeMock, 'select')
+        .mockImplementationOnce(() => of(errorMock));
+
+      component.ngOnInit();
+
+      expect(storeMock.select).toHaveBeenCalled();
+      expect(
+        component.loginForm.controls['password'].setErrors,
+      ).toHaveBeenCalledWith(errorMock);
+    });
+  });
+
+  describe('ngOnDestroy()', () => {
+    it('should unsubscribe when the component destroys', () => {
+      jest.spyOn(component.subscription, 'unsubscribe');
+      component.ngOnDestroy();
+
+      expect(component.subscription.unsubscribe).toHaveBeenCalled();
+    });
+  });
+
+  describe('onSubmit()', () => {
+    it('should call markAllAsTouched() if the form is invalid', () => {
+      component = initComponent(true);
+
+      component.onSubmit();
+
+      expect(component.loginForm.markAllAsTouched).toHaveBeenCalled();
+      expect(storeMock.dispatch).not.toHaveBeenCalled();
+    });
+
+    it('should dispatch the login action if the form is valid', async () => {
+      component = initComponent();
+
+      component.onSubmit();
+
+      expect(storeMock.dispatch).toHaveBeenCalled();
     });
   });
 

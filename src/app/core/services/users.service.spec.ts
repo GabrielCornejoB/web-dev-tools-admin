@@ -37,12 +37,13 @@ describe('Users - Service', () => {
   });
 
   describe('addUserToFirestore()', () => {
-    it('should call setDoc()', async () => {
+    it('should call setDoc()', (done) => {
       jest.spyOn(AngularFirestore, 'setDoc').mockResolvedValue({} as any);
 
-      await service.addUserToFirestore({} as any);
-
-      expect(AngularFirestore.setDoc).toHaveBeenCalled();
+      service.addUserToFirestore({} as any).subscribe(() => {
+        expect(AngularFirestore.setDoc).toHaveBeenCalled();
+        done();
+      });
     });
   });
 });

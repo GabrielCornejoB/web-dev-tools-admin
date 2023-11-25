@@ -52,7 +52,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.subscription = this.store
       .select(selectBackendError)
       .subscribe((backendError) => {
-        console.log(backendError);
         if (!backendError) return;
         if (backendError['userNotFound'])
           return this.loginForm.controls['email'].setErrors(backendError);
