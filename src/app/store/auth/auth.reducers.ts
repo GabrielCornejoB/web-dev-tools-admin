@@ -60,6 +60,22 @@ const authFeature = createFeature({
       isSubmitting: false,
       backendError: action.backendError,
     })),
+
+    on(authActions.getCurrentUser, (state) => ({
+      ...state,
+      isLoading: true,
+      backendError: null,
+    })),
+    on(authActions.getCurrentUserSuccess, (state, action) => ({
+      ...state,
+      isLoading: false,
+      currentUser: action.currentUser,
+    })),
+    on(authActions.getCurrentUserFailure, (state) => ({
+      ...state,
+      isLoading: false,
+      currentUser: null,
+    })),
   ),
 });
 

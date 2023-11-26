@@ -101,7 +101,6 @@ export const logoutEffect = createEffect(
   },
   { functional: true },
 );
-
 export const redirectAfterLogoutEffect = createEffect(
   (actions$ = inject(Actions), router = inject(Router)) => {
     return actions$.pipe(
@@ -112,4 +111,22 @@ export const redirectAfterLogoutEffect = createEffect(
     );
   },
   { functional: true, dispatch: false },
+);
+
+export const getCurrentUserEffect = createEffect(
+  (actions$ = inject(Actions), authService = inject(AuthService)) => {
+    return actions$.pipe(
+      ofType(authActions.getCurrentUser),
+      switchMap(() =>
+        authService.getAuthState().pipe(
+          map((currentUser) => {
+            if (currentUser)
+              return authActions.getCurrentUserSuccess({ currentUser });
+            return authActions.getCurrentUserFailure();
+          }),
+        ),
+      ),
+    );
+  },
+  { functional: true },
 );

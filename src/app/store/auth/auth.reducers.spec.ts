@@ -137,4 +137,42 @@ describe('Auth - Reducers', () => {
       expect(result).toEqual(expected);
     });
   });
+
+  describe('On Get Current User actions', () => {
+    it('should change isLoading on "getCurrentUser"', () => {
+      const expected: AuthState = {
+        ...mockState,
+        isLoading: true,
+        backendError: null,
+      };
+
+      const result = authReducer(mockState, authActions.getCurrentUser);
+      expect(result).toEqual(expected);
+    });
+
+    it('should change isLoading & currentUser on "getCurrentUserSuccess"', () => {
+      const expected: AuthState = {
+        ...mockState,
+        isLoading: false,
+        currentUser: mockUser,
+      };
+
+      const result = authReducer(
+        mockState,
+        authActions.getCurrentUserSuccess({ currentUser: mockUser }),
+      );
+      expect(result).toEqual(expected);
+    });
+
+    it('should change isLoading & currentUser on "getCurrentUserFailure"', () => {
+      const expected: AuthState = {
+        ...mockState,
+        isLoading: false,
+        currentUser: null,
+      };
+
+      const result = authReducer(mockState, authActions.getCurrentUserFailure);
+      expect(result).toEqual(expected);
+    });
+  });
 });

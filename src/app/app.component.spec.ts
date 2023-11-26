@@ -1,16 +1,23 @@
-import { TestBed } from '@angular/core/testing';
+import { Injector } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { StoreMock } from '@testing/mocks';
 import { AppComponent } from './app.component';
 
 describe('App - Component', () => {
-  beforeEach(() =>
-    TestBed.configureTestingModule({
-      imports: [AppComponent],
-    })
-  );
+  let component = Injector.create({
+    providers: [
+      { provide: AppComponent },
+      { provide: Store, useValue: StoreMock },
+    ],
+  }).get(AppComponent);
+  let storeMock: Partial<Store> = StoreMock;
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const component = fixture.componentInstance;
+  it('should create', () => {
     expect(component).toBeTruthy();
+  });
+  it('should dispatch getCurrentUser action', () => {
+    component.ngOnInit();
+
+    expect(storeMock.dispatch).toHaveBeenCalled();
   });
 });

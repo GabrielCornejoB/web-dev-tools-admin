@@ -6,6 +6,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { authActions } from './auth.actions';
 import { User } from '@core/models';
 import {
+  getCurrentUserEffect,
   loginEffect,
   logoutEffect,
   redirectAfterLoginEffect,
@@ -262,6 +263,38 @@ describe('Auth - Effects', () => {
 
       redirectAfterLogoutEffect(actions$, routerMock).subscribe(() => {
         expect(routerMock.navigateByUrl).toHaveBeenCalledWith('/auth/login');
+        done();
+      });
+    });
+  });
+
+  describe('Get Current User effects', () => {
+    it('should call getAuthState() and return the "getCurrentUserSuccess" action', (done) => {
+      actions$ = of(authActions.getCurrentUser());
+
+      jest
+        .spyOn(authServiceMock, 'getAuthState')
+        .mockImplementationOnce(() => of({} as User));
+
+      getCurrentUserEffect(actions$, authServiceMock).subscribe((action) => {
+        expect(authServiceMock.getAuthState).toHaveBeenCalled();
+        expect(action).toEqual(
+          authActions.getCurrentUserSuccess({ currentUser: {} as User }),
+        );
+        done();
+      });
+    });
+
+    it('should call getAuthState() and return the "getCurrentUserSuccess" action', (done) => {
+      actions$ = of(authActions.getCurrentUser());
+
+      jest
+        .spyOn(authServiceMock, 'getAuthState')
+        .mockImplementationOnce(() => of(null));
+
+      getCurrentUserEffect(actions$, authServiceMock).subscribe((action) => {
+        expect(authServiceMock.getAuthState).toHaveBeenCalled();
+        expect(action).toEqual(authActions.getCurrentUserFailure());
         done();
       });
     });

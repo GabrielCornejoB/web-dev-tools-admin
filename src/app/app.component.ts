@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { authActions } from '@store/auth';
 
 @Component({
   selector: 'wdt-root',
@@ -8,6 +10,11 @@ import { RouterOutlet } from '@angular/router';
   imports: [CommonModule, RouterOutlet],
   templateUrl: './app.component.html',
 })
-export class AppComponent {
-  title = 'web-dev-tools-admin';
+export class AppComponent implements OnInit {
+  private store = inject(Store);
+
+  ngOnInit(): void {
+    console.log('uwu');
+    this.store.dispatch(authActions.getCurrentUser());
+  }
 }
