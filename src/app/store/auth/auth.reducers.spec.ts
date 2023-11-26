@@ -1,4 +1,3 @@
-import { Action } from '@ngrx/store';
 import { authReducer } from './auth.reducers';
 import { AuthState } from './auth.state';
 import { authActions } from './auth.actions';
@@ -117,7 +116,7 @@ describe('Auth - Reducers', () => {
       const expected: AuthState = {
         ...mockState,
         isSubmitting: false,
-        currentUser: mockUser,
+        currentUser: null,
       };
 
       const result = authReducer(mockState, authActions.logoutSuccess);

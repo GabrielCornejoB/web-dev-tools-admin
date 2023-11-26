@@ -58,7 +58,7 @@ const authFeature = createFeature({
     on(authActions.logoutFailure, (state, action) => ({
       ...state,
       isSubmitting: false,
-      backendError: { logoutError: action.backendError },
+      backendError: action.backendError,
     })),
   ),
 });

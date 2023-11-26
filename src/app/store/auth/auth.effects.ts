@@ -62,7 +62,7 @@ export const loginEffect = createEffect(
               code === AUTH.USER_NOT_FOUND
                 ? { userNotFound: true }
                 : code === AUTH.INVALID_LOGIN_CREDENTIALS ||
-                    AUTH.INVALID_PASSWORD
+                    code === AUTH.INVALID_PASSWORD
                   ? { invalidLoginCredentials: true }
                   : code === AUTH.TOO_MANY_ATTEMPTS
                     ? { tooManyAttempts: true }
@@ -102,7 +102,7 @@ export const logoutEffect = createEffect(
   { functional: true },
 );
 
-export const redirectAfterLogout = createEffect(
+export const redirectAfterLogoutEffect = createEffect(
   (actions$ = inject(Actions), router = inject(Router)) => {
     return actions$.pipe(
       ofType(authActions.logoutSuccess),
