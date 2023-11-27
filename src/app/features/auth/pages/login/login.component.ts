@@ -12,26 +12,17 @@ import { Store } from '@ngrx/store';
 
 import { getErrorFromField, canPrintError } from '@core/utils';
 import { validEmail } from '@core/validators';
-import { ErrorMessageComponent } from '@shared/components';
-import { InputDirective, LabelDirective } from '@shared/directives';
 import {
   authActions,
   selectBackendError,
   selectIsSubmitting,
 } from '@store/auth';
+import { InputComponent } from '@shared/components';
 
 @Component({
   selector: 'wdt-login',
   standalone: true,
-  imports: [
-    CommonModule,
-    RouterLink,
-    ReactiveFormsModule,
-
-    InputDirective,
-    LabelDirective,
-    ErrorMessageComponent,
-  ],
+  imports: [CommonModule, RouterLink, ReactiveFormsModule, InputComponent],
   templateUrl: './login.component.html',
 })
 export class LoginComponent implements OnInit, OnDestroy {
@@ -41,7 +32,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   //* Attributes
   loginForm: FormGroup = this.createForm();
-  isVisible: boolean = false;
   data$ = combineLatest({
     isSubmitting: this.store.select(selectIsSubmitting),
   });
@@ -56,7 +46,6 @@ export class LoginComponent implements OnInit, OnDestroy {
         if (backendError['userNotFound'])
           return this.loginForm.controls['email'].setErrors(backendError);
         if (backendError['invalidLoginCredentials']) {
-          this.loginForm.controls['email'].setErrors(backendError);
           this.loginForm.controls['password'].setErrors(backendError);
           return;
         }

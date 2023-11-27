@@ -16,79 +16,38 @@
       (ngSubmit)="onSubmit()"
       [formGroup]="registerForm"
     >
-      <div class="relative">
-        <input
-          wdt-input
-          id="username"
-          type="text"
-          formControlName="username"
-          [hasError]="hasError('username')"
-        />
-        <label wdt-label for="username">Username</label>
-        <wdt-error-message [showIf]="hasError('username')">
-          {{ getError("username") }}
-        </wdt-error-message>
-      </div>
+      <wdt-input
+        name="username"
+        formControlName="username"
+        labelText="Username"
+        [hasError]="hasError('username')"
+        [errorText]="getError('username')"
+      />
 
-      <div class="relative">
-        <input
-          wdt-input
-          id="email"
-          type="text"
-          formControlName="email"
-          [hasError]="hasError('email')"
-        />
-        <label wdt-label for="email">Email Address</label>
-        <wdt-error-message [showIf]="hasError('email')">
-          {{ getError("email") }}
-        </wdt-error-message>
-      </div>
+      <wdt-input
+        formControlName="email"
+        name="email"
+        labelText="Email Address"
+        [hasError]="hasError('email')"
+        [errorText]="getError('email')"
+      />
 
-      <div class="relative">
-        <input
-          wdt-input
-          id="password"
-          [type]="isPasswordHidden ? 'password' : 'text'"
-          formControlName="password"
-          [hasError]="hasError('password')"
-        />
-        <label wdt-label for="password">Password</label>
-        <button
-          type="button"
-          (click)="isPasswordHidden = !isPasswordHidden"
-          class="absolute right-4 top-3.5"
-        >
-          <span class="material-symbols-outlined text-base-300">
-            {{ isPasswordHidden ? "visibility" : "visibility_off" }}
-          </span>
-        </button>
-        <wdt-error-message [showIf]="hasError('password')">
-          {{ getError("password") }}
-        </wdt-error-message>
-      </div>
-
-      <div class="relative">
-        <input
-          wdt-input
-          id="confirmPassword"
-          [type]="isConfirmPasswordHidden ? 'password' : 'text'"
-          formControlName="confirmPassword"
-          [hasError]="hasError('confirmPassword')"
-        />
-        <label wdt-label for="confirmPassword">Confirm Password</label>
-        <button
-          type="button"
-          (click)="isConfirmPasswordHidden = !isConfirmPasswordHidden"
-          class="absolute right-4 top-3.5"
-        >
-          <span class="material-symbols-outlined text-base-300">
-            {{ isConfirmPasswordHidden ? "visibility" : "visibility_off" }}
-          </span>
-        </button>
-        <wdt-error-message [showIf]="hasError('confirmPassword')">
-          {{ getError("confirmPassword") }}
-        </wdt-error-message>
-      </div>
+      <wdt-input
+        formControlName="password"
+        name="password"
+        labelText="Password"
+        type="password"
+        [hasError]="hasError('password')"
+        [errorText]="getError('password')"
+      />
+      <wdt-input
+        formControlName="confirmPassword"
+        name="confirmPassword"
+        labelText="Confirm Password"
+        type="password"
+        [hasError]="hasError('confirmPassword')"
+        [errorText]="getError('confirmPassword')"
+      />
 
       <button
         [disabled]="data.isSubmitting"

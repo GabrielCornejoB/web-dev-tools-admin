@@ -16,26 +16,17 @@ import {
   getErrorFromForm,
 } from '@core/utils';
 import { validEmail, confirmPassword } from '@core/validators';
-import { ErrorMessageComponent } from '@shared/components';
-import { InputDirective, LabelDirective } from '@shared/directives';
 import {
   authActions,
   selectIsSubmitting,
   selectBackendError,
 } from '@store/auth';
+import { InputComponent } from '@shared/components';
 
 @Component({
   selector: 'wdt-register',
   standalone: true,
-  imports: [
-    CommonModule,
-    RouterLink,
-    ReactiveFormsModule,
-
-    InputDirective,
-    LabelDirective,
-    ErrorMessageComponent,
-  ],
+  imports: [CommonModule, RouterLink, ReactiveFormsModule, InputComponent],
   templateUrl: './register.component.html',
 })
 export class RegisterComponent implements OnInit, OnDestroy {
@@ -45,8 +36,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   //* Attributes
   registerForm: FormGroup = this.createForm();
-  isPasswordHidden: boolean = true;
-  isConfirmPasswordHidden: boolean = true;
   data$ = combineLatest({
     isSubmitting: this.store.select(selectIsSubmitting),
   });
