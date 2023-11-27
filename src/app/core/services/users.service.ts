@@ -31,7 +31,6 @@ export class UsersService {
    * Function to create a User in firestore db when a new user is registered
    * @param user User object
    */
-  //! Fix Unit tests
   addUserToFirestore(user: User): Observable<User> {
     const { uid, ...userWithoutId } = user;
     return toObservable(

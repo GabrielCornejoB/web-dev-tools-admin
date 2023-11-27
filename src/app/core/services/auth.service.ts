@@ -23,7 +23,6 @@ export class AuthService {
 
   //* Functions
   /** Function to register a new User into Angular Auth */
-  //! Fix Unit Tests
   register(dto: UserCreateDto, password: string): Observable<User> {
     return toObservable(
       createUserWithEmailAndPassword(this.auth, dto.email, password),
@@ -41,7 +40,6 @@ export class AuthService {
   }
 
   /** Function to log-in already existing users */
-  //! Fix Unit Tests
   login(email: string, password: string): Observable<User> {
     return toObservable(
       signInWithEmailAndPassword(this.auth, email, password),
@@ -49,7 +47,6 @@ export class AuthService {
   }
 
   /** Function to logout users from the application */
-  //! Fix Unit Tests
   logout(): Observable<void> {
     return toObservable(signOut(this.auth));
   }
@@ -58,7 +55,6 @@ export class AuthService {
    * Function to get the current Authentication State on the application
    * @returns The authenticated User or null if there's no authenticated user
    */
-  //! Fix Unit Tests
   getAuthState(): Observable<User | null> {
     return authState(this.auth).pipe(
       switchMap((data) => {

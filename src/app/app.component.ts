@@ -14,7 +14,6 @@ export class AppComponent implements OnInit {
   private store = inject(Store);
 
   ngOnInit(): void {
-    console.log('uwu');
     this.store.dispatch(authActions.getCurrentUser());
   }
 }
