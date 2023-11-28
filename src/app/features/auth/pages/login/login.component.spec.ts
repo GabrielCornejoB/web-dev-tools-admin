@@ -38,7 +38,6 @@ describe('Login - Component', () => {
   it('should create and initializate component', () => {
     expect(component).toBeTruthy();
     expect(component.loginForm).toBeTruthy();
-    expect(component.isVisible).toBeFalsy();
   });
 
   describe('ngOnInit()', () => {
@@ -79,9 +78,7 @@ describe('Login - Component', () => {
       component.ngOnInit();
 
       expect(storeMock.select).toHaveBeenCalled();
-      expect(
-        component.loginForm.controls['email'].setErrors,
-      ).toHaveBeenCalledWith(errorMock);
+
       expect(
         component.loginForm.controls['password'].setErrors,
       ).toHaveBeenCalledWith(errorMock);

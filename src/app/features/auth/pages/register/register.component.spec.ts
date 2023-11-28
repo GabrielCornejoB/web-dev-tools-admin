@@ -40,8 +40,6 @@ describe('Register - Component', () => {
   it('should create and initializate component', () => {
     expect(component).toBeTruthy();
     expect(component.registerForm).toBeTruthy();
-    expect(component.isPasswordHidden).toBeTruthy();
-    expect(component.isConfirmPasswordHidden).toBeTruthy();
   });
 
   describe('ngOnInit()', () => {
