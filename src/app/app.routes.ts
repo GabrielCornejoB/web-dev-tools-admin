@@ -23,4 +23,14 @@ export const routes: Routes = [
       import('@dashboard/dashboard.routes').then((r) => r.routes),
     canActivate: [authGuard],
   },
+  {
+    path: 'tools',
+    component: LayoutComponent,
+    loadChildren: () => import('@tools/tools.routes').then((r) => r.routes),
+    canActivate: [authGuard],
+  },
+  {
+    path: '**',
+    redirectTo: '/auth',
+  },
 ];
