@@ -1,0 +1,30 @@
+<div class="flex h-screen flex-col">
+  <nav
+    class="flex h-20 w-screen flex-row items-center justify-between border-b-1 border-base-200 px-5"
+  >
+    <a
+      routerLink="/"
+      class="font-mono text-2xl font-bold normal-case italic hover:text-white"
+    >
+      {{ "\<wdt-admin/>" }}
+    </a>
+
+    <ul
+      class="flex h-full flex-row items-center gap-10 border-l-1 border-base-200 pl-10 pr-5 [&>*:nth-child(4)]:border-l-1 [&>*:nth-child(4)]:border-base-200 [&>*:nth-child(4)]:pl-10"
+    >
+      <li *ngFor="let link of links" class="h-full">
+        <a [routerLink]="link.path" class="flex h-full items-center">
+          <span
+            class="material-symbols-outlined cursor-pointer text-3xl hover:text-white"
+          >
+            {{ link.iconName }}
+          </span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <main class="w-screen flex-grow">
+    <router-outlet />
+  </main>
+</div>
