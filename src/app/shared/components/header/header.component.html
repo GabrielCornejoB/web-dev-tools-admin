@@ -1,9 +1,8 @@
 <header class="flex w-screen flex-row items-center justify-between px-10 py-6">
   <h1 class="text-4xl font-semibold text-white">{{ title }}</h1>
-  <a
-    [routerLink]="redirectTo"
-    class="border-1 border-base-200 px-12 py-3 text-base-300 transition-colors hover:border-white hover:text-white"
-  >
-    {{ buttonText }}
-  </a>
+  <div class="flex w-48 flex-col">
+    <a [routerLink]="redirectTo" wdt-button variation="outlined">
+      {{ buttonText }}
+    </a>
+  </div>
 </header>

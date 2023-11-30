@@ -4,4 +4,36 @@
     buttonText="Go back"
     redirectTo="/tools"
   />
+  <form class="flex w-full flex-row items-start justify-center gap-20">
+    <div class="flex w-72 flex-col gap-6">
+      <wdt-input
+        name="tool"
+        labelText="Tool Name"
+        [hasError]="false"
+        errorText=""
+      />
+      <wdt-input
+        name="category"
+        labelText="Category"
+        [hasError]="false"
+        errorText=""
+      />
+      <wdt-input
+        name="url"
+        labelText="URL to Tool"
+        [hasError]="false"
+        errorText=""
+      />
+    </div>
+    <div class="flex w-72 flex-col gap-6">
+      <wdt-input
+        name="author"
+        labelText="Author"
+        [hasError]="false"
+        errorText=""
+      />
+      <wdt-input name="tags" labelText="Tags" [hasError]="false" errorText="" />
+      <button wdt-button variation="filled">Create Tool</button>
+    </div>
+  </form>
 </div>
