@@ -1,39 +1,62 @@
-<div class="h-full">
+<div class="flex h-full flex-col">
   <wdt-header
     title="Create new Tool"
     buttonText="Go back"
     redirectTo="/tools"
   />
-  <form class="flex w-full flex-row items-start justify-center gap-20">
-    <div class="flex w-72 flex-col gap-6">
-      <wdt-input
-        name="tool"
-        labelText="Tool Name"
-        [hasError]="false"
-        errorText=""
-      />
-      <wdt-input
-        name="category"
-        labelText="Category"
-        [hasError]="false"
-        errorText=""
-      />
-      <wdt-input
-        name="url"
-        labelText="URL to Tool"
-        [hasError]="false"
-        errorText=""
-      />
-    </div>
-    <div class="flex w-72 flex-col gap-6">
-      <wdt-input
-        name="author"
-        labelText="Author"
-        [hasError]="false"
-        errorText=""
-      />
-      <wdt-input name="tags" labelText="Tags" [hasError]="false" errorText="" />
-      <button wdt-button variation="filled">Create Tool</button>
-    </div>
-  </form>
+  <article class="flex w-full grow flex-row">
+    <form
+      class="flex h-full flex-grow flex-row items-center justify-center border-r-1 border-base-200"
+      autocomplete="off"
+    >
+      <div class="flex flex-row gap-20">
+        <div class="flex w-72 flex-col gap-6">
+          <wdt-input
+            name="tool"
+            labelText="Tool Name"
+            [hasError]="false"
+            errorText=""
+          />
+
+          <wdt-input
+            name="category"
+            labelText="Category"
+            [hasError]="false"
+            errorText=""
+          />
+
+          <wdt-textarea
+            name="description"
+            labelText="Description"
+            [hasError]="false"
+            errorText=""
+          />
+
+          <wdt-input
+            name="url"
+            labelText="URL to Tool"
+            [hasError]="false"
+            errorText=""
+          />
+        </div>
+
+        <div class="flex w-72 flex-col gap-6">
+          <wdt-input
+            name="author"
+            labelText="Author"
+            [hasError]="false"
+            errorText=""
+          />
+          <wdt-input
+            name="tags"
+            labelText="Tags"
+            [hasError]="false"
+            errorText=""
+          />
+          <button wdt-button variation="filled">Create Tool</button>
+        </div>
+      </div>
+    </form>
+    <div class="h-full w-96"></div>
+  </article>
 </div>
