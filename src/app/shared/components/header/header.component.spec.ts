@@ -1,18 +1,18 @@
-import { CreateToolPageComponent } from './create-tool-page.component';
+import { HeaderComponent } from './header.component';
 import { Injector } from '@angular/core';
 import { Router } from '@angular/router';
 import { RouterMock } from '@testing/mocks';
 
-describe('CreateToolPageComponent', () => {
-  let component: CreateToolPageComponent = Injector.create({
+describe('HeaderComponent', () => {
+  let component: HeaderComponent = Injector.create({
     providers: [
-      { provide: CreateToolPageComponent },
+      { provide: HeaderComponent },
       {
         provide: Router,
         useValue: RouterMock,
       },
     ],
-  }).get(CreateToolPageComponent);
+  }).get(HeaderComponent);
 
   it('should create', () => {
     expect(component).toBeTruthy();

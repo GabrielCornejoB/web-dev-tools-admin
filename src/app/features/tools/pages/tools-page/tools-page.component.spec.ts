@@ -1,19 +1,18 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ToolsPageComponent } from './tools-page.component';
+import { Injector } from '@angular/core';
+import { Router } from '@angular/router';
+import { RouterMock } from '@testing/mocks';
 
 describe('ToolsPageComponent', () => {
-  let component: ToolsPageComponent;
-  let fixture: ComponentFixture<ToolsPageComponent>;
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [ToolsPageComponent]
-    });
-    fixture = TestBed.createComponent(ToolsPageComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+  let component: ToolsPageComponent = Injector.create({
+    providers: [
+      { provide: ToolsPageComponent },
+      {
+        provide: Router,
+        useValue: RouterMock,
+      },
+    ],
+  }).get(ToolsPageComponent);
 
   it('should create', () => {
     expect(component).toBeTruthy();
