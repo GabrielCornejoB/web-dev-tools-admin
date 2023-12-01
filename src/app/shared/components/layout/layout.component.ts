@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterOutlet } from '@angular/router';
+
 import { NAV_LINKS } from '@core/constants';
 
+/** Main layout component for the core og the application */
 @Component({
   selector: 'wdt-layout',
   standalone: true,

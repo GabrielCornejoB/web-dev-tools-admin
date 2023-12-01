@@ -1,4 +1,5 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, DestroyRef, OnInit, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import {
@@ -7,40 +8,48 @@ import {
   ReactiveFormsModule,
   Validators as V,
 } from '@angular/forms';
-import { combineLatest, Subscription } from 'rxjs';
+import { combineLatest } from 'rxjs';
 import { Store } from '@ngrx/store';
 
-import { getErrorFromField, canPrintError } from '@core/utils';
-import { validEmail } from '@core/validators';
 import {
   authActions,
   selectBackendError,
   selectIsSubmitting,
 } from '@store/auth';
+import { getErrorFromField, canPrintError } from '@core/utils';
+import { validEmail } from '@core/validators';
 import { InputComponent } from '@shared/components';
+import { ButtonDirective } from '@shared/directives';
 
 @Component({
   selector: 'wdt-login',
   standalone: true,
-  imports: [CommonModule, RouterLink, ReactiveFormsModule, InputComponent],
+  imports: [
+    CommonModule,
+    RouterLink,
+    ReactiveFormsModule,
+    InputComponent,
+    ButtonDirective,
+  ],
   templateUrl: './login.component.html',
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent implements OnInit {
   //* Dependency Injection
   private fb = inject(FormBuilder);
   private store = inject(Store);
+  private destroyRef = inject(DestroyRef);
 
   //* Attributes
   loginForm: FormGroup = this.createForm();
   data$ = combineLatest({
     isSubmitting: this.store.select(selectIsSubmitting),
   });
-  subscription = new Subscription();
 
   //* Lifecycle
   ngOnInit(): void {
-    this.subscription = this.store
+    this.store
       .select(selectBackendError)
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((backendError) => {
         if (!backendError) return;
         if (backendError['userNotFound'])
@@ -51,9 +60,6 @@ export class LoginComponent implements OnInit, OnDestroy {
         }
         this.loginForm.controls['password'].setErrors(backendError);
       });
-  }
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 
   //* Core Functions

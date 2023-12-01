@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+/** Custom textarea component, has incorporated error label, meant to be used with Reactive Forms */
 @Component({
   selector: 'wdt-textarea',
   standalone: true,

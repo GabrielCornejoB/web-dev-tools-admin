@@ -1,5 +1,6 @@
-import { AuthService } from '@core/services';
 import { of } from 'rxjs';
+
+import { AuthService } from '@core/services';
 
 /**
  * AuthService mock meant to be used in Unit Tests, is a partial object of the AuthService class

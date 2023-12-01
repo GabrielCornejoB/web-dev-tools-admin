@@ -1,17 +1,17 @@
 import { TestBed } from '@angular/core/testing';
-import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
-import { provideAuth, getAuth } from '@angular/fire/auth';
 import {
   Router,
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
   CanActivateFn,
 } from '@angular/router';
-import { authGuard } from '@core/guards/auth.guard';
+import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
+import { provideAuth, getAuth } from '@angular/fire/auth';
+import { Observable } from 'rxjs';
+
+import { AuthServiceMock, RouterMock } from '@testing/mocks';
 import { AuthService } from '@core/services';
 import { environment } from '@env/environment';
-import { AuthServiceMock, RouterMock } from '@testing/mocks';
-import { Observable } from 'rxjs';
 
 /**
  * Guard initializator function to reduce code in the Guards Unit tests
@@ -25,12 +25,12 @@ export const initGuard = (canActivateGuard: CanActivateFn) => {
       provideAuth(() => getAuth()),
     ],
     providers: [
-      authGuard,
+      canActivateGuard,
       { provide: AuthService, useValue: AuthServiceMock },
       { provide: Router, useValue: RouterMock },
     ],
   });
   return TestBed.runInInjectionContext(() =>
-    canActivateGuard({} as ActivatedRouteSnapshot, {} as RouterStateSnapshot)
+    canActivateGuard({} as ActivatedRouteSnapshot, {} as RouterStateSnapshot),
   ) as Observable<boolean>;
 };

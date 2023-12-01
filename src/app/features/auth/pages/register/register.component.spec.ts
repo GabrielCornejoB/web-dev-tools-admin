@@ -59,15 +59,6 @@ describe('Register - Component', () => {
     });
   });
 
-  describe('ngOnDestroy()', () => {
-    it('should unsubscribe when the component destroys', () => {
-      jest.spyOn(component.subscription, 'unsubscribe');
-      component.ngOnDestroy();
-
-      expect(component.subscription.unsubscribe).toHaveBeenCalled();
-    });
-  });
-
   describe('onSubmit()', () => {
     it('should call markAllAsTouched() if the form is invalid', () => {
       component = initComponent(true);

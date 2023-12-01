@@ -1,7 +1,8 @@
-import { HeaderComponent } from './header.component';
 import { Injector } from '@angular/core';
 import { Router } from '@angular/router';
+
 import { RouterMock } from '@testing/mocks';
+import { HeaderComponent } from './header.component';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent = Injector.create({

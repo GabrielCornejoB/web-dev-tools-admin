@@ -1,6 +1,7 @@
-import { TextareaComponent } from './textarea.component';
 import { Injector } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
+
+import { TextareaComponent } from './textarea.component';
 
 describe('TextareaComponent', () => {
   let component: TextareaComponent = Injector.create({

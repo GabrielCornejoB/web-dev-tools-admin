@@ -1,6 +1,7 @@
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { InputComponent } from './input.component';
 import { Injector } from '@angular/core';
+
+import { InputComponent } from './input.component';
 
 describe('Input - Component', () => {
   let component: InputComponent = Injector.create({

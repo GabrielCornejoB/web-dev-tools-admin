@@ -13,6 +13,7 @@ import { CommonModule } from '@angular/common';
 import { fromEvent } from 'rxjs';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
+/** Custom Dropdown select form field, uses the CVA interface, meant to be used with reactive forms */
 @Component({
   selector: 'wdt-select',
   standalone: true,

@@ -1,5 +1,6 @@
 import { Directive, ElementRef, Input, OnChanges } from '@angular/core';
 
+/** Custom button attribute directive, changes the style based on the variation */
 @Directive({
   selector: '[wdt-button]',
   standalone: true,

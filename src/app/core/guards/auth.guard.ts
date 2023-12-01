@@ -5,7 +5,7 @@ import { map } from 'rxjs';
 import { AuthService } from '@core/services';
 
 /**
- * Guard that allows logged in users to access certain pages of the application
+ * Guard that allows logged in users to access the core of the application
  */
 export const authGuard: CanActivateFn = () => {
   const authService = inject(AuthService);
@@ -18,6 +18,6 @@ export const authGuard: CanActivateFn = () => {
         return false;
       }
       return true;
-    })
+    }),
   );
 };

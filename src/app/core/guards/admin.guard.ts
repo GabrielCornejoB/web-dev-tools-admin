@@ -1,10 +1,11 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { AuthService } from '@core/services';
 import { map } from 'rxjs';
 
+import { AuthService } from '@core/services';
+
 /**
- * Guard that allows logged in admin users to access the Admin module
+ * Guard that allows logged in admin users to access Pages that require Admin permissions
  */
 export const adminGuard: CanActivateFn = () => {
   const authService = inject(AuthService);
@@ -17,6 +18,6 @@ export const adminGuard: CanActivateFn = () => {
         return false;
       }
       return true;
-    })
+    }),
   );
 };

@@ -1,12 +1,13 @@
 import { inject } from '@angular/core';
 import { AuthService } from '@core/services';
+import { Router } from '@angular/router';
+import { FirebaseError } from '@angular/fire/app';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, of, switchMap, tap } from 'rxjs';
-import { authActions } from './auth.actions';
-import { FirebaseError } from '@angular/fire/app';
+
 import { BackendError } from '@core/models';
 import { AUTH } from '@core/constants';
-import { Router } from '@angular/router';
+import { authActions } from './auth.actions';
 
 export const registerEffect = createEffect(
   (actions$ = inject(Actions), authService = inject(AuthService)) => {

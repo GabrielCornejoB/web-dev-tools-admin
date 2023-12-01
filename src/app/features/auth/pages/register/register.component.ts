@@ -1,4 +1,5 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, DestroyRef, OnInit, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import {
@@ -7,50 +8,55 @@ import {
   ReactiveFormsModule,
   Validators as V,
 } from '@angular/forms';
-import { Subscription, combineLatest } from 'rxjs';
+import { combineLatest } from 'rxjs';
 import { Store } from '@ngrx/store';
 
+import {
+  authActions,
+  selectIsSubmitting,
+  selectBackendError,
+} from '@store/auth';
 import {
   canPrintError,
   getErrorFromField,
   getErrorFromForm,
 } from '@core/utils';
 import { validEmail, confirmPassword } from '@core/validators';
-import {
-  authActions,
-  selectIsSubmitting,
-  selectBackendError,
-} from '@store/auth';
 import { InputComponent } from '@shared/components';
+import { ButtonDirective } from '@shared/directives';
 
 @Component({
   selector: 'wdt-register',
   standalone: true,
-  imports: [CommonModule, RouterLink, ReactiveFormsModule, InputComponent],
+  imports: [
+    CommonModule,
+    RouterLink,
+    ReactiveFormsModule,
+    InputComponent,
+    ButtonDirective,
+  ],
   templateUrl: './register.component.html',
 })
-export class RegisterComponent implements OnInit, OnDestroy {
+export class RegisterComponent implements OnInit {
   //* Dependency Injection
   private fb = inject(FormBuilder);
   private store = inject(Store);
+  private destroyRef = inject(DestroyRef);
 
   //* Attributes
   registerForm: FormGroup = this.createForm();
   data$ = combineLatest({
     isSubmitting: this.store.select(selectIsSubmitting),
   });
-  subscription = new Subscription();
 
   //* Lifecycle
   ngOnInit(): void {
-    this.subscription = this.store
+    this.store
       .select(selectBackendError)
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((backendError) => {
         this.registerForm.controls['email'].setErrors(backendError);
       });
-  }
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 
   //* Core Functions

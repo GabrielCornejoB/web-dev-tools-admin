@@ -50,9 +50,10 @@
       />
 
       <button
-        [disabled]="data.isSubmitting"
+        wdt-button
+        variation="filled"
         type="submit"
-        class="bg-base-200 py-3 text-white transition-opacity hover:bg-opacity-75 disabled:cursor-not-allowed disabled:bg-opacity-50"
+        [disabled]="data.isSubmitting"
       >
         {{ data.isSubmitting ? "Loading..." : "Sign Up" }}
       </button>

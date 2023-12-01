@@ -1,11 +1,11 @@
 import { Injector } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { of } from 'rxjs';
 
 import { FormBuilderMock, RouterMock, StoreMock } from '@testing/mocks';
 import { LoginComponent } from './login.component';
-import { Store } from '@ngrx/store';
-import { of } from 'rxjs';
 
 function initComponent(invalidForm: boolean = false): LoginComponent {
   return Injector.create({
@@ -96,15 +96,6 @@ describe('Login - Component', () => {
       expect(
         component.loginForm.controls['password'].setErrors,
       ).toHaveBeenCalledWith(errorMock);
-    });
-  });
-
-  describe('ngOnDestroy()', () => {
-    it('should unsubscribe when the component destroys', () => {
-      jest.spyOn(component.subscription, 'unsubscribe');
-      component.ngOnDestroy();
-
-      expect(component.subscription.unsubscribe).toHaveBeenCalled();
     });
   });
 
