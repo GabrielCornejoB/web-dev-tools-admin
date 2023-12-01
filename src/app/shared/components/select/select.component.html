@@ -1,0 +1,49 @@
+<div
+  #selectContainer
+  class="relative w-full cursor-pointer select-none border-1 bg-transparent p-3 text-base-300"
+  [ngClass]="{
+    'border-red-400': hasError,
+    'border-base-200': !hasError,
+    'outline-double outline-2 outline-offset-2': isMenuOpen,
+    'outline-base-200': isMenuOpen && !hasError,
+    'outline-red-400': isMenuOpen && hasError
+  }"
+>
+  <div
+    (click)="isMenuOpen = !isMenuOpen"
+    class="flex w-full flex-row justify-between"
+  >
+    <span [ngClass]="{ 'text-white': currentValue }">
+      {{ !currentValue ? placeholder : currentValue }}
+    </span>
+    <span class="material-symbols-outlined">
+      {{ isMenuOpen ? "expand_less" : "expand_more" }}
+    </span>
+  </div>
+
+  <div
+    *ngIf="isMenuOpen"
+    class="absolute left-0 top-16 z-50 max-h-44 w-full overflow-y-auto border-1 border-base-200 bg-base-100"
+  >
+    <ul
+      class="flex flex-col [&>*:not(:last-child)]:border-b-1 [&>*:not(:last-child)]:border-base-200"
+    >
+      <li *ngFor="let option of options">
+        <button
+          (click)="selectOption(option)"
+          type="button"
+          class="w-full p-3 text-left transition-colors hover:text-white"
+        >
+          {{ option }}
+        </button>
+      </li>
+    </ul>
+  </div>
+</div>
+<span
+  class="pl-1 text-sm text-red-400"
+  [ngClass]="{ 'text-transparent': !hasError }"
+>
+  <ng-container *ngIf="!hasError">i</ng-container>
+  {{ errorText }}
+</span>

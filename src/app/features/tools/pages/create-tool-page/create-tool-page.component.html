@@ -6,8 +6,8 @@
   />
   <article class="flex w-full grow flex-row">
     <form
-      class="flex h-full flex-grow flex-row items-center justify-center border-r-1 border-base-200"
       autocomplete="off"
+      class="flex h-full flex-grow flex-row items-center justify-center border-r-1 border-base-200"
     >
       <div class="flex flex-row gap-20">
         <div class="flex w-72 flex-col gap-6">
@@ -18,9 +18,9 @@
             errorText=""
           />
 
-          <wdt-input
-            name="category"
-            labelText="Category"
+          <wdt-select
+            [options]="['Tools', 'Icons']"
+            placeholder="Select a Category"
             [hasError]="false"
             errorText=""
           />

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import {
   HeaderComponent,
   InputComponent,
+  SelectComponent,
   TextareaComponent,
 } from '@shared/components';
 import { ButtonDirective } from '@shared/directives';
@@ -12,9 +13,11 @@ import { ButtonDirective } from '@shared/directives';
   standalone: true,
   imports: [
     CommonModule,
+
     HeaderComponent,
     InputComponent,
     TextareaComponent,
+    SelectComponent,
     ButtonDirective,
   ],
   templateUrl: './create-tool-page.component.html',
