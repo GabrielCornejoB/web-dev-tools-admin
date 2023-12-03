@@ -1,6 +1,8 @@
 import { Component, Input, forwardRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
+
+import { CvaImplementation } from '@core/utils';
 
 /** Custom Input component, has incorporated error label, meant to be used with Reactive Forms */
 @Component({
@@ -16,19 +18,15 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
     },
   ],
 })
-export class InputComponent implements ControlValueAccessor {
-  //* Inputs
+export class InputComponent extends CvaImplementation {
+  //* Attributes
   @Input({ required: true }) name: string = '';
   @Input({ required: true }) labelText: string = '';
   @Input({ required: true }) hasError: boolean | null = null;
   @Input({ required: true }) errorText: string | null = null;
   @Input() type: 'text' | 'password' = 'text';
 
-  //* Attributes
-  value: string = '';
   isVisible: boolean = false;
-  onChange = (value: string) => {};
-  onTouched = () => {};
 
   //* Functions
   onInputWrite(event: Event) {
@@ -36,17 +34,6 @@ export class InputComponent implements ControlValueAccessor {
     this.onChange(val);
   }
   onBlur() {
-    if (!this.value) this.onTouched();
-  }
-
-  //* CVA Implementation
-  writeValue(value: string): void {
-    this.value = value;
-  }
-  registerOnChange(fn: (value: string) => void): void {
-    this.onChange = fn;
-  }
-  registerOnTouched(fn: () => void): void {
-    this.onTouched = fn;
+    if (!this.currentValue) this.onTouched();
   }
 }
