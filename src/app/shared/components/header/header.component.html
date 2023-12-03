@@ -1,10 +1,19 @@
-<header
-  class="flex w-screen flex-row items-center justify-between border-b-1 border-base-200 px-10 py-6"
->
-  <h1 class="text-4xl font-semibold text-white">{{ title }}</h1>
-  <div class="flex w-48 flex-col">
-    <a [routerLink]="redirectTo" wdt-button variation="outlined">
-      {{ buttonText }}
-    </a>
-  </div>
-</header>
+<ng-container *ngIf="currentUser$ | async as user">
+  <header
+    class="flex h-[100px] w-screen flex-row items-center justify-between border-b-1 border-base-200 px-10 py-6"
+  >
+    <h1 class="text-4xl font-semibold text-white">
+      {{ title }}
+    </h1>
+    <div class="flex w-48 flex-col">
+      <a
+        *ngIf="user.isAdmin"
+        [routerLink]="redirectTo"
+        wdt-button
+        variation="outlined"
+      >
+        {{ buttonText }}
+      </a>
+    </div>
+  </header>
+</ng-container>

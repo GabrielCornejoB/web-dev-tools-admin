@@ -1,7 +1,9 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { Store } from '@ngrx/store';
 
+import { selectCurrentUser } from '@store/auth';
 import { ButtonDirective } from '@shared/directives';
 
 /**
@@ -14,7 +16,14 @@ import { ButtonDirective } from '@shared/directives';
   templateUrl: './header.component.html',
 })
 export class HeaderComponent {
+  //* Dependency Injection
+  private store = inject(Store);
+
+  //* Inputs
   @Input({ required: true }) title: string = '';
   @Input({ required: true }) buttonText: string = '';
   @Input({ required: true }) redirectTo: string = '';
+
+  //* Attributes
+  currentUser$ = this.store.select(selectCurrentUser);
 }
