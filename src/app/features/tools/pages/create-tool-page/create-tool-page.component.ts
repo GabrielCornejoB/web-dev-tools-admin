@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import {
+  AutocompleteComponent,
   HeaderComponent,
   InputComponent,
   SelectComponent,
@@ -19,6 +20,7 @@ import { ButtonDirective } from '@shared/directives';
     InputComponent,
     TextareaComponent,
     SelectComponent,
+    AutocompleteComponent,
     ButtonDirective,
   ],
   templateUrl: './create-tool-page.component.html',

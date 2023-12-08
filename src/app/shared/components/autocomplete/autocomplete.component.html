@@ -1,4 +1,52 @@
-<div>
-  <input #inputElement type="text" />
-  <p>autocomplete works!</p>
+<div #container class="relative">
+  <input
+    #inputElement
+    [(ngModel)]="currentValue"
+    (ngModelChange)="onInputWrite()"
+    (focus)="isMenuOpen = true"
+    type="text"
+    [name]="name"
+    [id]="name"
+    class="peer w-full border-1 bg-transparent p-3 text-white placeholder:invisible focus:outline-none focus:outline-2 focus:outline-offset-2"
+    [ngClass]="
+      hasError
+        ? 'border-red-400 focus:outline-red-400'
+        : 'border-base-200 outline-base-200 focus:outline-base-200'
+    "
+    placeholder="uwu"
+  />
+
+  <label
+    [attr.for]="name"
+    class="absolute -top-6 left-1 cursor-text text-sm text-base-300 transition-all peer-placeholder-shown:left-3 peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-base peer-focus:-top-6 peer-focus:left-1 peer-focus:text-sm"
+  >
+    {{ labelText }}
+  </label>
+
+  <div
+    *ngIf="isMenuOpen && filteredOptions.length > 0"
+    class="absolute left-0 top-16 z-50 max-h-44 w-full overflow-y-auto border-1 border-base-200 bg-base-100"
+  >
+    <ul
+      class="flex flex-col [&>*:not(:last-child)]:border-b-1 [&>*:not(:last-child)]:border-base-200"
+    >
+      <li *ngFor="let option of filteredOptions">
+        <button
+          (click)="selectOption(option)"
+          type="button"
+          class="w-full p-3 text-left transition-colors hover:text-white"
+        >
+          {{ option }}
+        </button>
+      </li>
+    </ul>
+  </div>
+
+  <span
+    class="pl-1 text-sm text-red-400"
+    [ngClass]="{ 'text-transparent': !hasError }"
+  >
+    <ng-container *ngIf="!hasError">i</ng-container>
+    {{ errorText }}
+  </span>
 </div>

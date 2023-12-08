@@ -20,7 +20,7 @@
 
           <wdt-select
             [options]="['Tools', 'Icons']"
-            placeholder="Select a Category"
+            labelText="Category"
             [hasError]="false"
             errorText=""
           />
@@ -41,12 +41,20 @@
         </div>
 
         <div class="flex w-72 flex-col gap-6">
-          <wdt-input
+          <!-- <wdt-input
             name="author"
             labelText="Author"
             [hasError]="false"
             errorText=""
-          />
+          /> -->
+          <wdt-autocomplete
+            name="author"
+            [options]="['hola', 'mundo', 'uwu', 'donda', 'yeezy']"
+            labelText="Author"
+            [hasError]="false"
+            errorText="a"
+          ></wdt-autocomplete>
+
           <wdt-input
             name="tags"
             labelText="Tags"

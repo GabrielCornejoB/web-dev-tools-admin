@@ -38,7 +38,7 @@ export class SelectComponent
 
   //* Attributes
   @Input({ required: true }) options: string[] = [];
-  @Input({ required: true }) placeholder: string = '';
+  @Input({ required: true }) labelText: string = '';
   @Input({ required: true }) hasError: boolean | null = null;
   @Input({ required: true }) errorText: string | null = null;
 

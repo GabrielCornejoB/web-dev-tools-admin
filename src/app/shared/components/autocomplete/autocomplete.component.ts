@@ -4,12 +4,13 @@ import {
   DestroyRef,
   ElementRef,
   Input,
+  OnInit,
   ViewChild,
   forwardRef,
   inject,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { debounceTime, fromEvent } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -18,7 +19,7 @@ import { CvaImplementation } from '@core/utils';
 @Component({
   selector: 'wdt-autocomplete',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './autocomplete.component.html',
   providers: [
     {
@@ -30,40 +31,63 @@ import { CvaImplementation } from '@core/utils';
 })
 export class AutocompleteComponent
   extends CvaImplementation
-  implements AfterViewInit
+  implements OnInit, AfterViewInit
 {
   //* Dependency Injection
   private destroyRef = inject(DestroyRef);
 
   //* Attributes
+  @Input({ required: true }) name: string = '';
   @Input({ required: true }) options: string[] = [];
-  @Input({ required: true }) placeholder: string = '';
+  @Input({ required: true }) labelText: string = '';
   @Input({ required: true }) hasError: boolean | null = null;
   @Input({ required: true }) errorText: string | null = null;
 
   @ViewChild('inputElement') element!: ElementRef<HTMLInputElement>;
+  @ViewChild('container') container!: ElementRef<HTMLDivElement>;
 
   isMenuOpen: boolean = false;
+  filteredOptions: string[] = [];
 
   //* Lifecycle
+  ngOnInit(): void {
+    this.filteredOptions = this.options;
+  }
   ngAfterViewInit(): void {
-    fromEvent(this.element.nativeElement, 'keyup')
-      .pipe(takeUntilDestroyed(this.destroyRef), debounceTime(1000))
-      .subscribe((e) => {
-        const value = (e.target as HTMLInputElement).value;
-        console.log(value);
-      });
+    this.subscribeToFilterOptions();
+    this.subscribeToClickOutsideOfElement();
   }
 
   //* Functions
-  onInputWrite(event: Event) {
-    const value = (event.target as HTMLInputElement).value;
+  onInputWrite() {
+    if (this.currentValue !== null) this.onChange(this.currentValue);
+  }
+  selectOption(value: string) {
+    this.isMenuOpen = false;
+    this.currentValue = value;
     this.onChange(value);
   }
-  selectValue(value: string) {
-    this.onChange(value);
+  subscribeToFilterOptions() {
+    fromEvent(this.element.nativeElement, 'keyup')
+      .pipe(takeUntilDestroyed(this.destroyRef), debounceTime(100))
+      .subscribe((e) => {
+        const value = (e.target as HTMLInputElement).value;
+        this.filteredOptions = value
+          ? this.options.filter((o) => o.startsWith(value))
+          : [...this.options];
+      });
   }
-  onBlur() {
-    if (!this.currentValue) this.onTouched();
+  subscribeToClickOutsideOfElement() {
+    fromEvent(document, 'click')
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((e) => {
+        if (
+          !this.container.nativeElement.contains(e.target as Node) &&
+          this.isMenuOpen
+        ) {
+          this.isMenuOpen = !this.isMenuOpen;
+          this.onTouched();
+        }
+      });
   }
 }

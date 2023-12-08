@@ -13,13 +13,24 @@
     (click)="isMenuOpen = !isMenuOpen"
     class="flex w-full flex-row justify-between"
   >
-    <span [ngClass]="{ 'text-white': currentValue }">
-      {{ !currentValue ? placeholder : currentValue }}
+    <span class="text-white">
+      {{ currentValue }}
     </span>
     <span class="material-symbols-outlined">
       {{ isMenuOpen ? "expand_less" : "expand_more" }}
     </span>
   </div>
+
+  <label
+    (click)="isMenuOpen = !isMenuOpen"
+    class="absolute cursor-pointer text-base-300 transition-all"
+    [ngClass]="{
+      '-top-6 left-1 text-sm': isMenuOpen || currentValue,
+      'left-3 top-3': !isMenuOpen && !currentValue
+    }"
+  >
+    {{ labelText }}
+  </label>
 
   <div
     *ngIf="isMenuOpen"
@@ -40,6 +51,7 @@
     </ul>
   </div>
 </div>
+
 <span
   class="pl-1 text-sm text-red-400"
   [ngClass]="{ 'text-transparent': !hasError }"
