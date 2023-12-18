@@ -7,7 +7,7 @@
     type="text"
     [name]="name"
     [id]="name"
-    class="peer w-full border-1 bg-transparent p-3 text-white placeholder:invisible focus:outline-none focus:outline-2 focus:outline-offset-2"
+    class="w-full border-1 bg-transparent p-3 text-white placeholder:invisible focus:outline-none focus:outline-2 focus:outline-offset-2"
     [ngClass]="
       hasError
         ? 'border-red-400 focus:outline-red-400'
@@ -18,7 +18,11 @@
 
   <label
     [attr.for]="name"
-    class="absolute -top-6 left-1 cursor-text text-sm text-base-300 transition-all peer-placeholder-shown:left-3 peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-base peer-focus:-top-6 peer-focus:left-1 peer-focus:text-sm"
+    class="absolute cursor-text text-base-300 transition-all"
+    [ngClass]="{
+      '-top-6 left-1 text-sm': isMenuOpen || currentValue,
+      'left-3 top-3.5': !isMenuOpen && !currentValue
+    }"
   >
     {{ labelText }}
   </label>

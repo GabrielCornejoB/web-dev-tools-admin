@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { debounceTime, fromEvent } from 'rxjs';
+import { fromEvent } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { CvaImplementation } from '@core/utils';
@@ -54,28 +54,26 @@ export class AutocompleteComponent
     this.filteredOptions = this.options;
   }
   ngAfterViewInit(): void {
-    this.subscribeToFilterOptions();
     this.subscribeToClickOutsideOfElement();
   }
 
   //* Functions
   onInputWrite() {
-    if (this.currentValue !== null) this.onChange(this.currentValue);
+    if (this.currentValue !== null) {
+      this.onChange(this.currentValue);
+
+      const value = this.currentValue.toLowerCase();
+      this.filteredOptions = this.filterOptions(value);
+      return;
+    }
+    this.onChange('');
+    this.filteredOptions = [...this.options];
   }
-  selectOption(value: string) {
+  selectOption(option: string) {
+    this.onChange(option);
+    this.currentValue = option;
+    this.filteredOptions = this.filterOptions(option);
     this.isMenuOpen = false;
-    this.currentValue = value;
-    this.onChange(value);
-  }
-  subscribeToFilterOptions() {
-    fromEvent(this.element.nativeElement, 'keyup')
-      .pipe(takeUntilDestroyed(this.destroyRef), debounceTime(100))
-      .subscribe((e) => {
-        const value = (e.target as HTMLInputElement).value;
-        this.filteredOptions = value
-          ? this.options.filter((o) => o.startsWith(value))
-          : [...this.options];
-      });
   }
   subscribeToClickOutsideOfElement() {
     fromEvent(document, 'click')
@@ -89,5 +87,8 @@ export class AutocompleteComponent
           this.onTouched();
         }
       });
+  }
+  filterOptions(param: string) {
+    return this.options.filter((opt) => opt.toLowerCase().startsWith(param));
   }
 }
