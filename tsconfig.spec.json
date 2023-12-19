@@ -13,7 +13,7 @@
       "@tools/*": ["src/app/features/tools/*"],
       "@shared/*": ["src/app/shared/*"],
       "@core/*": ["src/app/core/*"],
-      "@testing/*": ["src/app/testing/*"],
+      "@tests/*": ["src/tests/*"],
       "@store/*": ["src/app/store/*"],
       "@env/*": ["src/environments/*"]
     }
