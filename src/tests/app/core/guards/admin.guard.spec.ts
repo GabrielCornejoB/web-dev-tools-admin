@@ -1,11 +1,11 @@
 import { Router } from '@angular/router';
 
-import { adminGuard } from '../../../../app/core/guards/admin.guard';
 import { AuthService } from '@core/services';
-import { AuthServiceMock, RouterMock } from 'src/tests/mocks';
-import { initGuard } from 'src/tests/setups';
+import { AuthServiceMock, RouterMock } from '@tests/mocks';
+import { initGuard } from '@tests/setups';
 import { Observable, of } from 'rxjs';
 import { User } from '@core/models';
+import { adminGuard } from '@core/guards';
 
 describe('Admin - Guard', () => {
   let guard: Observable<boolean>;

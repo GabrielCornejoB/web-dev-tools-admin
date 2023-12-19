@@ -2,10 +2,9 @@ import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import * as AngularFireAuth from '@angular/fire/auth';
 
-import { UsersServiceMock } from 'src/tests/mocks/users-service.mock';
 import { UserCreateDto } from '@core/models';
-import { AuthService } from '../../../../app/core/services/auth.service';
-import { UsersService } from '../../../../app/core/services/users.service';
+import { AuthService, UsersService } from '@core/services';
+import { UsersServiceMock } from '@tests/mocks';
 
 jest.mock('@angular/fire/firestore');
 jest.mock('@angular/fire/auth');

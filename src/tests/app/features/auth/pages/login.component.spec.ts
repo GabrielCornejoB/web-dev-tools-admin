@@ -3,9 +3,8 @@ import { Router } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
-
-import { FormBuilderMock, RouterMock, StoreMock } from 'src/tests/mocks';
-import { LoginComponent } from '../../../../../app/features/auth/pages/login/login.component';
+import { LoginComponent } from '@auth/pages/login/login.component';
+import { StoreMock, FormBuilderMock, RouterMock } from '@tests/mocks';
 
 function initComponent(invalidForm: boolean = false): LoginComponent {
   return Injector.create({

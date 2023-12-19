@@ -1,5 +1,5 @@
 import { FormControl, FormGroup } from '@angular/forms';
-import { confirmPassword } from '../../../../app/core/validators/confirm-password.validator';
+import { confirmPassword } from '@core/validators';
 
 describe('ConfirmPassword - Validator', () => {
   it('should return null if both controls does not exist in the AbstractControl', () => {

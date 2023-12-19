@@ -1,7 +1,6 @@
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Injector } from '@angular/core';
-
-import { InputComponent } from '../../../../app/shared/components/input/input.component';
+import { InputComponent } from '@shared/components';
 
 describe('Input - Component', () => {
   let component: InputComponent = Injector.create({
@@ -30,7 +29,7 @@ describe('Input - Component', () => {
 
   describe('onBlur()', () => {
     it('should not call onTouched() when the "value" attr is truthy', () => {
-      component.value = 'test value';
+      component.currentValue = 'test value';
       jest.spyOn(component, 'onTouched');
 
       component.onBlur();
@@ -39,7 +38,7 @@ describe('Input - Component', () => {
     });
 
     it('should call onTouched() when the "value" attr is falsy', () => {
-      component.value = '';
+      component.currentValue = '';
       jest.spyOn(component, 'onTouched');
 
       component.onBlur();
@@ -51,7 +50,7 @@ describe('Input - Component', () => {
   describe('CVA Functions', () => {
     it('should re-assign the "value" attr', () => {
       component.writeValue('test');
-      expect(component.value).toEqual('test');
+      expect(component.currentValue).toEqual('test');
     });
 
     it('should re-assign the "onChange" attr', () => {

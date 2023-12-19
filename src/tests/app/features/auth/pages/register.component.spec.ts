@@ -2,10 +2,10 @@ import { Injector } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
 
-import { FormBuilderMock, RouterMock, StoreMock } from 'src/tests/mocks';
-import { RegisterComponent } from '../../../../../app/features/auth/pages/register/register.component';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
+import { RegisterComponent } from '@auth/pages/register/register.component';
+import { StoreMock, FormBuilderMock, RouterMock } from '@tests/mocks';
 
 function initComponent(invalidForm: boolean = false): RegisterComponent {
   return Injector.create({

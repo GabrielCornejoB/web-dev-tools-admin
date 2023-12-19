@@ -6,12 +6,9 @@ import {
   provideFirestore,
 } from '@angular/fire/firestore';
 import * as AngularFirestore from '@angular/fire/firestore';
+import { getDocumentById, getDocuments } from '@core/utils';
 
 import { environment } from '@env/environment';
-import {
-  getDocumentById,
-  getDocuments,
-} from '../../../../app/core/utils/firestore.utils';
 
 describe('Firestore - Utils', () => {
   let firestore: Firestore;

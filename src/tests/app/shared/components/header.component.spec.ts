@@ -1,9 +1,8 @@
 import { Injector } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-
-import { RouterMock, StoreMock } from 'src/tests/mocks';
-import { HeaderComponent } from '../../../../app/shared/components/header/header.component';
+import { HeaderComponent } from '@shared/components';
+import { StoreMock, RouterMock } from '@tests/mocks';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent = Injector.create({

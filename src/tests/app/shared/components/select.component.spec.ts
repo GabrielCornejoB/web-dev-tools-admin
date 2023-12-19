@@ -1,9 +1,8 @@
 import { Injector } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { SelectComponent } from '@shared/components';
 import * as Rxjs from 'rxjs';
 import { of } from 'rxjs';
-
-import { SelectComponent } from '../../../../app/shared/components/select/select.component';
 
 describe('SelectComponent', () => {
   let component: SelectComponent = Injector.create({

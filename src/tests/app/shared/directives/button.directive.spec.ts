@@ -1,6 +1,6 @@
 import { ElementRef } from '@angular/core';
-import { ButtonDirective } from '../../../../app/shared/directives/button.directive';
-import { ElementRefMock } from 'src/tests/mocks';
+import { ButtonDirective } from '@shared/directives';
+import { ElementRefMock } from '@tests/mocks';
 
 describe('ButtonDirective', () => {
   const elementRefMock = ElementRefMock as ElementRef;

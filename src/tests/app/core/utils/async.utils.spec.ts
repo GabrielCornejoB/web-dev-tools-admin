@@ -1,4 +1,4 @@
-import { toObservable } from '../../../../app/core/utils/async.utils';
+import { toObservable } from '@core/utils';
 
 describe('Async - Utils', () => {
   it('toObservable()', () => {

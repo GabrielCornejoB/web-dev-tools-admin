@@ -3,9 +3,9 @@ import { User } from '@angular/fire/auth';
 import { Observable, of } from 'rxjs';
 
 import { AuthService } from '@core/services';
-import { AuthServiceMock, RouterMock } from 'src/tests/mocks';
-import { initGuard } from 'src/tests/setups';
-import { authGuard } from '../../../../app/core/guards/auth.guard';
+import { authGuard } from '@core/guards';
+import { AuthServiceMock, RouterMock } from '@tests/mocks';
+import { initGuard } from '@tests/setups';
 
 describe('Auth - Guard', () => {
   let guard: Observable<boolean>;

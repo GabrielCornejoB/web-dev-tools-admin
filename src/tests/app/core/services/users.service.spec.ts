@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import * as AngularFirestore from '@angular/fire/firestore';
+import { UsersService } from '@core/services';
 
 import * as FirestoreUtils from '@core/utils/firestore.utils';
-import { UsersService } from '../../../../app/core/services/users.service';
 
 jest.mock('@angular/fire/firestore');
 

@@ -1,7 +1,7 @@
 import { Injector } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { StoreMock } from 'src/tests/mocks';
-import { AppComponent } from '../../app/app.component';
+import { StoreMock } from '@tests/mocks';
+import { AppComponent } from 'src/app/app.component';
 
 describe('App - Component', () => {
   let component = Injector.create({

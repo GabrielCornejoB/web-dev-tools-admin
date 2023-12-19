@@ -2,20 +2,21 @@ import { Router } from '@angular/router';
 import { Action } from '@ngrx/store';
 import { Observable, of, throwError } from 'rxjs';
 
-import { AuthServiceMock, RouterMock } from 'src/tests/mocks';
 import { AuthService } from '@core/services';
 import { User } from '@core/models';
 import { AUTH } from '@core/constants';
+
+import { AuthServiceMock, RouterMock } from '@tests/mocks';
 import {
-  getCurrentUserEffect,
-  loginEffect,
-  logoutEffect,
-  redirectAfterLoginEffect,
-  redirectAfterLogoutEffect,
-  redirectAfterRegisterEffect,
+  authActions,
   registerEffect,
-} from '../../../../app/store/auth/auth.effects';
-import { authActions } from '../../../../app/store/auth/auth.actions';
+  redirectAfterRegisterEffect,
+  loginEffect,
+  redirectAfterLoginEffect,
+  logoutEffect,
+  redirectAfterLogoutEffect,
+  getCurrentUserEffect,
+} from '@store/auth';
 
 describe('Auth - Effects', () => {
   let actions$ = new Observable<Action>();

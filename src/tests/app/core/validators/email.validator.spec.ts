@@ -1,5 +1,5 @@
 import { FormControl } from '@angular/forms';
-import { validEmail } from '../../../../app/core/validators/email.validator';
+import { validEmail } from '@core/validators';
 
 describe('Email - Validator', () => {
   it('should return null if the email is valid', () => {

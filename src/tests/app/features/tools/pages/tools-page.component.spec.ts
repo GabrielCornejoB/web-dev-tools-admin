@@ -1,7 +1,7 @@
-import { ToolsPageComponent } from '../../../../../app/features/tools/pages/tools-page/tools-page.component';
 import { Injector } from '@angular/core';
 import { Router } from '@angular/router';
-import { RouterMock } from 'src/tests/mocks';
+import { RouterMock } from '@tests/mocks';
+import { ToolsPageComponent } from '@tools/pages/tools-page/tools-page.component';
 
 describe('ToolsPageComponent', () => {
   let component: ToolsPageComponent = Injector.create({

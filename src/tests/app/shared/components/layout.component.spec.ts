@@ -1,8 +1,7 @@
 import { Router } from '@angular/router';
-import { RouterMock } from 'src/tests/mocks';
 import { Injector } from '@angular/core';
-
-import { LayoutComponent } from '../../../../app/shared/components/layout/layout.component';
+import { LayoutComponent } from '@shared/components';
+import { RouterMock } from '@tests/mocks';
 
 describe('Layout - Component', () => {
   let component: LayoutComponent = Injector.create({

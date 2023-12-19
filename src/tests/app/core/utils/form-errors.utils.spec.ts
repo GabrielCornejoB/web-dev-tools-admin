@@ -1,11 +1,11 @@
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
-  canPrintError,
+  getErrorMessages,
   getErrorFromField,
   getErrorFromForm,
-  getErrorMessages,
-} from '../../../../app/core/utils/form-errors.utils';
-import { FormBuilderMock } from 'src/tests/mocks';
+  canPrintError,
+} from '@core/utils';
+import { FormBuilderMock } from '@tests/mocks';
 
 describe('FormErrors - Utils', () => {
   describe('getErrorMessages()', () => {

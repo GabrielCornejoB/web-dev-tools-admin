@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { AutocompleteComponent } from '../../../../app/shared/components/autocomplete/autocomplete.component';
+import { AutocompleteComponent } from '@shared/components';
 
 describe('AutocompleteComponent', () => {
   let component: AutocompleteComponent;

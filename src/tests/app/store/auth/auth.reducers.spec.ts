@@ -1,7 +1,5 @@
 import { User } from '@core/models';
-import { authReducer } from '../../../../app/store/auth/auth.reducers';
-import { AuthState } from '../../../../app/store/auth/auth.state';
-import { authActions } from '../../../../app/store/auth/auth.actions';
+import { AuthState, authReducer, authActions } from '@store/auth';
 
 describe('Auth - Reducers', () => {
   const mockState: AuthState = {
