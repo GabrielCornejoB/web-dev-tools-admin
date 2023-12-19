@@ -3,8 +3,10 @@ import {
   Component,
   DestroyRef,
   ElementRef,
+  EventEmitter,
   Input,
   OnInit,
+  Output,
   ViewChild,
   forwardRef,
   inject,
@@ -42,6 +44,9 @@ export class AutocompleteComponent
   @Input({ required: true }) labelText: string = '';
   @Input({ required: true }) hasError: boolean | null = null;
   @Input({ required: true }) errorText: string | null = null;
+  @Input() hasButton: boolean = false;
+
+  @Output() buttonClicked: EventEmitter<string> = new EventEmitter();
 
   @ViewChild('inputElement') element!: ElementRef<HTMLInputElement>;
   @ViewChild('container') container!: ElementRef<HTMLDivElement>;
@@ -73,6 +78,13 @@ export class AutocompleteComponent
     this.onChange(option);
     this.currentValue = option;
     this.filteredOptions = this.filterOptions(option);
+    this.isMenuOpen = false;
+  }
+  emitValue() {
+    if (this.currentValue) this.buttonClicked.emit(this.currentValue);
+    this.onChange('');
+    this.currentValue = '';
+    this.filteredOptions = [...this.options];
     this.isMenuOpen = false;
   }
   subscribeToClickOutsideOfElement() {

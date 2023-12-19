@@ -1,5 +1,6 @@
 <div #container class="relative">
   <input
+    *ngIf="!hasButton"
     #inputElement
     [(ngModel)]="currentValue"
     (ngModelChange)="onInputWrite()"
@@ -15,6 +16,33 @@
     "
     placeholder="uwu"
   />
+
+  <div *ngIf="hasButton" class="relative">
+    <input
+      #inputElement
+      [(ngModel)]="currentValue"
+      (ngModelChange)="onInputWrite()"
+      (focus)="isMenuOpen = true"
+      type="text"
+      [name]="name"
+      [id]="name"
+      class="w-full border-1 bg-transparent p-3 text-white placeholder:invisible focus:outline-none focus:outline-2 focus:outline-offset-2"
+      [ngClass]="
+        hasError
+          ? 'border-red-400 focus:outline-red-400'
+          : 'border-base-200 outline-base-200 focus:outline-base-200'
+      "
+      placeholder="uwu"
+    />
+    <button
+      (click)="emitValue()"
+      type="button"
+      class="absolute bottom-0 right-0 top-0 bg-base-200 px-6"
+      [ngClass]="{ 'border-y-1 border-r-1 border-red-400': hasError }"
+    >
+      ADD
+    </button>
+  </div>
 
   <label
     [attr.for]="name"

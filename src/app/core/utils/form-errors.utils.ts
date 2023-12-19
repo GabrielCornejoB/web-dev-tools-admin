@@ -11,9 +11,9 @@ function getErrorMessages(errors: ValidationErrors): string {
   const errorKey = Object.keys(errors)[0];
 
   if (errorKey === 'minlength')
-    return `This field requires at least ${errors['minlength'].requiredLength} characters`;
+    return `This field requires at least ${errors['minlength'].requiredLength} chars`;
   if (errorKey === 'maxlength')
-    return `This field cannot be more than ${errors['maxlength'].requiredLength} characters`;
+    return `This field cannot be more than ${errors['maxlength'].requiredLength} chars`;
 
   return FORM_ERROR_MESSAGES[errorKey] ?? 'Invalid field';
 }

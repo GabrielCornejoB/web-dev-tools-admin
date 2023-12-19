@@ -1,5 +1,7 @@
 <div class="relative">
   <textarea
+    (keyup)="onInputWrite($event)"
+    (blur)="onBlur()"
     [name]="name"
     [id]="name"
     [rows]="numberOfLines"
