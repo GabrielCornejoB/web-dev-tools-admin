@@ -11,9 +11,9 @@ describe('FormBuilder - Mock', () => {
   });
 
   it('should create a valid form group', () => {
-    const formBuilderMock = FormBuilderMock(mockData, false);
+    const formBuilderMock = FormBuilderMock(mockData, 'valid');
 
-    const formGroup = formBuilderMock.group();
+    const formGroup = formBuilderMock.group({});
 
     expect(formGroup).toBeTruthy();
     expect(formGroup.markAllAsTouched).not.toHaveBeenCalled();
@@ -22,9 +22,9 @@ describe('FormBuilder - Mock', () => {
   });
 
   it('should create an invalid form group', () => {
-    const formBuilderMock = FormBuilderMock(mockData, true);
+    const formBuilderMock = FormBuilderMock(mockData, 'invalid');
 
-    const formGroup = formBuilderMock.group();
+    const formGroup = formBuilderMock.group({});
 
     expect(formGroup).toBeTruthy();
     expect(formGroup.markAllAsTouched).not.toHaveBeenCalled();

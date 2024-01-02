@@ -91,8 +91,10 @@ describe('FormErrors - Utils', () => {
   });
 
   describe('canPrintError()', () => {
-    it('should return true if formGroup has error and field hjas been touched', () => {
-      const fg = FormBuilderMock({ test: 'test' }, true).group() as any;
+    it('should return true if formGroup has error and field has been touched', () => {
+      const fg = FormBuilderMock({ test: 'test' }, 'invalid').group({}) as any;
+
+      console.log(fg);
 
       const result = canPrintError(fg, 'test');
 
