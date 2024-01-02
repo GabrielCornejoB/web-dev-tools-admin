@@ -1,40 +1,43 @@
-import { Injector } from '@angular/core';
-import { Router } from '@angular/router';
+import { DestroyRef } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 
 import { RegisterComponent } from '@auth/pages/register/register.component';
-import { StoreMock, FormBuilderMock, RouterMock } from '@tests/mocks';
-
-function initComponent(invalidForm: boolean = false): RegisterComponent {
-  return Injector.create({
-    providers: [
-      { provide: RegisterComponent },
-      { provide: Store, useValue: StoreMock },
-      {
-        provide: FormBuilder,
-        useValue: FormBuilderMock(
-          {
-            username: invalidForm ? '' : 'johndoe',
-            email: invalidForm ? '' : 'mail@mail.com',
-            password: invalidForm ? '' : 'password123',
-            confirmPassword: invalidForm ? '' : 'password123',
-          },
-          invalidForm,
-        ),
-      },
-      { provide: Router, useValue: RouterMock },
-    ],
-  }).get(RegisterComponent);
-}
+import { StoreMock, FormBuilderMock, DestroyRefMock } from '@tests/mocks';
 
 describe('Register - Component', () => {
   let component: RegisterComponent;
-  let storeMock: Partial<Store> = StoreMock;
+  let formBuilder: FormBuilder;
+  let store: Store;
+  let destroyRef: DestroyRef;
+
+  const validFormValue = {
+    username: 'johndoe',
+    email: 'email@email.com',
+    password: 'password123',
+    confirmPassword: 'password123',
+  };
+  const invalidFormValue = {
+    username: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  };
+
+  function setFormAsInvalid() {
+    formBuilder = FormBuilderMock(invalidFormValue, 'invalid');
+    component = new RegisterComponent(formBuilder, store, destroyRef);
+  }
 
   beforeEach(() => {
-    component = initComponent();
+    jest.clearAllMocks();
+
+    formBuilder = FormBuilderMock(validFormValue, 'valid');
+    store = StoreMock;
+    destroyRef = DestroyRefMock;
+
+    component = new RegisterComponent(formBuilder, store, destroyRef);
   });
 
   it('should create and initializate component', () => {
@@ -45,14 +48,11 @@ describe('Register - Component', () => {
   describe('ngOnInit()', () => {
     it('should set errors in the email field if the store returns errors', () => {
       const errorMock = { emailNotAvailable: true };
-
-      jest
-        .spyOn(storeMock, 'select')
-        .mockImplementationOnce(() => of(errorMock));
+      jest.spyOn(store, 'select').mockImplementationOnce(() => of(errorMock));
 
       component.ngOnInit();
 
-      expect(storeMock.select).toHaveBeenCalled();
+      expect(store.select).toHaveBeenCalled();
       expect(
         component.registerForm.controls['email'].setErrors,
       ).toHaveBeenCalledWith(errorMock);
@@ -61,9 +61,10 @@ describe('Register - Component', () => {
 
   describe('onSubmit()', () => {
     it('should call markAllAsTouched() if the form is invalid', () => {
-      component = initComponent(true);
+      setFormAsInvalid();
 
       component.onSubmit();
+
       expect(component.registerForm.markAllAsTouched).toHaveBeenCalled();
       expect(
         component.registerForm.controls['confirmPassword'].setErrors,
@@ -71,25 +72,21 @@ describe('Register - Component', () => {
     });
 
     it('should dispatch the register action if the form is valid', async () => {
-      component = initComponent();
-
       component.onSubmit();
 
-      expect(storeMock.dispatch).toHaveBeenCalled();
+      expect(store.dispatch).toHaveBeenCalled();
     });
   });
 
   describe('getError()', () => {
     it('should return error message if field exists and is invalid', () => {
-      component = initComponent(true);
+      setFormAsInvalid();
 
       const result = component.getError('username');
 
       expect(result).toBeTruthy();
     });
     it('should return null if field exists and is valid', () => {
-      component = initComponent();
-
       const result = component.getError('username');
 
       expect(result).toBeNull();
@@ -98,7 +95,7 @@ describe('Register - Component', () => {
 
   describe('hasError()', () => {
     it('should return true if field exists, is invalid and has been touched', () => {
-      component = initComponent(true);
+      setFormAsInvalid();
 
       const result = component.hasError('email');
 
@@ -106,8 +103,6 @@ describe('Register - Component', () => {
     });
 
     it('should return null if field exists and is valid', () => {
-      component = initComponent();
-
       const result = component.hasError('email');
 
       expect(result).toBeNull();
