@@ -1,6 +1,6 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Firestore, doc, setDoc } from '@angular/fire/firestore';
-import { Observable, defer, from, map, of } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 import { User } from '@core/models';
 import { getDocumentById, toObservable } from '@core/utils';
@@ -9,8 +9,7 @@ import { getDocumentById, toObservable } from '@core/utils';
   providedIn: 'root',
 })
 export class UsersService {
-  //* Dependency Injection
-  private firestore = inject(Firestore);
+  constructor(private firestore: Firestore) {}
 
   //* Attributes
   readonly collectionName = 'users';

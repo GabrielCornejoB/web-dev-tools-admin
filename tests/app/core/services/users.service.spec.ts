@@ -1,4 +1,3 @@
-import { TestBed } from '@angular/core/testing';
 import * as AngularFirestore from '@angular/fire/firestore';
 import { UsersService } from '@core/services';
 
@@ -13,11 +12,7 @@ describe('Users - Service', () => {
     jest.restoreAllMocks();
     jest.clearAllMocks();
 
-    TestBed.configureTestingModule({
-      providers: [AngularFirestore.Firestore],
-    });
-
-    service = TestBed.inject(UsersService);
+    service = new UsersService({} as any);
   });
 
   it('should be created', () => {

@@ -1,7 +1,6 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   Auth,
-  UserCredential,
   authState,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -17,9 +16,10 @@ import { toObservable } from '@core/utils';
   providedIn: 'root',
 })
 export class AuthService {
-  //* Dependency Injection
-  private auth = inject(Auth);
-  private usersService = inject(UsersService);
+  constructor(
+    private auth: Auth,
+    private usersService: UsersService,
+  ) {}
 
   //* Functions
   /** Function to register a new User into Angular Auth */
