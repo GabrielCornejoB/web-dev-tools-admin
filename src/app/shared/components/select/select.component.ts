@@ -6,7 +6,6 @@ import {
   Input,
   ViewChild,
   forwardRef,
-  inject,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';

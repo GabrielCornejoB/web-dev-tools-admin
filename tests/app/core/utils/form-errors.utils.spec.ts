@@ -94,8 +94,6 @@ describe('FormErrors - Utils', () => {
     it('should return true if formGroup has error and field has been touched', () => {
       const fg = FormBuilderMock({ test: 'test' }, 'invalid').group({}) as any;
 
-      console.log(fg);
-
       const result = canPrintError(fg, 'test');
 
       expect(result).toBeTruthy();

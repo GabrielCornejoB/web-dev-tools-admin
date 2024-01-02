@@ -9,7 +9,6 @@ import {
   Output,
   ViewChild,
   forwardRef,
-  inject,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -57,7 +56,7 @@ export class AutocompleteComponent
 
   //* Lifecycle
   ngOnInit(): void {
-    this.filteredOptions = this.options;
+    this.filteredOptions = [...this.options];
   }
   ngAfterViewInit(): void {
     this.subscribeToClickOutsideOfElement();
