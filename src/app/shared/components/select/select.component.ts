@@ -33,8 +33,9 @@ export class SelectComponent
   extends CvaImplementation
   implements AfterViewInit
 {
-  //* Dependency Injection
-  private destroyRef = inject(DestroyRef);
+  constructor(private destroyRef: DestroyRef) {
+    super();
+  }
 
   //* Attributes
   @Input({ required: true }) options: string[] = [];

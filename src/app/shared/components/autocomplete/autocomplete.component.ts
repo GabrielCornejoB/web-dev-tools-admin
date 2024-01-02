@@ -35,8 +35,9 @@ export class AutocompleteComponent
   extends CvaImplementation
   implements OnInit, AfterViewInit
 {
-  //* Dependency Injection
-  private destroyRef = inject(DestroyRef);
+  constructor(private destroyRef: DestroyRef) {
+    super();
+  }
 
   //* Attributes
   @Input({ required: true }) name: string = '';

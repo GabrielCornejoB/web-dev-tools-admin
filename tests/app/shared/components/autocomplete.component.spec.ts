@@ -1,17 +1,14 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { DestroyRef } from '@angular/core';
+
 import { AutocompleteComponent } from '@shared/components';
+import { DestroyRefMock } from '@tests/mocks';
 
 describe('AutocompleteComponent', () => {
   let component: AutocompleteComponent;
-  let fixture: ComponentFixture<AutocompleteComponent>;
+  let destroyRef: DestroyRef = DestroyRefMock;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [AutocompleteComponent],
-    });
-    fixture = TestBed.createComponent(AutocompleteComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    component = new AutocompleteComponent(destroyRef);
   });
 
   it('should create', () => {

@@ -16,8 +16,7 @@ import { ButtonDirective } from '@shared/directives';
   templateUrl: './header.component.html',
 })
 export class HeaderComponent {
-  //* Dependency Injection
-  private store = inject(Store);
+  constructor(private store: Store) {}
 
   //* Inputs
   @Input({ required: true }) title: string = '';

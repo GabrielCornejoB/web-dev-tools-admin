@@ -1,18 +1,11 @@
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { Injector } from '@angular/core';
-
 import { InputComponent } from '@shared/components';
 
 describe('Input - Component', () => {
-  let component: InputComponent = Injector.create({
-    providers: [
-      { provide: InputComponent },
-      {
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: () => InputComponent,
-      },
-    ],
-  }).get(InputComponent);
+  let component: InputComponent;
+
+  beforeEach(() => {
+    component = new InputComponent();
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();

@@ -1,30 +1,29 @@
-import { Injector } from '@angular/core';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { DestroyRef } from '@angular/core';
 import * as Rxjs from 'rxjs';
 import { of } from 'rxjs';
 
 import { SelectComponent } from '@shared/components';
+import { DestroyRefMock } from '@tests/mocks';
 describe('SelectComponent', () => {
-  let component: SelectComponent = Injector.create({
-    providers: [
-      { provide: SelectComponent },
-      {
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: () => SelectComponent,
-      },
-    ],
-  }).get(SelectComponent);
+  let component: SelectComponent;
+  let destroyRef: DestroyRef = DestroyRefMock;
+
+  beforeEach(() => {
+    component = new SelectComponent(destroyRef);
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
   describe('ngAfterViewInit()', () => {
-    jest.spyOn(component, 'subscribeToClickOutsideOfSelect');
+    it('should call the subscribeToClickOutsideOfSelect() fn', () => {
+      jest.spyOn(component, 'subscribeToClickOutsideOfSelect');
 
-    component.ngAfterViewInit();
+      component.ngAfterViewInit();
 
-    expect(component.subscribeToClickOutsideOfSelect).toHaveBeenCalled();
+      expect(component.subscribeToClickOutsideOfSelect).toHaveBeenCalled();
+    });
   });
 
   describe('selectOption()', () => {

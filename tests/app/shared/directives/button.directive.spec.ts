@@ -4,14 +4,18 @@ import { ButtonDirective } from '@shared/directives';
 import { ElementRefMock } from '@tests/mocks';
 
 describe('ButtonDirective', () => {
+  let directive: ButtonDirective;
   const elementRefMock = ElementRefMock as ElementRef;
+
+  beforeEach(() => {
+    directive = new ButtonDirective(elementRefMock);
+  });
+
   it('should create an instance', () => {
-    const directive = new ButtonDirective(elementRefMock);
     expect(directive).toBeTruthy();
   });
 
   it('should set the outlined classes when the "variation" attr is "outlined"', () => {
-    const directive = new ButtonDirective(elementRefMock);
     directive.variation = 'outlined';
 
     directive.ngOnChanges();
@@ -22,7 +26,6 @@ describe('ButtonDirective', () => {
   });
 
   it('should set the filled classes when the "variation" attr is "filled"', () => {
-    const directive = new ButtonDirective(elementRefMock);
     directive.variation = 'filled';
 
     directive.ngOnChanges();

@@ -1,18 +1,11 @@
-import { Injector } from '@angular/core';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
-
 import { TextareaComponent } from '@shared/components';
 
 describe('TextareaComponent', () => {
-  let component: TextareaComponent = Injector.create({
-    providers: [
-      { provide: TextareaComponent },
-      {
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: () => TextareaComponent,
-      },
-    ],
-  }).get(TextareaComponent);
+  let component: TextareaComponent;
+
+  beforeEach(() => {
+    component = new TextareaComponent();
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();
