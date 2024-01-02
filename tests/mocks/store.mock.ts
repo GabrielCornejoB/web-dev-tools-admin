@@ -1,8 +1,7 @@
 import { Store } from '@ngrx/store';
-import { of } from 'rxjs';
 
-/** Ngrx store mock, meant to be used for unit tests, is a partial object of the Store class */
-export const StoreMock: Partial<Store> = {
-  select: jest.fn().mockImplementation(() => of({})),
+/** Ngrx store mock, meant to be used for unit tests*/
+export const StoreMock: Store = {
+  select: jest.fn(),
   dispatch: jest.fn(),
-};
+} as any as Store;

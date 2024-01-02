@@ -34,10 +34,11 @@ import { ButtonDirective } from '@shared/directives';
   templateUrl: './login.component.html',
 })
 export class LoginComponent implements OnInit {
-  //* Dependency Injection
-  private fb = inject(FormBuilder);
-  private store = inject(Store);
-  private destroyRef = inject(DestroyRef);
+  constructor(
+    private fb: FormBuilder,
+    private store: Store,
+    private destroyRef: DestroyRef,
+  ) {}
 
   //* Attributes
   loginForm: FormGroup = this.createForm();

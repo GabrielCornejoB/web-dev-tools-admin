@@ -1,4 +1,4 @@
-import { AbstractControl } from '@angular/forms';
+import { AbstractControl, FormBuilder } from '@angular/forms';
 
 /**
  * FormBuilder mock meant to be used in Unit Tests
@@ -8,24 +8,26 @@ import { AbstractControl } from '@angular/forms';
  */
 export const FormBuilderMock = <T extends {}>(
   initialValue: T,
-  invalid: boolean
-) => ({
-  group: jest.fn(() => {
-    const controls: { [key: string]: Partial<AbstractControl> } = {};
-    for (const field in initialValue) {
-      controls[field] = {
-        errors: invalid ? { error: 'error' } : null,
-        touched: invalid ? true : false,
-        setErrors: jest.fn(),
-      };
-    }
+  formStatus: 'valid' | 'invalid',
+) =>
+  ({
+    group: jest.fn(() => {
+      const controls: { [key: string]: Partial<AbstractControl> } = {};
+      const isInvalid: boolean = formStatus === 'invalid';
+      for (const field in initialValue) {
+        controls[field] = {
+          errors: isInvalid ? { error: 'error' } : null,
+          touched: isInvalid ? true : false,
+          setErrors: jest.fn(),
+        };
+      }
 
-    return {
-      markAllAsTouched: jest.fn(),
-      value: { ...initialValue },
-      invalid,
-      controls,
-      errors: invalid ? { error: 'error' } : null,
-    };
-  }),
-});
+      return {
+        markAllAsTouched: jest.fn(),
+        value: { ...initialValue },
+        invalid: isInvalid,
+        controls,
+        errors: isInvalid ? { error: 'error' } : null,
+      };
+    }),
+  }) as any as FormBuilder;
