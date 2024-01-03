@@ -3,6 +3,9 @@ export const FORM_ERROR_MESSAGES: { [key: string]: string } = {
   required: 'This field is required',
   isValidEmail: 'This field must be a valid email',
   arePasswordsEqual: 'The passwords must match',
+  noTags: 'You should assign at least 1 tag',
+  aLotOfTags: 'Too many tags',
+  isValidUrl: 'This field must be a valid URL',
 
   invalidLoginCredentials: 'Invalid login credentials',
   incorrectPassword: 'Incorrect password',

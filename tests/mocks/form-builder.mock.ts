@@ -30,4 +30,5 @@ export const FormBuilderMock = <T extends {}>(
         errors: isInvalid ? { error: 'error' } : null,
       };
     }),
+    control: jest.fn(),
   }) as any as FormBuilder;

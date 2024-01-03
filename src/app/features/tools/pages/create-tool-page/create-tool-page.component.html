@@ -67,6 +67,21 @@
             (buttonClicked)="addTag($event)"
           />
 
+          <div
+            *ngIf="!!tags.length"
+            class="flex w-full flex-row flex-wrap gap-3"
+          >
+            <button
+              *ngFor="let tag of tags; let i = index"
+              type="button"
+              (click)="removeTag(i)"
+              class="flex cursor-pointer flex-row items-center justify-between gap-2 bg-base-200 px-2 py-1 opacity-60 transition-opacity hover:opacity-100"
+            >
+              <span class="text-sm">{{ tag }}</span>
+              <span class="material-symbols-outlined"> close </span>
+            </button>
+          </div>
+
           <button wdt-button variation="filled" type="submit">
             Create Tool
           </button>

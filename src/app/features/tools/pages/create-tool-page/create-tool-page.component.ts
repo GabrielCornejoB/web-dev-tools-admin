@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import {
@@ -36,8 +36,7 @@ import { isValidUrl } from '@core/validators';
   templateUrl: './create-tool-page.component.html',
 })
 export class CreateToolPageComponent {
-  //* Dependencies
-  private fb = inject(FormBuilder);
+  constructor(private fb: FormBuilder) {}
 
   //* Attributes
   toolForm: FormGroup = this.createForm();
@@ -66,9 +65,14 @@ export class CreateToolPageComponent {
     console.log(newTool);
   }
   addTag(emittedValue: string) {
-    if (this.tags.includes(emittedValue)) return console.log('Alert uwu');
-    this.tags = [...this.tags, emittedValue];
-    console.log(this.tags);
+    const lowercaseTags = this.tags.map((tag) => tag.toLowerCase());
+    const lowercaseValue = emittedValue.toLowerCase().trim();
+
+    if (!lowercaseTags.includes(lowercaseValue) && this.tags.length < 5)
+      this.tags = [...this.tags, emittedValue];
+  }
+  removeTag(index: number) {
+    this.tags = this.tags.filter((tag, i) => i !== index);
   }
 
   //* Utils
