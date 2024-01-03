@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Firestore, doc, setDoc } from '@angular/fire/firestore';
 import { Observable, map } from 'rxjs';
 
 import { User } from '@core/models';
-import { getDocumentById, toObservable } from '@core/utils';
+import { FirestoreService } from './firestore.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UsersService {
-  constructor(private firestore: Firestore) {}
+  constructor(private firestoreService: FirestoreService) {}
 
   //* Attributes
   readonly collectionName = 'users';
@@ -21,8 +20,9 @@ export class UsersService {
    * @returns The user
    */
   getUserById(uid: string): Observable<User> {
-    return toObservable(
-      getDocumentById<User>(this.firestore, this.collectionName, uid),
+    return this.firestoreService.getDocumentById<User>(
+      this.collectionName,
+      uid,
     );
   }
 
@@ -32,10 +32,9 @@ export class UsersService {
    */
   addUserToFirestore(user: User): Observable<User> {
     const { uid, ...userWithoutId } = user;
-    return toObservable(
-      setDoc(doc(this.firestore, this.collectionName, uid), {
-        ...userWithoutId,
-      }),
-    ).pipe(map(() => user));
+
+    return this.firestoreService
+      .createDocumentWithId(this.collectionName, userWithoutId, uid)
+      .pipe(map(() => user));
   }
 }

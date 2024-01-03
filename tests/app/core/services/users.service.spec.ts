@@ -1,18 +1,19 @@
-import * as AngularFirestore from '@angular/fire/firestore';
-import { UsersService } from '@core/services';
-
-import * as FirestoreUtils from '@core/utils/firestore.utils';
+import { FirestoreService, UsersService } from '@core/services';
+import { FirestoreServiceMock } from '@tests/mocks';
+import { of } from 'rxjs';
 
 jest.mock('@angular/fire/firestore');
 
 describe('Users - Service', () => {
   let service: UsersService;
+  let firestoreService: FirestoreService;
 
   beforeEach(() => {
     jest.restoreAllMocks();
     jest.clearAllMocks();
 
-    service = new UsersService({} as any);
+    firestoreService = FirestoreServiceMock;
+    service = new UsersService(firestoreService);
   });
 
   it('should be created', () => {
@@ -21,11 +22,16 @@ describe('Users - Service', () => {
 
   describe('getUserById()', () => {
     it('should call getDocumentById()', (done) => {
-      jest.spyOn(FirestoreUtils, 'getDocumentById').mockResolvedValue([]);
+      jest
+        .spyOn(firestoreService, 'getDocumentById')
+        .mockImplementation(() => of([]));
       const result = service.getUserById('12345');
 
       result.subscribe(() => {
-        expect(FirestoreUtils.getDocumentById).toHaveBeenCalled();
+        expect(firestoreService.getDocumentById).toHaveBeenCalledWith(
+          'users',
+          '12345',
+        );
         done();
       });
     });
@@ -33,10 +39,12 @@ describe('Users - Service', () => {
 
   describe('addUserToFirestore()', () => {
     it('should call setDoc()', (done) => {
-      jest.spyOn(AngularFirestore, 'setDoc').mockResolvedValue({} as any);
+      jest
+        .spyOn(firestoreService, 'createDocumentWithId')
+        .mockImplementation(() => of({} as any));
 
       service.addUserToFirestore({} as any).subscribe(() => {
-        expect(AngularFirestore.setDoc).toHaveBeenCalled();
+        expect(firestoreService.createDocumentWithId).toHaveBeenCalled();
         done();
       });
     });
