@@ -12,5 +12,5 @@ export const FORM_ERROR_MESSAGES: { [key: string]: string } = {
   userNotFound: 'User not found',
   tooManyAttempts: 'Too many login attempts, please try again later',
   emailNotAvailable: 'Email already in use, try using another one',
-  unknownError: 'Unknown error :c',
+  authError: 'Error during authentication, please try again later',
 };

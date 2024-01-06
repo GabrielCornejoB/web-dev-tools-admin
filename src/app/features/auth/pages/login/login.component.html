@@ -41,6 +41,9 @@
       >
         {{ data.isSubmitting ? "Loading..." : "Sign In" }}
       </button>
+      <span *ngIf="data.authError" class="text-red-400">
+        {{ data.authError }}
+      </span>
     </form>
 
     <div class="py-6 text-base-content">

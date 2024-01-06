@@ -8,12 +8,13 @@ import {
   ReactiveFormsModule,
   Validators as V,
 } from '@angular/forms';
-import { combineLatest } from 'rxjs';
+import { combineLatest, filter } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import {
   authActions,
-  selectBackendError,
+  selectAuthError,
+  selectFieldError,
   selectIsSubmitting,
 } from '@store/auth';
 import { getErrorFromField, canPrintError } from '@core/utils';
@@ -44,22 +45,25 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup = this.createForm();
   data$ = combineLatest({
     isSubmitting: this.store.select(selectIsSubmitting),
+    authError: this.store.select(selectAuthError),
   });
 
   //* Lifecycle
   ngOnInit(): void {
     this.store
-      .select(selectBackendError)
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .select(selectFieldError)
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        filter((err) => !!err),
+      )
       .subscribe((backendError) => {
         if (!backendError) return;
+
         if (backendError['userNotFound'])
           return this.loginForm.controls['email'].setErrors(backendError);
-        if (backendError['invalidLoginCredentials']) {
-          this.loginForm.controls['password'].setErrors(backendError);
-          return;
-        }
-        this.loginForm.controls['password'].setErrors(backendError);
+
+        if (backendError['invalidLoginCredentials'])
+          return this.loginForm.controls['password'].setErrors(backendError);
       });
   }
 

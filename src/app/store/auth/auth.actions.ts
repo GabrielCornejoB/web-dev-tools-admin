@@ -1,23 +1,29 @@
-import { UserCreateDto, User, BackendError } from '@core/models';
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
+
+import {
+  AuthFailureProps,
+  RegisterProps,
+  AuthSuccessProps,
+  LoginProps,
+} from './auth-props.interfaces';
 
 export const authActions = createActionGroup({
   source: 'auth',
   events: {
-    Register: props<{ dto: UserCreateDto; password: string }>(),
-    'Register Success': props<{ currentUser: User }>(),
-    'Register Failure': props<{ backendError: BackendError }>(),
+    Register: props<RegisterProps>(),
+    'Register Success': props<AuthSuccessProps>(),
+    'Register Failure': props<AuthFailureProps>(),
 
-    Login: props<{ email: string; password: string }>(),
-    'Login Success': props<{ currentUser: User }>(),
-    'Login Failure': props<{ backendError: BackendError }>(),
+    Login: props<LoginProps>(),
+    'Login Success': props<AuthSuccessProps>(),
+    'Login Failure': props<AuthFailureProps>(),
 
     Logout: emptyProps(),
     'Logout Success': emptyProps(),
-    'Logout Failure': props<{ backendError: BackendError }>(),
+    'Logout Failure': props<AuthFailureProps>(),
 
     'Get current user': emptyProps(),
-    'Get current user Success': props<{ currentUser: User }>(),
+    'Get current user Success': props<AuthSuccessProps>(),
     'Get current user Failure': emptyProps(),
   },
 });

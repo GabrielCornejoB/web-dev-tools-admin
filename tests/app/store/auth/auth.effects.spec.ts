@@ -51,8 +51,8 @@ describe('Auth - Effects', () => {
       });
     });
 
-    it('should return the "registerFailure" action with "unknownFbError"', (done) => {
-      const backendError = { unknownFbError: true };
+    it('should return the "registerFailure" action with "authError"', (done) => {
+      const backendError = { authError: true };
       actions$ = of(
         authActions.register({
           dto: { email: '2', username: '2' },
@@ -212,8 +212,8 @@ describe('Auth - Effects', () => {
       });
     });
 
-    it('should return the "loginFailure" action with "unknownFbError"', (done) => {
-      const backendError = { unknownFbError: true };
+    it('should return the "loginFailure" action with "authError"', (done) => {
+      const backendError = { authError: true };
       actions$ = of(
         authActions.login({
           email: 's',

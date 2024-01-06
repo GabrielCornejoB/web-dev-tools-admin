@@ -8,13 +8,14 @@ import {
   ReactiveFormsModule,
   Validators as V,
 } from '@angular/forms';
-import { combineLatest } from 'rxjs';
+import { combineLatest, filter, map } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import {
   authActions,
   selectIsSubmitting,
-  selectBackendError,
+  selectAuthError,
+  selectFieldError,
 } from '@store/auth';
 import {
   canPrintError,
@@ -24,6 +25,7 @@ import {
 import { validEmail, confirmPassword } from '@core/validators';
 import { InputComponent } from '@shared/components';
 import { ButtonDirective } from '@shared/directives';
+import { FORM_ERROR_MESSAGES } from '@core/constants';
 
 @Component({
   selector: 'wdt-register',
@@ -48,13 +50,23 @@ export class RegisterComponent implements OnInit {
   registerForm: FormGroup = this.createForm();
   data$ = combineLatest({
     isSubmitting: this.store.select(selectIsSubmitting),
+    authError: this.store.select(selectAuthError).pipe(
+      map((err) => {
+        if (!err) return;
+        const errorKey = Object.keys(err)[0];
+        return FORM_ERROR_MESSAGES[errorKey];
+      }),
+    ),
   });
 
   //* Lifecycle
   ngOnInit(): void {
     this.store
-      .select(selectBackendError)
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .select(selectFieldError)
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        filter((err) => !!err),
+      )
       .subscribe((backendError) => {
         this.registerForm.controls['email'].setErrors(backendError);
       });

@@ -1,4 +1,4 @@
-import { FormControl, ValidationErrors } from '@angular/forms';
+import { AbstractControl, ValidationErrors } from '@angular/forms';
 
 const urlPattern = /^(https?|ftp):\/\/[^\s\/$.?#].[^\s]*$/;
 
@@ -7,7 +7,9 @@ const urlPattern = /^(https?|ftp):\/\/[^\s\/$.?#].[^\s]*$/;
  * @param control Required form control argument for Validator
  * @returns ValidationError if the URL is invalid or null if it's valid
  */
-export const isValidUrl = (control: FormControl): ValidationErrors | null => {
+export const isValidUrl = (
+  control: AbstractControl,
+): ValidationErrors | null => {
   const value: string = control.value.trim().toLowerCase();
 
   if (!urlPattern.test(value)) {

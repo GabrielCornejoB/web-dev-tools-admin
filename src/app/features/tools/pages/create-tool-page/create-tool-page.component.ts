@@ -18,6 +18,8 @@ import {
 import { Tool, ToolForm } from '@core/models';
 import { canPrintError, getErrorFromField } from '@core/utils';
 import { isValidUrl } from '@core/validators';
+import { Store } from '@ngrx/store';
+import { toolsActions } from '@store/tools/tools.actions';
 
 @Component({
   selector: 'wdt-create-tool-page',
@@ -36,11 +38,14 @@ import { isValidUrl } from '@core/validators';
   templateUrl: './create-tool-page.component.html',
 })
 export class CreateToolPageComponent {
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private store: Store,
+  ) {}
 
   //* Attributes
   toolForm: FormGroup = this.createForm();
-  initialTags: string[] = ['hola', 'mundo', 'uwu', 'donda', 'yeezy', 'mun'];
+  initialTags: string[] = ['hola', 'mundo', 'uwu', 'donda', 'yeey', 'mun'];
   tags: string[] = [];
 
   //* Functions
@@ -55,6 +60,10 @@ export class CreateToolPageComponent {
     }
 
     const newTool: Tool = {
+      uid: this.toolForm.controls['name'].value
+        .trim()
+        .toLowerCase()
+        .replace(/\s+/g, '-'),
       name: this.toolForm.controls['name'].value,
       category: this.toolForm.controls['category'].value,
       description: this.toolForm.controls['description'].value,
@@ -62,7 +71,8 @@ export class CreateToolPageComponent {
       author: this.toolForm.controls['author'].value,
       tags: [...this.tags],
     };
-    console.log(newTool);
+    // console.log(newTool);
+    this.store.dispatch(toolsActions.create({ tool: newTool }));
   }
   addTag(emittedValue: string) {
     const lowercaseTags = this.tags.map((tag) => tag.toLowerCase());

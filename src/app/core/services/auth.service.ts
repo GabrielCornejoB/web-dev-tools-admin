@@ -5,8 +5,17 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
+  deleteUser,
+  User as FireUser,
 } from '@angular/fire/auth';
-import { Observable, of, switchMap } from 'rxjs';
+import {
+  Observable,
+  catchError,
+  filter,
+  of,
+  switchMap,
+  throwError,
+} from 'rxjs';
 
 import { User, UserCreateDto } from '@core/models';
 import { UsersService } from './users.service';
@@ -28,14 +37,16 @@ export class AuthService {
       createUserWithEmailAndPassword(this.auth, dto.email, password),
     ).pipe(
       switchMap(({ user }) =>
-        this.usersService.addUserToFirestore({
-          email: dto.email,
-          username: dto.username,
-          isAdmin: false,
-          uid: user.uid,
-        }),
+        this.usersService.addUserToFirestore(
+          {
+            email: dto.email,
+            username: dto.username,
+            isAdmin: false,
+            uid: user.uid,
+          },
+          user,
+        ),
       ),
-      switchMap(({ uid }) => this.usersService.getUserById(uid)),
     );
   }
 
@@ -43,7 +54,13 @@ export class AuthService {
   login(email: string, password: string): Observable<User> {
     return toObservable(
       signInWithEmailAndPassword(this.auth, email, password),
-    ).pipe(switchMap(({ user }) => this.usersService.getUserById(user.uid)));
+    ).pipe(
+      switchMap(({ user }) => this.usersService.getUserById(user.uid)),
+      switchMap((user) => {
+        if (!!user) return of(user);
+        return throwError(() => ({ code: 'AUTH_ERROR' }));
+      }),
+    );
   }
 
   /** Function to logout users from the application */

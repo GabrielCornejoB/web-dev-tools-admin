@@ -22,11 +22,14 @@ export const registerEffect = createEffect(
           }),
           catchError((error: FirebaseError) => {
             const { code } = error;
-            const backendError: BackendError =
-              code === AUTH.EMAIL_ALREADY_IN_USE
-                ? { emailNotAvailable: true }
-                : { unknownFbError: true };
-            return of(authActions.registerFailure({ backendError }));
+
+            const isFieldError = code === AUTH.EMAIL_ALREADY_IN_USE;
+            const authError = !isFieldError ? { authError: true } : null;
+            const fieldError = isFieldError
+              ? { emailNotAvailable: true }
+              : null;
+
+            return of(authActions.registerFailure({ authError, fieldError }));
           }),
         );
       }),
@@ -59,16 +62,26 @@ export const loginEffect = createEffect(
           }),
           catchError((error: FirebaseError) => {
             const { code } = error;
-            const backendError: BackendError =
-              code === AUTH.USER_NOT_FOUND
-                ? { userNotFound: true }
-                : code === AUTH.INVALID_LOGIN_CREDENTIALS ||
-                    code === AUTH.INVALID_PASSWORD
-                  ? { invalidLoginCredentials: true }
-                  : code === AUTH.TOO_MANY_ATTEMPTS
-                    ? { tooManyAttempts: true }
-                    : { unknownFbError: true };
-            return of(authActions.loginFailure({ backendError }));
+
+            let authError: BackendError | null = null;
+            let fieldError: BackendError | null = null;
+
+            switch (code) {
+              case AUTH.USER_NOT_FOUND:
+                fieldError = { userNotFound: true };
+                break;
+              case AUTH.INVALID_LOGIN_CREDENTIALS || AUTH.INVALID_PASSWORD:
+                fieldError = { invalidLoginCredentials: true };
+                break;
+              case AUTH.TOO_MANY_ATTEMPTS:
+                authError = { tooManyAttemps: true };
+                break;
+              default:
+                authError = { authError: true };
+                break;
+            }
+
+            return of(authActions.loginFailure({ authError, fieldError }));
           }),
         );
       }),

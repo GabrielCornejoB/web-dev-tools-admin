@@ -7,7 +7,8 @@ const initialState: AuthState = {
   currentUser: undefined,
   isSubmitting: false,
   isLoading: false,
-  backendError: null,
+  authError: null,
+  fieldError: null,
 };
 
 const authFeature = createFeature({
@@ -17,7 +18,8 @@ const authFeature = createFeature({
     on(authActions.register, (state) => ({
       ...state,
       isSubmitting: true,
-      backendError: null,
+      authError: null,
+      fieldError: null,
     })),
     on(authActions.registerSuccess, (state, action) => ({
       ...state,
@@ -27,13 +29,15 @@ const authFeature = createFeature({
     on(authActions.registerFailure, (state, action) => ({
       ...state,
       isSubmitting: false,
-      backendError: action.backendError,
+      authError: action.authError,
+      fieldError: action.fieldError,
     })),
 
     on(authActions.login, (state) => ({
       ...state,
       isSubmitting: true,
-      backendError: null,
+      authError: null,
+      fieldError: null,
     })),
     on(authActions.loginSuccess, (state, action) => ({
       ...state,
@@ -43,13 +47,15 @@ const authFeature = createFeature({
     on(authActions.loginFailure, (state, action) => ({
       ...state,
       isSubmitting: false,
-      backendError: action.backendError,
+      authError: action.authError,
+      fieldError: action.fieldError,
     })),
 
     on(authActions.logout, (state) => ({
       ...state,
       isSubmitting: true,
-      backendError: null,
+      authError: null,
+      fieldError: null,
     })),
     on(authActions.logoutSuccess, (state) => ({
       ...state,
@@ -59,13 +65,15 @@ const authFeature = createFeature({
     on(authActions.logoutFailure, (state, action) => ({
       ...state,
       isSubmitting: false,
-      backendError: action.backendError,
+      authError: action.authError,
+      fieldError: action.fieldError,
     })),
 
     on(authActions.getCurrentUser, (state) => ({
       ...state,
       isLoading: true,
-      backendError: null,
+      authError: null,
+      fieldError: null,
     })),
     on(authActions.getCurrentUserSuccess, (state, action) => ({
       ...state,
@@ -86,5 +94,6 @@ export const {
   selectIsSubmitting,
   selectIsLoading,
   selectCurrentUser,
-  selectBackendError,
+  selectAuthError,
+  selectFieldError,
 } = authFeature;
